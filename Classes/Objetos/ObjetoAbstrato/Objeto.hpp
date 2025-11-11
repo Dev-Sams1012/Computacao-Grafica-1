@@ -4,10 +4,10 @@
 #include <cmath>
 #include <algorithm>
 
-#include "../Utils/Janela/Janela.hpp"
-#include "../Utils/Ponto/Ponto.hpp"
-#include "../Utils/Vetor/Vetor.hpp"
-#include "../Utils/Matriz3x3/Matriz3x3.hpp"
+#include "../../Utils/Janela/Janela.hpp"
+#include "../../Utils/Ponto/Ponto.hpp"
+#include "../../Utils/Vetor/Vetor.hpp"
+#include "../../Utils/Matriz3x3/Matriz3x3.hpp"
 
 struct Objeto
 {
