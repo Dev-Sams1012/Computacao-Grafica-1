@@ -1,9 +1,6 @@
 #ifndef ESFERA_HPP
 #define ESFERA_HPP
 
-#include <cmath>
-#include <algorithm>
-
 #include "../ObjetoAbstrato/Objeto.hpp"
 
 struct Esfera : public Objeto
