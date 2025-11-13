@@ -35,15 +35,15 @@ int main()
 
     Canvas canvas = Canvas(janela, nLin, nCol, origem);
 
-    Plano planoChao = Plano(Ponto(0.0f, -1.5f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), Cor(0.2f, 0.7f, 0.2f), Cor(0.2f, 0.7f, 0.2f), Cor(0.2f, 0.7f, 0.2f), 10 );
+    Plano planoChao = Plano(Ponto(0.0f, -1.5f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), Cor(0.2f, 0.7f, 0.2f), Cor(0.2f, 0.7f, 0.2f), Cor(0.2f, 0.7f, 0.2f), 10);
 
-    Plano planoLateralDireita = Plano(Ponto(2.0f, -1.5f, 0.0f), Vetor(-1.0f, 0.0f, 0.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), 10 );
+    Plano planoLateralDireita = Plano(Ponto(2.0f, -1.5f, 0.0f), Vetor(-1.0f, 0.0f, 0.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), 10);
 
-    Plano planoLateralEsquerda = Plano(Ponto(-2.0f, -1.5f, 0.0f), Vetor(1.0f, 0.0f, 0.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), 10 );
+    Plano planoLateralEsquerda = Plano(Ponto(-2.0f, -1.5f, 0.0f), Vetor(1.0f, 0.0f, 0.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), 10);
 
-    Plano planoFrontal = Plano(Ponto(2.0f, -1.5f, -4.0f), Vetor(0.0f, 0.0f, 1.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), 10 );
+    Plano planoFrontal = Plano(Ponto(2.0f, -1.5f, -4.0f), Vetor(0.0f, 0.0f, 1.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), 10);
 
-    Plano planoTeto = Plano(Ponto(0.0f, 1.5f, 0.0f), Vetor(0.0f, -1.0f, 0.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.933f, 0.933f, 0.933f), 10 );
+    Plano planoTeto = Plano(Ponto(0.0f, 1.5f, 0.0f), Vetor(0.0f, -1.0f, 0.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.933f, 0.933f, 0.933f), 10);
 
     Cilindro cilindro = Cilindro(Ponto(0.0, -1.5, -2.0), 0.05f, 0.9f, Vetor(0.0f, 1.0f, 0.0f), Cor(0.824f, 0.706f, 0.549f), Cor(0.824f, 0.706f, 0.549f), Cor(0.824f, 0.706f, 0.549f), 10);
 
