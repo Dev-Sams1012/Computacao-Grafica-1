@@ -10,7 +10,7 @@
 #include "Luz.hpp"
 #include "../Ponto/Ponto.hpp"
 #include "../Vetor/Vetor.hpp"
-#include "../../objetos/objetoabstrato/Objeto.hpp"
+#include "../../Objetos/ObjetoAbstrato/Objeto.hpp"
 
 using namespace std;
 
