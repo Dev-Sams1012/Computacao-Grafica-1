@@ -9,6 +9,7 @@ add_executable(main
         Classes/Utils/Janela/Canvas.cpp
         Classes/Utils/Janela/Janela.cpp
         Classes/Utils/Janela/Luz.cpp
+        Classes/Objetos/ObjetoAbstrato/Objeto.cpp
         Classes/Objetos/Cilindro/Cilindro.cpp
         Classes/Objetos/Cone/Cone.cpp
         Classes/Objetos/Esfera/Esfera.cpp
