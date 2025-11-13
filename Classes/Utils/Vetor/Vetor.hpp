@@ -10,6 +10,8 @@ struct Vetor
     float Cord_x, Cord_y, Cord_z;
 
     Vetor(float x = 0, float y = 0, float z = 0);
+
+    float norma();
 };
 
 Vetor normalizar(Vetor v);
