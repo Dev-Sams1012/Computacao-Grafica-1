@@ -16,35 +16,6 @@ void Canvas::adicionaObjetoCena(Objeto *obj)
     objetos.push_back(obj);
 }
 
-bool Canvas::temSombra(Ponto P_I, Luz luz, Objeto *objeto_atual)
-{
-    Vetor L = luz.PF - P_I;
-    float distancia_Pi_Pf = sqrtf(produtoEscalar(L, L));
-    if (distancia_Pi_Pf <= 0.0f)
-        return false;
-
-    Vetor L_dir = normalizar(L);
-    float epsilon = 0.001f;
-
-    Ponto Ponto_Luz = ray(P_I, L_dir, distancia_Pi_Pf);
-
-    for (Objeto *objeto : objetos)
-    {
-        if (objeto != objeto_atual)
-        {
-            if (objeto->raioIntercepta(P_I, Ponto_Luz))
-            {
-                if (objeto->t_i > epsilon && objeto->t_i < distancia_Pi_Pf)
-                {
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
-}
-
 void Canvas::geraImagem(Luz luz, string nomeArquivo)
 {
     for (size_t l = 0; l < nLin; l++)
@@ -69,7 +40,7 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
 
                         Ponto P_I = ray(origem, objeto->Dr, objeto->t_i);
 
-                        if (temSombra(P_I, luz, objeto))
+                        if (objeto->temSombra(P_I, luz, objeto, objetos))
                         {
                             finalColor = operadorArroba(objeto->K_a, luz.IA);
                         }
