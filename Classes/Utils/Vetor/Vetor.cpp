@@ -8,6 +8,10 @@ Vetor::Vetor(float x, float y , float z)
     Cord_z = z;
 }
 
+float Vetor::norma(){
+    return sqrtf(Cord_x * Cord_x + Cord_y * Cord_y + Cord_z * Cord_z);
+}
+
 Vetor normalizar(Vetor v)
 {
     float norma = sqrtf(v.Cord_x * v.Cord_x + v.Cord_y * v.Cord_y + v.Cord_z * v.Cord_z);
