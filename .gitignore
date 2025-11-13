@@ -43,3 +43,4 @@
 # Ide files
 *.vscode
 *.ppm
+*build
