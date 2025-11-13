@@ -29,8 +29,6 @@ struct Canvas
 
     void adicionaObjetoCena(Objeto *obj);
 
-    bool temSombra(Ponto P_I, Luz luz, Objeto *objeto_atual);
-
     void geraImagem(Luz luz, string nomeArquivo);
 };
 
