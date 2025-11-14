@@ -11,6 +11,8 @@ struct Triangulo : Objeto
  
     Triangulo(Ponto p1, Ponto p2, Ponto p0, Cor Kd, Cor Ke, Cor Ka, int M);
 
+    Vetor normal();
+
     bool raioIntercepta(Ponto origem, Ponto canvas) override;
 
     void renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A) override;
