@@ -11,6 +11,13 @@ Triangulo::Triangulo(Ponto p1, Ponto p2, Ponto p0, Cor Kd, Cor Ke, Cor Ka, int M
     this->m = M;
 }
 
+Vetor Triangulo::normal(){
+    Vetor v0 = p1 - p0;
+    Vetor v1 = p2 - p0;
+
+    return produtoVetorial(v0, v1);
+}
+
 bool Triangulo::raioIntercepta(Ponto origem, Ponto canvas)
 {
     Vetor Dr_local = canvas - origem;
