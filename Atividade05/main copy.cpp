@@ -10,6 +10,8 @@
 #include "../Classes/utils/Matriz3x3/Matriz3x3.hpp"
 
 #include "../Classes/Objetos/Cilindro/Cilindro.hpp"
+#include "../Classes/Objetos/Malha/Malha.hpp"
+#include "../Classes/Objetos/Triangulo/Triangulo.hpp"
 #include "../Classes/Objetos/Cone/Cone.hpp"
 #include "../Classes/Objetos/Esfera/Esfera.hpp"
 #include "../Classes/Objetos/Plano/Plano.hpp"
@@ -51,6 +53,36 @@ int main()
 
     Esfera esfera = Esfera(Ponto(0.0f, 0.95f, -2.0f), 0.05f, Cor(0.854f, 0.647f, 0.125f), Cor(0.854f, 0.647f, 0.125f), Cor(0.854f, 0.647f, 0.125f), 10);
 
+        double aresta = 0.4;
+    double h = aresta/2.0;
+    Ponto cbase = Ponto(0.0f , -1.5f , -1.65f);
+    Ponto v0 = Ponto(cbase.Cord_x - h, cbase.Cord_y, cbase.Cord_z - h);
+    Ponto v1 = Ponto(cbase.Cord_x + h, cbase.Cord_y, cbase.Cord_z - h);
+    Ponto v2 = Ponto(cbase.Cord_x - h, cbase.Cord_y, cbase.Cord_z + h);
+    Ponto v3 = Ponto(cbase.Cord_x + h, cbase.Cord_y, cbase.Cord_z + h);
+    Ponto v4 = Ponto(cbase.Cord_x - h, cbase.Cord_y + aresta, cbase.Cord_z - h);
+    Ponto v5 = Ponto(cbase.Cord_x + h, cbase.Cord_y + aresta, cbase.Cord_z - h);
+    Ponto v6 = Ponto(cbase.Cord_x - h, cbase.Cord_y + aresta, cbase.Cord_z + h);
+    Ponto v7 = Ponto(cbase.Cord_x + h, cbase.Cord_y + aresta, cbase.Cord_z + h);
+    vector<Ponto> vertices = {v0, v1, v2, v3, v4,v5, v6, v7};
+
+    Triangulo f0 = Triangulo(vertices[0], vertices[2], vertices[1], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f1 = Triangulo(vertices[1], vertices[2], vertices[3], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f2 = Triangulo(vertices[4], vertices[5], vertices[6], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f3 = Triangulo(vertices[5], vertices[7], vertices[6], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f4 = Triangulo(vertices[0], vertices[4], vertices[1], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f5 = Triangulo(vertices[1], vertices[4], vertices[5], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f6 = Triangulo(vertices[2], vertices[3], vertices[6], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f7 = Triangulo(vertices[3], vertices[7], vertices[6], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f8 = Triangulo(vertices[0], vertices[2], vertices[4], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f9 = Triangulo(vertices[2], vertices[6], vertices[4], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f10 = Triangulo(vertices[1], vertices[5], vertices[3], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Triangulo f11 = Triangulo(vertices[3], vertices[5], vertices[7], Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    
+    vector<Triangulo> faces = { f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11};
+
+    Malha malha(vertices, faces);
+
     canvas.adicionaObjetoCena(&planoChao);
     canvas.adicionaObjetoCena(&planoLateralDireita);
     canvas.adicionaObjetoCena(&planoLateralEsquerda);
@@ -59,6 +91,7 @@ int main()
     canvas.adicionaObjetoCena(&cilindro);
     canvas.adicionaObjetoCena(&cone);
     canvas.adicionaObjetoCena(&esfera);
+    canvas.adicionaObjetoCena(&malha);
 
     canvas.geraImagem(luz, "Imagem_Com_Malha");
 
