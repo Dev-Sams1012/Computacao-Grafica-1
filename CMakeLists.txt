@@ -16,6 +16,7 @@ add_executable(main
         Classes/Objetos/Plano/Plano.cpp
         Classes/Objetos/Triangulo/Triangulo.cpp
         Classes/Objetos/Malha/Malha.cpp
+        Classes/Objetos/Cubo/Cubo.cpp
       )
 
 
