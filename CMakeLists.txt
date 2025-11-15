@@ -17,7 +17,8 @@ add_executable(main
         Classes/Objetos/Triangulo/Triangulo.cpp
         Classes/Objetos/Malha/Malha.cpp
         Classes/Objetos/Cubo/Cubo.cpp
+        BibliotecasExternas/stb_image.cpp
       )
 
-
-target_include_directories(main PRIVATE Classes)
+target_include_directories(main PRIVATE Classes BibliotecasExternas
+)
