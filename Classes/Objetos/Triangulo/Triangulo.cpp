@@ -15,7 +15,7 @@ Vetor Triangulo::normal(){
     Vetor v0 = p1 - p0;
     Vetor v1 = p2 - p0;
 
-    return produtoVetorial(v0, v1);
+    return normalizar(produtoVetorial(v0, v1));
 }
 
 bool Triangulo::raioIntercepta(Ponto origem, Ponto canvas)
