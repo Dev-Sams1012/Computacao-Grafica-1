@@ -18,6 +18,10 @@ bool Malha::raioIntercepta(Ponto origem, Ponto canvas){
         if(face.raioIntercepta(origem, canvas) && face.t_i > epsilon && ( t_min < 0 || face.t_i < t_min)){
             t_min = face.t_i;
             normal = face.normal();
+            K_a = face.K_a;
+            K_d = face.K_d;
+            K_e = face.K_e;
+            m = face.m;
         }
     }
     
