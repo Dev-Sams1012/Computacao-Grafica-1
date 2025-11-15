@@ -38,7 +38,9 @@ int main()
 
     Canvas canvas = Canvas(janela, nLin, nCol, origem);
 
-    Plano planoChao = Plano(Ponto(0.0f, -1.5f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), Cor(0.2f, 0.7f, 0.2f), Cor(0.2f, 0.7f, 0.2f), Cor(0.2f, 0.7f, 0.2f), 10);
+    string pisoMadeira = "../Assets/madel-piso-vinilico-click-madeir.png";
+
+    Plano planoChao = Plano(Ponto(0.0f, -1.5f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 10);
 
     Plano planoLateralDireita = Plano(Ponto(2.0f, -1.5f, 0.0f), Vetor(-1.0f, 0.0f, 0.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), 10);
 
