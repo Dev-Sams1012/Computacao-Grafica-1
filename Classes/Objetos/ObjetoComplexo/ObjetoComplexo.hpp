@@ -2,7 +2,7 @@
 #define OBJETO_COMPLEXO_HPP
 
 #include <vector>
-#include "Objeto.hpp"
+#include "../ObjetoAbstrato/Objeto.hpp"
 
 struct ObjetoComplexo : Objeto
 {
