@@ -6,6 +6,7 @@ add_executable(main
         Classes/Utils/Vetor/Vetor.cpp
         Classes/Utils/Ponto/Ponto.cpp
         Classes/Utils/Matriz/Matriz3x3.cpp
+        Classes/Utils/Matriz/Matriz4x4.cpp
         Classes/Utils/Janela/Canvas.cpp
         Classes/Utils/Janela/Janela.cpp
         Classes/Utils/Janela/Luz.cpp
