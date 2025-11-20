@@ -37,3 +37,28 @@ Cubo::Cubo(float tam_aresta, Ponto centro_base, Cor Kd, Cor Ke, Cor Ka, int M)
     this->vertices = vertices;
     this->faces = faces;
 }
+
+void Cubo::Transforma(const Matriz4x4 &M)
+{
+    for (Ponto &v : this->vertices)
+        v = M * v;
+    atualizarFaces();
+}
+
+void Cubo::atualizarFaces()
+{
+    faces.clear();
+
+    faces.push_back(Triangulo(vertices[0], vertices[2], vertices[1], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[1], vertices[2], vertices[3], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[4], vertices[5], vertices[6], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[5], vertices[7], vertices[6], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[0], vertices[4], vertices[1], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[1], vertices[4], vertices[5], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[2], vertices[3], vertices[6], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[3], vertices[7], vertices[6], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[0], vertices[2], vertices[4], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[2], vertices[6], vertices[4], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[1], vertices[5], vertices[3], K_d, K_e, K_a, m));
+    faces.push_back(Triangulo(vertices[3], vertices[5], vertices[7], K_d, K_e, K_a, m));
+}
