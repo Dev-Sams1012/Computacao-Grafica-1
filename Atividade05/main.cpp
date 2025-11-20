@@ -52,9 +52,9 @@ int main()
 
     Plano planoTeto = Plano(Ponto(0.0f, 1.5f, 0.0f), Vetor(0.0f, -1.0f, 0.0f), Cor(0.686f, 0.933f, 0.933f), Cor(0.686f, 0.933f, 0.933f), Cor(0.933f, 0.933f, 0.933f), 10);
 
-    Cilindro cilindro = Cilindro(Ponto(0.0, -1.5, -2.0), 0.05f, 0.9f, Vetor(0.0f, 1.0f, 0.0f), Cor(0.824f, 0.706f, 0.549f), Cor(0.824f, 0.706f, 0.549f), Cor(0.824f, 0.706f, 0.549f), 10);
+    Cilindro cilindro = Cilindro(Ponto(0.0, -1.5, -2.0), 0.05f, 0.9f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.824f, 0.706f, 0.549f), Cor(0.824f, 0.706f, 0.549f), Cor(0.824f, 0.706f, 0.549f), 10);
 
-    Cone cone = Cone(Ponto(0.0f, -0.6, -2.0), 0.9f, 1.5f, Vetor(0.0f, 1.0f, 0.0f), Cor(0.0f, 1.0f, 0.498f), Cor(0.0f, 1.0f, 0.498f), Cor(0.0f, 1.0f, 0.498f), 10);
+    Cone cone = Cone(Ponto(0.0f, -0.6, -2.0), 0.9f, 1.5f, Vetor(0.0f, 1.0f, 0.0f), true, Cor(0.0f, 1.0f, 0.498f), Cor(0.0f, 1.0f, 0.498f), Cor(0.0f, 1.0f, 0.498f), 10);
 
     Esfera esfera = Esfera(Ponto(0.0f, 0.95f, -2.0f), 0.05f, Cor(0.854f, 0.647f, 0.125f), Cor(0.854f, 0.647f, 0.125f), Cor(0.854f, 0.647f, 0.125f), 10);
 
