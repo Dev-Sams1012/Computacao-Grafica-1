@@ -11,8 +11,10 @@ struct Cilindro : public Objeto
     Vetor Eixo;
     Matriz3x3 Q_Matrix;
     Matriz3x3 M_Matrix;
+    bool temBaseInferior;
+    bool temBaseSuperior;
 
-    Cilindro(Ponto Cb, float Rb, float H, Vetor dr, Cor Kd, Cor Ke, Cor Ka, int m_cor);
+    Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor);
 
     bool raioIntercepta(Ponto origem, Ponto canvas) override;
 

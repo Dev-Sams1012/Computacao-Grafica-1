@@ -1,6 +1,6 @@
 #include "Cilindro.hpp"
 
-Cilindro::Cilindro(Ponto Cb, float Rb, float H, Vetor dr, Cor Kd, Cor Ke, Cor Ka, int m_cor)
+Cilindro::Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor)
 {
     Centro_base = Cb;
     Raio_base = Rb;
@@ -10,6 +10,8 @@ Cilindro::Cilindro(Ponto Cb, float Rb, float H, Vetor dr, Cor Kd, Cor Ke, Cor Ka
     K_e = Ke;
     K_a = Ka;
     m = m_cor;
+    temBaseInferior = TemBaseInf;
+    temBaseSuperior = TemBaseSup;
     Q_Matrix = (Eixo * Eixo) * (1.0f / produtoEscalar(Eixo, Eixo));
     M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
 }
@@ -55,6 +57,36 @@ bool Cilindro::raioIntercepta(Ponto origem, Ponto canvas)
             if (t_valido < 0 || r2 < t_valido)
             {
                 t_valido = r2;
+            }
+        }
+    }
+
+    if (temBaseInferior)
+    {
+        float t_base = produtoEscalar(Eixo, Centro_base - origem) / produtoEscalar(Eixo, Dr);
+        if (t_base > 0)
+        {
+            Ponto P_base = ray(origem, Dr, t_base);
+            Vetor d = P_base - Centro_base;
+            if (produtoEscalar(d, d) <= Raio_base * Raio_base)
+            {
+                if (t_valido < 0 || t_base < t_valido)
+                    t_valido = t_base;
+            }
+        }
+    }
+    if (temBaseSuperior)
+    {
+        Ponto topo = ray(Centro_base, Eixo, Altura);
+        float t_topo = produtoEscalar(Eixo, topo - origem) / produtoEscalar(Eixo, Dr);
+        if (t_topo > 0)
+        {
+            Ponto P_topo = ray(origem, Dr, t_topo);
+            Vetor d = P_topo - topo;
+            if (produtoEscalar(d, d) <= Raio_base * Raio_base)
+            {
+                if (t_valido < 0 || t_topo < t_valido)
+                    t_valido = t_topo;
             }
         }
     }
