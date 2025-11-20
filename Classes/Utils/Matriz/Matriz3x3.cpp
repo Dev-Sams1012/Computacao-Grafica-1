@@ -19,7 +19,46 @@ Matriz3x3 Matriz3x3::transposta()
     return T;
 }
 
-Matriz3x3 operator*(Vetor v1, Vetor v2)
+Matriz3x3 operator*(const Matriz3x3 &A, const Matriz3x3 &B)
+{
+    Matriz3x3 R;
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+        {
+            R.m[i][j] = 0.0f;
+            for (int k = 0; k < 3; k++)
+                R.m[i][j] += A.m[i][k] * B.m[k][j];
+        }
+    return R;
+}
+
+Matriz3x3 operator-(const Matriz3x3 &A, const Matriz3x3 &B)
+{
+    Matriz3x3 R;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            R.m[i][j] = A.m[i][j] - B.m[i][j];
+        }
+    }
+    return R;
+}
+
+Matriz3x3 operator+(const Matriz3x3 &A, const Matriz3x3 &B)
+{
+    Matriz3x3 R;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            R.m[i][j] = A.m[i][j] + B.m[i][j];
+        }
+    }
+    return R;
+}
+
+Matriz3x3 operator*(const Vetor &v1, const Vetor &v2)
 {
     Matriz3x3 M;
     M.m[0][0] = v1.Cord_x * v2.Cord_x;
@@ -34,7 +73,7 @@ Matriz3x3 operator*(Vetor v1, Vetor v2)
     return M;
 }
 
-Matriz3x3 operator*(Matriz3x3 M, float k)
+Matriz3x3 operator*(const Matriz3x3 &M, float k)
 {
     Matriz3x3 R;
     for (int i = 0; i < 3; i++)
@@ -47,33 +86,7 @@ Matriz3x3 operator*(Matriz3x3 M, float k)
     return R;
 }
 
-Matriz3x3 operator-(Matriz3x3 A, Matriz3x3 B)
-{
-    Matriz3x3 R;
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            R.m[i][j] = A.m[i][j] - B.m[i][j];
-        }
-    }
-    return R;
-}
-
-Matriz3x3 operator+(Matriz3x3 A, Matriz3x3 B)
-{
-    Matriz3x3 R;
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            R.m[i][j] = A.m[i][j] + B.m[i][j];
-        }
-    }
-    return R;
-}
-
-Vetor operator*(Matriz3x3 M, Vetor v)
+Vetor operator*(const Matriz3x3 &M, const Vetor &v)
 {
     return Vetor(
         M.m[0][0] * v.Cord_x + M.m[0][1] * v.Cord_y + M.m[0][2] * v.Cord_z,

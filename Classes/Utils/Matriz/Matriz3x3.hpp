@@ -14,14 +14,14 @@ struct Matriz3x3
     Matriz3x3 transposta();
 };
 
-Matriz3x3 operator*(Vetor v1, Vetor v2);
+Matriz3x3 operator*(const Matriz3x3 &A, const Matriz3x3 &B);
+Matriz3x3 operator-(const Matriz3x3 &A, const Matriz3x3 &B);
+Matriz3x3 operator+(const Matriz3x3 &A, const Matriz3x3 &B);
 
-Matriz3x3 operator-(Matriz3x3 A, Matriz3x3 B);
+Matriz3x3 operator*(const Vetor &v1, const Vetor &v2);
 
-Matriz3x3 operator+(Matriz3x3 A, Matriz3x3 B);
+Matriz3x3 operator*(const Matriz3x3 &M, float k);
 
-Matriz3x3 operator*(Matriz3x3 M, float k);
-
-Vetor operator*(Matriz3x3 M, Vetor v);
+Vetor operator*(const Matriz3x3 &M, const Vetor &v);
 
 #endif
