@@ -1,6 +1,6 @@
 #include "Cone.hpp"
 
-Cone::Cone(Ponto Cb, float Rb, float H, Vetor dr, Cor Kd, Cor Ke, Cor Ka, int M, bool temBase)
+Cone::Cone(Ponto Cb, float Rb, float H, Vetor dr,  bool temBase, Cor Kd, Cor Ke, Cor Ka, int M)
 {
     Centro_base = Cb;
     Raio_base = Rb;
@@ -66,6 +66,21 @@ bool Cone::raioIntercepta(Ponto origem, Ponto canvas)
             if (t_valido < 0 || r2 < t_valido)
             {
                 t_valido = r2;
+            }
+        }
+    }
+
+    if (TemBase)
+    {
+        float t_base = produtoEscalar(Eixo, Centro_base - origem) / produtoEscalar(Eixo, Dr);
+        if (t_base > 0)
+        {
+            Ponto P_base = ray(origem, Dr, t_base);
+            Vetor d = P_base - Centro_base;
+            if (produtoEscalar(d, d) <= Raio_base * Raio_base)
+            {
+                if (t_valido < 0 || t_base < t_valido)
+                    t_valido = t_base;
             }
         }
     }

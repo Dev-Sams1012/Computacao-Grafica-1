@@ -14,7 +14,7 @@ struct Cone : public Objeto
     Matriz3x3 M_Matrix;
     bool TemBase;
 
-    Cone(Ponto Cb, float Rb, float H, Vetor dr, Cor Kd, Cor Ke, Cor Ka, int M, bool temBase = false);
+    Cone(Ponto Cb, float Rb, float H, Vetor dr,  bool temBase, Cor Kd, Cor Ke, Cor Ka, int M);
 
     bool raioIntercepta(Ponto origem, Ponto canvas) override;
 
