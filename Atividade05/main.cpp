@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -8,6 +9,7 @@
 #include "../Classes/utils/Ponto/Ponto.hpp"
 #include "../Classes/utils/Vetor/Vetor.hpp"
 #include "../Classes/utils/Matriz/Matriz3x3.hpp"
+#include "../Classes/utils/Matriz/Matriz4x4.hpp"
 
 #include "../Classes/Objetos/Cilindro/Cilindro.hpp"
 #include "../Classes/Objetos/Malha/Malha.hpp"
@@ -56,10 +58,23 @@ int main()
 
     Esfera esfera = Esfera(Ponto(0.0f, 0.95f, -2.0f), 0.05f, Cor(0.854f, 0.647f, 0.125f), Cor(0.854f, 0.647f, 0.125f), Cor(0.854f, 0.647f, 0.125f), 10);
 
-    double aresta = 0.4;
-    Ponto cbase = Ponto(0.0f , -1.5f , -1.65f);
+    Ponto cbase = Ponto(0.0f, -1.5f, -1.65f);
 
-    Cubo cubo = Cubo(aresta, cbase, Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+    Cubo cubo = Cubo(0.4, cbase, Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), Cor(1.0f, 0.078f, 0.576f), 1);
+
+    Matriz4x4 T1 = Matriz4x4::translacao(-cbase.Cord_x,
+                                         -cbase.Cord_y,
+                                         -cbase.Cord_z);
+
+    Matriz4x4 R = Matriz4x4::rotacaoY(M_PI / 4);
+
+    Matriz4x4 T2 = Matriz4x4::translacao(cbase.Cord_x,
+                                         cbase.Cord_y,
+                                         cbase.Cord_z);
+
+    Matriz4x4 M = T2 * R * T1;
+
+    cubo.Transforma(M);
 
     canvas.adicionaObjetoCena(&planoChao);
     canvas.adicionaObjetoCena(&planoLateralDireita);
