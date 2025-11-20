@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(main)
 add_executable(main
-        "Atividade05/main.cpp"
+        "Atividade06/main.cpp"
+        Atividade06/ObjetosAtividade/Mesa.hpp
         Classes/Utils/Vetor/Vetor.cpp
         Classes/Utils/Ponto/Ponto.cpp
         Classes/Utils/Matriz/Matriz3x3.cpp
@@ -11,6 +12,7 @@ add_executable(main
         Classes/Utils/Janela/Janela.cpp
         Classes/Utils/Janela/Luz.cpp
         Classes/Objetos/ObjetoAbstrato/Objeto.cpp
+        Classes/Objetos/ObjetoComplexo/ObjetoComplexo.cpp
         Classes/Objetos/Cilindro/Cilindro.cpp
         Classes/Objetos/Cone/Cone.cpp
         Classes/Objetos/Esfera/Esfera.cpp
@@ -18,6 +20,7 @@ add_executable(main
         Classes/Objetos/Triangulo/Triangulo.cpp
         Classes/Objetos/Malha/Malha.cpp
         Classes/Objetos/Cubo/Cubo.cpp
+        Classes/Objetos/Paralelepipedo/Paralelepipedo.cpp
         BibliotecasExternas/stb_image.cpp
       )
 
