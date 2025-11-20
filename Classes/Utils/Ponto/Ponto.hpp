@@ -10,12 +10,12 @@ struct Ponto
     Ponto(float x = 0, float y = 0, float z = 0);
 };
 
-Ponto operator+(Ponto p1, Ponto p2);
+Ponto operator+(const Ponto &p1, const Ponto &p2);
 
-Ponto operator*(Ponto p, float k);
+Ponto operator*(const Ponto &p, float k);
 
-Ponto operator*(float k, Ponto p);
+Ponto operator*(float k, const Ponto &p);
 
-Ponto operator/(Ponto p, float k);
+Ponto operator/(const Ponto &p, float k);
 
 #endif
