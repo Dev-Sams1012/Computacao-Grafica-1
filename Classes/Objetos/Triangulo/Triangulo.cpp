@@ -9,13 +9,16 @@ Triangulo::Triangulo(Ponto p1, Ponto p2, Ponto p0, Cor Kd, Cor Ke, Cor Ka, int M
     this->K_e = Ke;
     this->K_a = Ka;
     this->m = M;
+
+    atualizarNormal();
+
 }
 
-Vetor Triangulo::normal(){
+void Triangulo::atualizarNormal()
+{
     Vetor v0 = p1 - p0;
     Vetor v1 = p2 - p0;
-
-    return normalizar(produtoVetorial(v0, v1));
+    normal = normalizar(produtoVetorial(v0, v1));
 }
 
 bool Triangulo::raioIntercepta(Ponto origem, Ponto canvas)

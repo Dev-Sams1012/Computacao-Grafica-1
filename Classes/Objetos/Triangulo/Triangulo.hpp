@@ -8,10 +8,11 @@ struct Triangulo : Objeto
     Ponto p0;
     Ponto p1;
     Ponto p2;
+    Vetor normal;
  
     Triangulo(Ponto p1, Ponto p2, Ponto p0, Cor Kd, Cor Ke, Cor Ka, int M);
 
-    Vetor normal();
+    void atualizarNormal();
 
     bool raioIntercepta(Ponto origem, Ponto canvas) override;
 
