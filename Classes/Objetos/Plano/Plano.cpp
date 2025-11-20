@@ -28,7 +28,7 @@ Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, int M)
     }
 }
 
-Cor Plano::texturaEm(Ponto p)
+Cor Plano::texturaEm(const Ponto &p) const
 {
     Vetor aux;
     if(fabs(n_bar.Cord_x) > 0.9) aux = Vetor(0, 1, 0);
@@ -116,14 +116,14 @@ void Plano::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A
     I_diff.g = I_diff.g * diff;
     I_diff.b = I_diff.b * diff;
 
-    Cor I_espec = operadorArroba(K_e, I_F);
+    Cor I_espec = operadorArroba(k_e_final, I_F);
     float vr = max(0.0f, produtoEscalar(v, r));
     float espec = powf(vr, m);
     I_espec.r = I_espec.r * espec;
     I_espec.g = I_espec.g * espec;
     I_espec.b = I_espec.b * espec;
 
-    Cor I_amb = operadorArroba(K_a, I_A);
+    Cor I_amb = operadorArroba(k_a_final, I_A);
 
     finalColor.r = min(1.0f, I_diff.r + I_espec.r + I_amb.r);
     finalColor.g = min(1.0f, I_diff.g + I_espec.g + I_amb.g);

@@ -20,7 +20,9 @@ struct Plano : public Objeto
 
     Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, int M);
 
-    Cor texturaEm(Ponto p);
+    bool temTextura() const override { return tem_textura; }
+
+    Cor texturaEm(const Ponto &p) const override;
 
     bool raioIntercepta(Ponto origem, Ponto canvas) override;
 
