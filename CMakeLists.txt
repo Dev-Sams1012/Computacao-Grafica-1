@@ -5,7 +5,7 @@ add_executable(main
         "Atividade05/main.cpp"
         Classes/Utils/Vetor/Vetor.cpp
         Classes/Utils/Ponto/Ponto.cpp
-        Classes/Utils/Matriz3x3/Matriz3x3.cpp
+        Classes/Utils/Matriz/Matriz3x3.cpp
         Classes/Utils/Janela/Canvas.cpp
         Classes/Utils/Janela/Janela.cpp
         Classes/Utils/Janela/Luz.cpp
