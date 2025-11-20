@@ -5,9 +5,9 @@
 
 #include "../Classes/utils/Janela/Janela.hpp"
 #include "../Classes/utils/Janela/Canvas.hpp"
-#include "../Classes/utils/ponto/Ponto.hpp"
+#include "../Classes/utils/Ponto/Ponto.hpp"
 #include "../Classes/utils/Vetor/Vetor.hpp"
-#include "../Classes/utils/Matriz3x3/Matriz3x3.hpp"
+#include "../Classes/utils/Matriz/Matriz3x3.hpp"
 
 #include "../Classes/Objetos/Cilindro/Cilindro.hpp"
 #include "../Classes/Objetos/Malha/Malha.hpp"
