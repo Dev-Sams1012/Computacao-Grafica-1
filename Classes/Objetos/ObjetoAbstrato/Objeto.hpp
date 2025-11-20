@@ -9,7 +9,7 @@
 #include "../../Utils/Janela/Luz.hpp"
 #include "../../Utils/Ponto/Ponto.hpp"
 #include "../../Utils/Vetor/Vetor.hpp"
-#include "../../Utils/Matriz3x3/Matriz3x3.hpp"
+#include "../../Utils/Matriz/Matriz3x3.hpp"
 
 struct Objeto
 {
