@@ -5,7 +5,7 @@ using namespace std;
 
 struct Ponto
 {
-    float Cord_x, Cord_y, Cord_z;
+    float Cord_x, Cord_y, Cord_z, Cord_w = 1.0f;
 
     Ponto(float x = 0, float y = 0, float z = 0);
 };

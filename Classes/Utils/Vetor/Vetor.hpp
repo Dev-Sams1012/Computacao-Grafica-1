@@ -7,7 +7,7 @@ using namespace std;
 
 struct Vetor
 {
-    float Cord_x, Cord_y, Cord_z;
+    float Cord_x, Cord_y, Cord_z, Cord_w = 0.0f;
 
     Vetor(float x = 0, float y = 0, float z = 0);
 
