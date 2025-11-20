@@ -14,26 +14,25 @@ struct Vetor
     float norma();
 };
 
-Vetor normalizar(Vetor v);
+Vetor normalizar(const Vetor &v);
 
-float produtoEscalar(Vetor v1, Vetor v2);
+float produtoEscalar(const Vetor &v1, const Vetor &v2);
 
-Vetor produtoVetorial(Vetor v1, Vetor v2);
+Vetor produtoVetorial(const Vetor &v1, const Vetor &v2);
+Ponto ray(const Ponto &p, const Vetor &v, float t);
 
-Ponto ray(Ponto p, Vetor v, float t);
+Vetor operator-(const Ponto &p2, const Ponto &p1);
 
-Vetor operator-(Ponto p2, Ponto p1);
+Vetor operator-(const Vetor &v1, const Vetor &v2);
 
-Vetor operator-(Vetor v1, Vetor v2);
+Vetor operator-(const Vetor &v);
 
-Vetor operator-(Vetor v);
+Vetor operator+(const Vetor &v1, const Vetor &v2);
 
-Vetor operator+(Vetor v1, Vetor v2);
+Vetor operator*(float k, const Vetor &v);
 
-Vetor operator*(float k, Vetor v);
+Vetor operator*(const Vetor &v, float k);
 
-Vetor operator*(Vetor v, float k);
-
-Vetor operator/(Vetor v, float k);
+Vetor operator/(const Vetor &v, float k);
 
 #endif
