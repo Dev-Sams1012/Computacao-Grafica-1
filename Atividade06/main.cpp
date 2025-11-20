@@ -20,6 +20,7 @@
 #include "../Classes/Objetos/Cubo/Cubo.hpp"
 #include "../Classes/Objetos/Paralelepipedo/Paralelepipedo.hpp"
 #include "ObjetosAtividade/Mesa.hpp"
+#include "ObjetosAtividade/ArvoreNatal.hpp"
 
 using namespace std;
 
@@ -46,10 +47,13 @@ int main()
 
     Plano planoChao = Plano(Ponto(0.0f, -1.5f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 10);
 
-    Mesa mesa = Mesa();
+
+
+    ArvoreNatal arvoreNatal = ArvoreNatal();
 
     canvas.adicionaObjetoCena(&planoChao);
-    canvas.adicionaObjetoCena(&mesa);
+
+    canvas.adicionaObjetoCena(&arvoreNatal);
 
     canvas.geraImagem(luz, "Imagem_Com_ObjetosComplexos");
 
