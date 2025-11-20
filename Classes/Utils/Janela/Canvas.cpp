@@ -42,7 +42,22 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
 
                         if (objeto->temSombra(P_I, luz, objeto, objetos))
                         {
-                            finalColor = operadorArroba(objeto->K_a, luz.IA);
+                            float fatorSombra = 0.35f;
+
+                            Cor kd;
+
+                            if (objeto->temTextura())
+                            {
+                                kd = objeto->texturaEm(P_I);
+                            }
+                            else
+                            {
+                                kd = objeto->K_d;
+                            }
+
+                            finalColor.r = kd.r * fatorSombra;
+                            finalColor.g = kd.g * fatorSombra;
+                            finalColor.b = kd.b * fatorSombra;
                         }
                         else
                         {
@@ -58,7 +73,8 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
 
     /* "conversão" da matriz 2d para uma imagem ppm */
     ofstream arquivo(nomeArquivo + ".ppm");
-    arquivo << "P3\n" << nCol << " " << nLin << "\n255\n";
+    arquivo << "P3\n"
+            << nCol << " " << nLin << "\n255\n";
 
     for (size_t l = 0; l < nLin; l++)
     {
