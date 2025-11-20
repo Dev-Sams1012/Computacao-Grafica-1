@@ -2,7 +2,6 @@
 #define MESA_HPP
 
 #include "../../Classes/Objetos/ObjetoComplexo/ObjetoComplexo.hpp"
-#include "../../Classes/Objetos/ObjetoAbstrato/Objeto.hpp"
 #include "../../Classes/Objetos/Paralelepipedo/Paralelepipedo.hpp"
 
 struct Mesa : public ObjetoComplexo
