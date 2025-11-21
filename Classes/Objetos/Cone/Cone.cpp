@@ -1,6 +1,6 @@
 #include "Cone.hpp"
 
-Cone::Cone(Ponto Cb, float Rb, float H, Vetor dr,  bool temBase, Cor Kd, Cor Ke, Cor Ka, int M)
+Cone::Cone(Ponto Cb, float Rb, float H, Vetor dr, bool temBase, Cor Kd, Cor Ke, Cor Ka, int M)
 {
     Centro_base = Cb;
     Raio_base = Rb;
@@ -126,4 +126,10 @@ void Cone::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A)
     finalColor.r = min(1.0f, I_diff.r + I_espec.r + I_amb.r);
     finalColor.g = min(1.0f, I_diff.g + I_espec.g + I_amb.g);
     finalColor.b = min(1.0f, I_diff.b + I_espec.b + I_amb.b);
+}
+
+void Cone::transforma(const Matriz4x4 &M)
+{
+    Centro_base = M * Centro_base;
+    Eixo = normalizar(M * Eixo);
 }
