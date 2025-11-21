@@ -11,7 +11,6 @@ Triangulo::Triangulo(Ponto p1, Ponto p2, Ponto p0, Cor Kd, Cor Ke, Cor Ka, int M
     this->m = M;
 
     atualizarNormal();
-
 }
 
 void Triangulo::atualizarNormal()
@@ -100,4 +99,13 @@ void Triangulo::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor
     finalColor.r = min(1.0f, I_diff.r + I_espec.r + I_amb.r);
     finalColor.g = min(1.0f, I_diff.g + I_espec.g + I_amb.g);
     finalColor.b = min(1.0f, I_diff.b + I_espec.b + I_amb.b);
+}
+
+void Triangulo::transforma(const Matriz4x4 &M)
+{
+    p0 = M * p0;
+    p1 = M * p1;
+    p2 = M * p2;
+
+    atualizarNormal();
 }
