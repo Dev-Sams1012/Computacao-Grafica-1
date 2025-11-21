@@ -10,6 +10,7 @@
 #include "../../Utils/Ponto/Ponto.hpp"
 #include "../../Utils/Vetor/Vetor.hpp"
 #include "../../Utils/Matriz/Matriz3x3.hpp"
+#include "../../Utils/Matriz/Matriz4x4.hpp"
 
 struct Objeto
 {
@@ -20,6 +21,7 @@ struct Objeto
 
     virtual bool raioIntercepta(Ponto origem, Ponto canvas) = 0;
     virtual void renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A) = 0;
+    virtual void transforma(const Matriz4x4 &M) = 0;
     virtual bool temTextura() const { return false; }
     virtual Cor texturaEm(const Ponto &p) const { return K_d; }
     bool temSombra(Ponto P_I, Luz luz, Objeto *objeto_atual, vector<Objeto *> objetos);

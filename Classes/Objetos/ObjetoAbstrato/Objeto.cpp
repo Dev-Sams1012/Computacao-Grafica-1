@@ -1,6 +1,6 @@
 #include "Objeto.hpp"
 
-bool Objeto::temSombra(Ponto P_I, Luz luz, Objeto *objeto_atual, vector<Objeto *> objetos )
+bool Objeto::temSombra(Ponto P_I, Luz luz, Objeto *objeto_atual, vector<Objeto *> objetos)
 {
     Vetor L = luz.PF - P_I;
     float distancia_Pi_Pf = sqrtf(produtoEscalar(L, L));
