@@ -62,3 +62,13 @@ void Malha::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A
     finalColor.g = min(1.0f, I_diff.g + I_espec.g + I_amb.g);
     finalColor.b = min(1.0f, I_diff.b + I_espec.b + I_amb.b);
 }
+
+void Malha::transforma(const Matriz4x4 &M){
+    for(Ponto &v : vertices){
+        v = M * v;
+    }
+
+    for(Triangulo &face : faces){
+        face.transforma(M);
+    }
+}
