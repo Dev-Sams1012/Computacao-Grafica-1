@@ -5,6 +5,11 @@
 
 struct Paralelepipedo : Malha
 {
+    float largura;
+    float profundidade;
+    float altura;
+    Ponto centro;
+
     Paralelepipedo(float largura, float profundidade, float altura, Ponto centro, Cor Kd, Cor Ke, Cor Ka, int M);
 
     void atualizarFaces();

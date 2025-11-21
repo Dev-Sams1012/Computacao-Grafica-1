@@ -1,8 +1,12 @@
 #include "Paralelepipedo.hpp"
 
-Paralelepipedo::Paralelepipedo(float largura, float profundidade, float altura, Ponto centro,
-                               Cor Kd, Cor Ke, Cor Ka, int M)
+Paralelepipedo::Paralelepipedo(float largura, float profundidade, float altura, Ponto centro, Cor Kd, Cor Ke, Cor Ka, int M)
 {
+    this->largura = largura;
+    this->profundidade = profundidade;
+    this->altura = altura;
+    this->centro = centro;
+
     K_d = Kd;
     K_e = Ke;
     K_a = Ka;
