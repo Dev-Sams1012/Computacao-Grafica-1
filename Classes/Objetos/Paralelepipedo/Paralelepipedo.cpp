@@ -43,7 +43,7 @@ void Paralelepipedo::atualizarFaces()
     faces.push_back(Triangulo(vertices[3], vertices[5], vertices[7], K_d, K_e, K_a, m));
 }
 
-void Paralelepipedo::Transforma(const Matriz4x4 &M)
+void Paralelepipedo::transforma(const Matriz4x4 &M)
 {
     for (Ponto &v : vertices)
         v = M * v;
