@@ -38,7 +38,7 @@ Cubo::Cubo(float tam_aresta, Ponto centro_base, Cor Kd, Cor Ke, Cor Ka, int M)
     this->faces = faces;
 }
 
-void Cubo::Transforma(const Matriz4x4 &M)
+void Cubo::transforma(const Matriz4x4 &M)
 {
     for (Ponto &v : this->vertices)
         v = M * v;
