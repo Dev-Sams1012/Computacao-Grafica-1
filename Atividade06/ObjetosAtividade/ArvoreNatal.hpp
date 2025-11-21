@@ -6,7 +6,7 @@
 #include "../../Classes/Objetos/Esfera/Esfera.hpp"
 #include "../../Classes/Objetos/Cone/Cone.hpp"
 
-struct ArvoreNatal : public ObjetoComplexo
+struct ArvoreNatal : ObjetoComplexo
 {
     Cilindro *suporte;
     Cilindro *tronco;
