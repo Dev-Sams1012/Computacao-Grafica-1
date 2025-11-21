@@ -73,6 +73,54 @@ Matriz4x4 Matriz4x4::rotacaoZ(float ang)
     return M;
 }
 
+Matriz4x4 Matriz4x4::cisalhaXY(float ang)
+{
+    Matriz4x4 m(1.0f);
+    float sh = tan(ang);
+    m.m[0][1] = sh;
+    return m;
+}
+
+Matriz4x4 Matriz4x4::cisalhaYX(float ang)
+{
+    Matriz4x4 m(1.0f);
+    float sh = tan(ang);
+    m.m[1][0] = sh;
+    return m;
+}
+
+Matriz4x4 Matriz4x4::cisalhaXZ(float ang)
+{
+    Matriz4x4 m(1.0f);
+    float sh = tan(ang);
+    m.m[0][2] = sh;
+    return m;
+}
+
+Matriz4x4 Matriz4x4::cisalhaZX(float ang)
+{
+    Matriz4x4 m(1.0f);
+    float sh = tan(ang);
+    m.m[2][0] = sh;
+    return m;
+}
+
+Matriz4x4 Matriz4x4::cisalhaYZ(float ang)
+{
+    Matriz4x4 m(1.0f);
+    float sh = tan(ang);
+    m.m[1][2] = sh;
+    return m;
+}
+
+Matriz4x4 Matriz4x4::cisalhaZY(float ang)
+{
+    Matriz4x4 m(1.0f);
+    float sh = tan(ang);
+    m.m[2][1] = sh;
+    return m;
+}
+
 Matriz4x4 operator*(const Matriz4x4 &A, const Matriz4x4 &B)
 {
     Matriz4x4 R;
@@ -129,5 +177,5 @@ Ponto operator*(const Matriz4x4 &M, const Ponto &p)
     float z = M.m[2][0] * p.Cord_x + M.m[2][1] * p.Cord_y + M.m[2][2] * p.Cord_z + M.m[2][3] * p.Cord_w;
     float w = M.m[3][0] * p.Cord_x + M.m[3][1] * p.Cord_y + M.m[3][2] * p.Cord_z + M.m[3][3] * p.Cord_w;
 
-    return Ponto(x/w, y/w, z/w);
+    return Ponto(x / w, y / w, z / w);
 }

@@ -21,9 +21,15 @@ struct Matriz4x4
     static Matriz4x4 rotacaoX(float ang);
     static Matriz4x4 rotacaoY(float ang);
     static Matriz4x4 rotacaoZ(float ang);
+    static Matriz4x4 cisalhaXY(float ang);
+    static Matriz4x4 cisalhaYX(float ang);
+    static Matriz4x4 cisalhaXZ(float ang);
+    static Matriz4x4 cisalhaZX(float ang);
+    static Matriz4x4 cisalhaYZ(float ang);
+    static Matriz4x4 cisalhaZY(float ang);
 };
 
-Matriz4x4 operator*(const Matriz4x4 &A, const Matriz4x4 &B);  
+Matriz4x4 operator*(const Matriz4x4 &A, const Matriz4x4 &B);
 Matriz4x4 operator+(const Matriz4x4 &A, const Matriz4x4 &B);
 Matriz4x4 operator-(const Matriz4x4 &A, const Matriz4x4 &B);
 Matriz4x4 operator*(const Matriz4x4 &M, float k);
