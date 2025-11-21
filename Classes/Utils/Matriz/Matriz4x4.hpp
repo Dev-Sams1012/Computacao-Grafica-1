@@ -14,7 +14,7 @@ struct Matriz4x4
 
     Matriz4x4(float diag = 0.0f);
 
-    Matriz4x4 transposta();
+    Matriz4x4 transposta() const;
 
     static Matriz4x4 translacao(float tx, float ty, float tz);
     static Matriz4x4 escala(float sx, float sy, float sz);

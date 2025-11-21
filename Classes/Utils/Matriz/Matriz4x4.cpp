@@ -7,7 +7,7 @@ Matriz4x4::Matriz4x4(float diag)
             m[i][j] = (i == j ? diag : 0.0f);
 }
 
-Matriz4x4 Matriz4x4::transposta()
+Matriz4x4 Matriz4x4::transposta() const
 {
     Matriz4x4 T;
     for (int i = 0; i < 4; i++)
