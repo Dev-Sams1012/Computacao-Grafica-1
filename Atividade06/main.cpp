@@ -21,6 +21,7 @@
 #include "../Classes/Objetos/Paralelepipedo/Paralelepipedo.hpp"
 #include "ObjetosAtividade/Mesa.hpp"
 #include "ObjetosAtividade/ArvoreNatal.hpp"
+#include "ObjetosAtividade/Portico.hpp"
 
 using namespace std;
 
@@ -45,15 +46,13 @@ int main()
 
     string pisoMadeira = "../Assets/madel-piso-vinilico-click-madeir.png";
 
-    Plano planoChao = Plano(Ponto(0.0f, -1.5f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 10);
+    Plano planoChao = Plano(Ponto(0.0f, -2.0f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 10);
 
-
-
-    ArvoreNatal arvoreNatal = ArvoreNatal();
+    Portico portico = Portico();
 
     canvas.adicionaObjetoCena(&planoChao);
 
-    canvas.adicionaObjetoCena(&arvoreNatal);
+    canvas.adicionaObjetoCena(&portico);
 
     canvas.geraImagem(luz, "Imagem_Com_ObjetosComplexos");
 
