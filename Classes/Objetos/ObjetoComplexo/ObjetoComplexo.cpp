@@ -35,3 +35,11 @@ void ObjetoComplexo::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F
     if (componenteQueAcertou)
         componenteQueAcertou->renderiza(finalColor, origem, P_F, I_F, I_A);
 }
+
+void ObjetoComplexo::transforma(const Matriz4x4 &M)
+{
+    for (auto comp : componentes)
+    {
+        comp->transforma(M);
+    }
+}
