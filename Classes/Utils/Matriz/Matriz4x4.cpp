@@ -73,50 +73,46 @@ Matriz4x4 Matriz4x4::rotacaoZ(float ang)
     return M;
 }
 
-Matriz4x4 Matriz4x4::cisalhaXY(float ang)
+Matriz4x4 Matriz4x4::cisalhaXY(float sh)
 {
     Matriz4x4 m(1.0f);
-    float sh = tan(ang);
     m.m[0][1] = sh;
     return m;
 }
 
-Matriz4x4 Matriz4x4::cisalhaYX(float ang)
+Matriz4x4 Matriz4x4::cisalhaYX(float sh)
 {
     Matriz4x4 m(1.0f);
-    float sh = tan(ang);
     m.m[1][0] = sh;
     return m;
 }
+        
 
-Matriz4x4 Matriz4x4::cisalhaXZ(float ang)
+Matriz4x4 Matriz4x4::cisalhaXZ(float sh)
 {
     Matriz4x4 m(1.0f);
-    float sh = tan(ang);
     m.m[0][2] = sh;
     return m;
 }
 
-Matriz4x4 Matriz4x4::cisalhaZX(float ang)
+Matriz4x4 Matriz4x4::cisalhaZX(float sh)
 {
     Matriz4x4 m(1.0f);
-    float sh = tan(ang);
     m.m[2][0] = sh;
     return m;
 }
 
-Matriz4x4 Matriz4x4::cisalhaYZ(float ang)
+
+Matriz4x4 Matriz4x4::cisalhaYZ(float sh)
 {
     Matriz4x4 m(1.0f);
-    float sh = tan(ang);
     m.m[1][2] = sh;
     return m;
 }
 
-Matriz4x4 Matriz4x4::cisalhaZY(float ang)
+Matriz4x4 Matriz4x4::cisalhaZY(float sh)
 {
     Matriz4x4 m(1.0f);
-    float sh = tan(ang);
     m.m[2][1] = sh;
     return m;
 }
