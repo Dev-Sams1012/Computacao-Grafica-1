@@ -22,7 +22,7 @@ struct Portico : ObjetoComplexo
         float alturaViga = 0.5f;
         float profundidadeViga = 0.3f;
 
-        float yInferior = -1.0f;
+        float yInferior = -1.5f;
 
         Ponto centroColunaEsquerda = Ponto(-3.0f, yInferior + alturaColuna / 2, -10.0f);
         Ponto centroColunaDireita = Ponto(3.5f, yInferior + alturaColuna / 2, -10.0f);
@@ -47,7 +47,7 @@ struct Portico : ObjetoComplexo
 
         Matriz4x4 transformaVigaEsq = subirViga * T2VigaEsq * cisalhamentoEsquerda * T1VigaEsq;
 
-        vigaCisalhadaEsquerda->Transforma(transformaVigaEsq);
+        vigaCisalhadaEsquerda->transforma(transformaVigaEsq);
 
         vigaCisalhadaDireita = new Paralelepipedo(larguraViga, profundidadeViga, alturaViga, centroVigaDireita, Cor(0.5f, 0.5f, 0.5f), Cor(0.5f, 0.5f, 0.5f), Cor(0.5f, 0.5f, 0.5f), 10);
 
@@ -59,7 +59,7 @@ struct Portico : ObjetoComplexo
 
         Matriz4x4 transformaVigaDir = subirViga * T2VigaDir * cisalhamentoDireita * T1VigaDir;
 
-        vigaCisalhadaDireita->Transforma(transformaVigaDir);
+        vigaCisalhadaDireita->transforma(transformaVigaDir);
 
         adicionarComponente(colunaEsquerda);
         adicionarComponente(colunaDireita);
