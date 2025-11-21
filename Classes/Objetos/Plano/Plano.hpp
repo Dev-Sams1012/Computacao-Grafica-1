@@ -13,7 +13,7 @@ struct Plano : public Objeto
     Vetor n_bar;
     bool tem_textura;
     string arquivo_textura = "";
-    unsigned char* textura = nullptr;
+    unsigned char *textura = nullptr;
     int tex_largura, tex_altura, tex_componentes;
 
     Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M);
@@ -27,6 +27,8 @@ struct Plano : public Objeto
     bool raioIntercepta(Ponto origem, Ponto canvas) override;
 
     void renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A) override;
+
+    void transforma(const Matriz4x4 &M) override;
 };
 
 #endif

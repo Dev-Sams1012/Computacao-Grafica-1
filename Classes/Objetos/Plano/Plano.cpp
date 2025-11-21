@@ -31,8 +31,10 @@ Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, int M)
 Cor Plano::texturaEm(const Ponto &p) const
 {
     Vetor aux;
-    if(fabs(n_bar.Cord_x) > 0.9) aux = Vetor(0, 1, 0);
-    else aux = Vetor(1, 0, 0);
+    if (fabs(n_bar.Cord_x) > 0.9)
+        aux = Vetor(0, 1, 0);
+    else
+        aux = Vetor(1, 0, 0);
 
     Vetor u = normalizar(produtoVetorial(n_bar, aux));
     Vetor v = normalizar(produtoVetorial(n_bar, u));
@@ -128,4 +130,14 @@ void Plano::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A
     finalColor.r = min(1.0f, I_diff.r + I_espec.r + I_amb.r);
     finalColor.g = min(1.0f, I_diff.g + I_espec.g + I_amb.g);
     finalColor.b = min(1.0f, I_diff.b + I_espec.b + I_amb.b);
+}
+
+void Plano::transforma(const Matriz4x4 &M)
+{
+    P_pi = M * P_pi;
+
+    Matriz4x4 transp = M.transposta();
+    n_bar = transp * n_bar;
+
+    n_bar = normalizar(n_bar);
 }
