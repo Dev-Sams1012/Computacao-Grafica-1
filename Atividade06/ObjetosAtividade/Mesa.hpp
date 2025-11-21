@@ -4,7 +4,7 @@
 #include "../../Classes/Objetos/ObjetoComplexo/ObjetoComplexo.hpp"
 #include "../../Classes/Objetos/Paralelepipedo/Paralelepipedo.hpp"
 
-struct Mesa : public ObjetoComplexo
+struct Mesa : ObjetoComplexo
 {
     Paralelepipedo *tampo;
     Paralelepipedo *suporte1;
