@@ -2,6 +2,9 @@
 
 Cubo::Cubo(float tam_aresta, Ponto centro_base, Cor Kd, Cor Ke, Cor Ka, int M)
 {
+    this->tam_aresta = tam_aresta;
+    this->centro_base = centro_base;
+
     double h = tam_aresta / 2.0;
     Ponto v0 = Ponto(centro_base.Cord_x - h, centro_base.Cord_y, centro_base.Cord_z - h);
     Ponto v1 = Ponto(centro_base.Cord_x + h, centro_base.Cord_y, centro_base.Cord_z - h);

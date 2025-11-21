@@ -5,6 +5,9 @@
 
 struct Cubo : Malha
 {
+    float tam_aresta;
+    Ponto centro_base;
+
     Cubo(float tam_aresta, Ponto centro_base, Cor Kd, Cor Ke, Cor Ka, int M);
 
     void atualizarFaces();
