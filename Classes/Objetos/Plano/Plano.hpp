@@ -1,7 +1,7 @@
 #ifndef PLANO_HPP
 #define PLANO_HPP
 
-#include "../BibliotecasExternas/stb_image.hpp"
+#include "../../../BibliotecasExternas/stb_image.hpp"
 #include "../ObjetoAbstrato/Objeto.hpp"
 
 #include <string>
