@@ -49,11 +49,16 @@ int main()
 
     Plano planoChao = Plano(Ponto(0.0f, -2.0f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 10);
 
+    Mesa mesa = Mesa();
+
+    ArvoreNatal arvore = ArvoreNatal();
+
     Galpao galpao = Galpao();
 
     canvas.adicionaObjetoCena(&planoChao);
-
     canvas.adicionaObjetoCena(&galpao);
+    canvas.adicionaObjetoCena(&mesa);
+    canvas.adicionaObjetoCena(&arvore);
 
     canvas.geraImagem(luz, "Imagem_Com_ObjetosComplexos");
 
