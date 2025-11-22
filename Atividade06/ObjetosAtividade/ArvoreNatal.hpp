@@ -26,22 +26,22 @@ struct ArvoreNatal : ObjetoComplexo
 
         float raioBola = 0.045f;
 
-        float ySuporteInferior = -0.8f;
+        float ySuporteInferior = -0.95f;
 
-        Ponto centroSuporte = Ponto(0.0f, ySuporteInferior, -2.0f);
+        Ponto centroSuporte = Ponto(0.0f, ySuporteInferior, -10.0f);
 
-        Ponto centroTronco = Ponto(0.0f, ySuporteInferior + alturaSuporte, -2.0f);
+        Ponto centroTronco = Ponto(0.0f, ySuporteInferior + alturaSuporte, -10.0f);
 
-        Ponto centroFolhagem = Ponto(0.0f, ySuporteInferior + alturaSuporte + alturaTronco, -2.0f);
+        Ponto centroFolhagem = Ponto(0.0f, ySuporteInferior + alturaSuporte + alturaTronco, -10.0f);
 
-        Ponto centroBola = Ponto(0.0f, ySuporteInferior + alturaSuporte + alturaTronco + alturaFolhagem + raioBola, -2.0f);
+        Ponto centroBola = Ponto(0.0f, ySuporteInferior + alturaSuporte + alturaTronco + alturaFolhagem + raioBola, -10.0f);
 
         suporte = new Cilindro(centroSuporte, raioSuporte, alturaSuporte, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.5f, 0.5f, 0.5f), Cor(0.5f, 0.5f, 0.5f), Cor(0.5f, 0.5f, 0.5f), 10);
 
         tronco = new Cilindro(centroTronco, raioTronco, alturaTronco, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.55f, 0.27f, 0.07f), Cor(0.55f, 0.27f, 0.07f), Cor(0.55f, 0.27f, 0.07f), 10);
 
         folhagem = new Cone(centroFolhagem, raioFolhagem, alturaFolhagem, Vetor(0.0f, 1.0f, 0.0f), true, Cor(0.0f, 0.5f, 0.0f), Cor(0.0f, 0.5f, 0.0f), Cor(0.0f, 0.5f, 0.0f), 10);
-        
+
         bola = new Esfera(centroBola, raioBola, Cor(1.0f, 0.0f, 0.0f), Cor(1.0f, 0.0f, 0.0f), Cor(1.0f, 0.0f, 0.0f), 10);
 
         adicionarComponente(suporte);
