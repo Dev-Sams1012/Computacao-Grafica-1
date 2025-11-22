@@ -19,13 +19,13 @@ struct Mesa : ObjetoComplexo
         float espessuraSuporte = 0.05f;
         float alturaSuporte = 0.95f;
 
-        float yTampoInferior = -0.5f;
+        float yTampoInferior = -1.0f;
 
-        Ponto centroTampo = Ponto(0.0f, yTampoInferior + espessuraTampo / 2.0f, -5.0f);
+        Ponto centroTampo = Ponto(0.0f, yTampoInferior + espessuraTampo / 2.0f, -10.0f);
 
-        Ponto centroSup1 = Ponto(-larguraTampo / 2.0f + espessuraSuporte / 2.0f, yTampoInferior - alturaSuporte / 2.0f, -5.0f);
+        Ponto centroSup1 = Ponto(-larguraTampo / 2.0f + espessuraSuporte / 2.0f, yTampoInferior - alturaSuporte / 2.0f, -10.0f);
 
-        Ponto centroSup2 = Ponto(larguraTampo / 2.0f - espessuraSuporte / 2.0f, yTampoInferior - alturaSuporte / 2.0f, -5.0f);
+        Ponto centroSup2 = Ponto(larguraTampo / 2.0f - espessuraSuporte / 2.0f, yTampoInferior - alturaSuporte / 2.0f, -10.0f);
 
         Cor corTampo(0.8f, 0.5f, 0.2f);
         Cor corSuportes(0.6f, 0.3f, 0.1f);
@@ -39,6 +39,16 @@ struct Mesa : ObjetoComplexo
         adicionarComponente(tampo);
         adicionarComponente(suporte1);
         adicionarComponente(suporte2);
+
+        Matriz4x4 T1 = Matriz4x4::translacao(-centroTampo.Cord_x, -centroTampo.Cord_y, -centroTampo.Cord_z);
+
+        Matriz4x4 R = Matriz4x4::rotacaoY(M_PI/2.0f);
+
+        Matriz4x4 T2 = Matriz4x4::translacao(centroTampo.Cord_x, centroTampo.Cord_y, centroTampo.Cord_z);
+
+        Matriz4x4 transformacaoCompleta = T2 * R * T1;
+
+        this->transforma(transformacaoCompleta);
     }
 };
 
