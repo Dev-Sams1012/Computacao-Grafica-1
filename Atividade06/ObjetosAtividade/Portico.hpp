@@ -7,6 +7,7 @@
 
 struct Portico : ObjetoComplexo
 {
+    Ponto centroBase;
     Paralelepipedo *colunaEsquerda;
     Paralelepipedo *colunaDireita;
     Paralelepipedo *vigaCisalhadaEsquerda;
@@ -22,20 +23,20 @@ struct Portico : ObjetoComplexo
         float alturaViga = 0.5f;
         float profundidadeViga = 0.3f;
 
-        float yInferior = -1.5f;
+        float yInferior = -2.0f;
 
-        Ponto centroColunaEsquerda = Ponto(-3.0f, yInferior + alturaColuna / 2, -10.0f);
-        Ponto centroColunaDireita = Ponto(3.5f, yInferior + alturaColuna / 2, -10.0f);
+        Ponto centroColunaEsquerda = Ponto(-3.25f, yInferior + alturaColuna / 2, -10.0f);
+        Ponto centroColunaDireita = Ponto(3.25f, yInferior + alturaColuna / 2, -10.0f);
 
         Ponto centroVigaEsquerda = Ponto(centroColunaEsquerda.Cord_x + larguraColuna / 2 + larguraViga / 2, yInferior + alturaColuna - alturaViga / 2, centroColunaEsquerda.Cord_z);
 
         Ponto centroVigaDireita = Ponto(centroColunaDireita.Cord_x - larguraColuna / 2 - larguraViga / 2, yInferior + alturaColuna - alturaViga / 2, centroColunaDireita.Cord_z);
 
-        colunaEsquerda = new Paralelepipedo(larguraColuna, profundidadeColuna, alturaColuna, centroColunaEsquerda, Cor(0.7f, 0.7f, 0.7f), Cor(0.7f, 0.7f, 0.7f), Cor(0.7f, 0.7f, 0.7f), 10);
+        colunaEsquerda = new Paralelepipedo(larguraColuna, profundidadeColuna, alturaColuna, centroColunaEsquerda, Cor(0.72f, 0.41f, 0.02f), Cor(0.72f, 0.41f, 0.02f), Cor(0.72f, 0.41f, 0.02f), 10);
 
-        colunaDireita = new Paralelepipedo(larguraColuna, profundidadeColuna, alturaColuna, centroColunaDireita, Cor(0.7f, 0.7f, 0.7f), Cor(0.7f, 0.7f, 0.7f), Cor(0.7f, 0.7f, 0.7f), 10);
+        colunaDireita = new Paralelepipedo(larguraColuna, profundidadeColuna, alturaColuna, centroColunaDireita, Cor(0.72f, 0.41f, 0.02f), Cor(0.72f, 0.41f, 0.02f), Cor(0.72f, 0.41f, 0.02f), 10);
 
-        vigaCisalhadaEsquerda = new Paralelepipedo(larguraViga, profundidadeViga, alturaViga, centroVigaEsquerda, Cor(0.5f, 0.5f, 0.5f), Cor(0.5f, 0.5f, 0.5f), Cor(0.5f, 0.5f, 0.5f), 10);
+        vigaCisalhadaEsquerda = new Paralelepipedo(larguraViga, profundidadeViga, alturaViga, centroVigaEsquerda, Cor(0.49f, 0.28f, 0.01f), Cor(0.49f, 0.28f, 0.01f), Cor(0.49f, 0.28f, 0.01f), 10);
 
         Matriz4x4 cisalhamentoEsquerda = Matriz4x4::cisalhaYX(0.75f);
 
@@ -49,7 +50,7 @@ struct Portico : ObjetoComplexo
 
         vigaCisalhadaEsquerda->transforma(transformaVigaEsq);
 
-        vigaCisalhadaDireita = new Paralelepipedo(larguraViga, profundidadeViga, alturaViga, centroVigaDireita, Cor(0.5f, 0.5f, 0.5f), Cor(0.5f, 0.5f, 0.5f), Cor(0.5f, 0.5f, 0.5f), 10);
+        vigaCisalhadaDireita = new Paralelepipedo(larguraViga, profundidadeViga, alturaViga, centroVigaDireita, Cor(0.49f, 0.28f, 0.01f), Cor(0.49f, 0.28f, 0.01f), Cor(0.49f, 0.28f, 0.01f), 10);
 
         Matriz4x4 cisalhamentoDireita = Matriz4x4::cisalhaYX(-0.75f);
 
@@ -65,6 +66,8 @@ struct Portico : ObjetoComplexo
         adicionarComponente(colunaDireita);
         adicionarComponente(vigaCisalhadaEsquerda);
         adicionarComponente(vigaCisalhadaDireita);
+
+        this->centroBase = Ponto(0.0f, yInferior + alturaColuna / 2.0f, centroColunaEsquerda.Cord_z);
     }
 };
 
