@@ -22,6 +22,7 @@
 #include "ObjetosAtividade/Mesa.hpp"
 #include "ObjetosAtividade/ArvoreNatal.hpp"
 #include "ObjetosAtividade/Portico.hpp"
+#include "ObjetosAtividade/Galpao.hpp"
 
 using namespace std;
 
@@ -31,7 +32,7 @@ int main()
     Ponto origem = Ponto(0.0f, 0.0f, 0.0f);
 
     /* janela Real */
-    Janela janela = Janela(0.6f, 0.6f, 0.3f);
+    Janela janela = Janela(0.6f, 0.6f, 0.2f);
 
     size_t nCol = 600;
     size_t nLin = 600;
@@ -48,11 +49,11 @@ int main()
 
     Plano planoChao = Plano(Ponto(0.0f, -2.0f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 10);
 
-    Portico portico = Portico();
+    Galpao galpao = Galpao();
 
     canvas.adicionaObjetoCena(&planoChao);
 
-    canvas.adicionaObjetoCena(&portico);
+    canvas.adicionaObjetoCena(&galpao);
 
     canvas.geraImagem(luz, "Imagem_Com_ObjetosComplexos");
 
