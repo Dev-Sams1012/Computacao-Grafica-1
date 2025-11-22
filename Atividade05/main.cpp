@@ -74,7 +74,7 @@ int main()
 
     Matriz4x4 M = T2 * R * T1;
 
-    cubo.Transforma(M);
+    cubo.transforma(M);
 
     canvas.adicionaObjetoCena(&planoChao);
     canvas.adicionaObjetoCena(&planoLateralDireita);
