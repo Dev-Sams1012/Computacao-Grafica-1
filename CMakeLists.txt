@@ -7,9 +7,10 @@ add_executable(main
         Classes/Utils/Ponto/Ponto.cpp
         Classes/Utils/Matriz/Matriz3x3.cpp
         Classes/Utils/Matriz/Matriz4x4.cpp
-        Classes/Utils/Janela/Canvas.cpp
+        Classes/Utils/Canvas/Canvas.cpp
         Classes/Utils/Janela/Janela.cpp
-        Classes/Utils/Janela/Luz.cpp
+        Classes/Utils/Luz/Luz.cpp
+        Classes/Utils/Camera/Camera.cpp
         Classes/Objetos/ObjetoAbstrato/Objeto.cpp
         Classes/Objetos/ObjetoComplexo/ObjetoComplexo.cpp
         Classes/Objetos/Cilindro/Cilindro.cpp
