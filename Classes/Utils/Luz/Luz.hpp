@@ -1,7 +1,7 @@
 #ifndef LUZ_HPP
 #define LUZ_HPP
 
-#include "Janela.hpp"
+#include "../Janela/Janela.hpp"
 #include "../Ponto/Ponto.hpp"
 
 struct Luz
