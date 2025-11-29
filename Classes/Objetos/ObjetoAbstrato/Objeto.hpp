@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../../Utils/Janela/Janela.hpp"
-#include "../../Utils/Janela/Luz.hpp"
+#include "../../Utils/Luz/Luz.hpp"
 #include "../../Utils/Ponto/Ponto.hpp"
 #include "../../Utils/Vetor/Vetor.hpp"
 #include "../../Utils/Matriz/Matriz3x3.hpp"
