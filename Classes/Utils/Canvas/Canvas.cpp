@@ -1,8 +1,8 @@
 #include "Canvas.hpp"
 
-Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Ponto origem)
+Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam)
 {
-    this->origem = origem;
+    this->camera = cam;
     this->janela = j;
     this->nLin = nlin;
     this->nCol = ncol;
@@ -18,6 +18,11 @@ void Canvas::adicionaObjetoCena(Objeto *obj)
 
 void Canvas::geraImagem(Luz luz, string nomeArquivo)
 {
+    Matriz4x4 View = camera->viewMatrix();
+
+    // Transformar a origem para coordenadas de câmera
+    Ponto origem_cam = View * camera->eye;
+
     for (size_t l = 0; l < nLin; l++)
     {
         for (size_t c = 0; c < nCol; c++)
@@ -27,43 +32,52 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
 
             Cor finalColor;
             float t_closest = -1.0f;
+            Objeto *obj_intersectado = nullptr;
 
-            Ponto canvas = Ponto(x, y, -janela.d);
+            // Transformar ponto do canvas para coordenadas de câmera
+            Ponto canvas_mundo = Ponto(x, y, -janela.d);
+            Ponto canvas_cam = View * canvas_mundo;
 
             for (Objeto *objeto : objetos)
             {
-                if (objeto->raioIntercepta(origem, canvas))
+                if (objeto->raioIntercepta(origem_cam, canvas_cam))
                 {
                     if (objeto->t_i > 0 && (t_closest < 0 || objeto->t_i < t_closest))
                     {
                         t_closest = objeto->t_i;
-
-                        Ponto P_I = ray(origem, objeto->Dr, objeto->t_i);
-
-                        if (objeto->temSombra(P_I, luz, objeto, objetos))
-                        {
-                            float fatorSombra = 0.35f;
-
-                            Cor kd;
-
-                            if (objeto->temTextura())
-                            {
-                                kd = objeto->texturaEm(P_I);
-                            }
-                            else
-                            {
-                                kd = objeto->K_d;
-                            }
-
-                            finalColor.r = kd.r * fatorSombra;
-                            finalColor.g = kd.g * fatorSombra;
-                            finalColor.b = kd.b * fatorSombra;
-                        }
-                        else
-                        {
-                            objeto->renderiza(finalColor, origem, luz.PF, luz.IF, luz.IA);
-                        }
+                        obj_intersectado = objeto;
                     }
+                }
+            }
+
+            // Se encontrou interseção, renderizar o objeto mais próximo
+            if (obj_intersectado != nullptr)
+            {
+                // Calcular direção do raio em coordenadas de câmera
+                Vetor dir = normalizar(canvas_cam - origem_cam);
+                Ponto P_I = ray(origem_cam, dir, obj_intersectado->t_i);
+
+                if (obj_intersectado->temSombra(P_I, luz, obj_intersectado, objetos))
+                {
+                    float fatorSombra = 0.35f;
+                    Cor kd;
+
+                    if (obj_intersectado->temTextura())
+                    {
+                        kd = obj_intersectado->texturaEm(P_I);
+                    }
+                    else
+                    {
+                        kd = obj_intersectado->K_d;
+                    }
+
+                    finalColor.r = kd.r * fatorSombra;
+                    finalColor.g = kd.g * fatorSombra;
+                    finalColor.b = kd.b * fatorSombra;
+                }
+                else
+                {
+                    obj_intersectado->renderiza(finalColor, origem_cam, luz.PF, luz.IF, luz.IA);
                 }
             }
 

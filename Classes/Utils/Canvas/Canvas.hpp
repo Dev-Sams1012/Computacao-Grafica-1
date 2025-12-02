@@ -10,13 +10,14 @@
 #include "../Luz/Luz.hpp"
 #include "../Ponto/Ponto.hpp"
 #include "../Vetor/Vetor.hpp"
+#include "../Camera/Camera.hpp"
 #include "../../Objetos/ObjetoAbstrato/Objeto.hpp"
 
 using namespace std;
 
 struct Canvas
 {
-    Ponto origem;
+    Camera* camera;
     Janela janela;
     size_t nCol;
     size_t nLin;
@@ -25,7 +26,7 @@ struct Canvas
     vector<vector<Cor>> imagem;
     vector<Objeto *> objetos;
 
-    Canvas(Janela j, size_t nlin, size_t ncol, Ponto origem = Ponto(0.0, 0.0, 0.0));
+    Canvas(Janela j, size_t nlin, size_t ncol, Camera* cam);
 
     void adicionaObjetoCena(Objeto *obj);
 
