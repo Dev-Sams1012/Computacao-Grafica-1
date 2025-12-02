@@ -14,11 +14,12 @@ struct Plano : public Objeto
     bool tem_textura;
     string arquivo_textura = "";
     unsigned char *textura = nullptr;
+    float escala_textura;
     int tex_largura, tex_altura, tex_componentes;
 
     Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M);
 
-    Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, int M);
+    Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M);
 
     bool temTextura() const override { return tem_textura; }
 

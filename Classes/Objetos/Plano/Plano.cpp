@@ -11,13 +11,14 @@ Plano::Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M)
     tem_textura = false;
 }
 
-Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, int M)
+Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M)
 {
     P_pi = Ppi;
     n_bar = normalizar(nbar);
     m = M;
     tem_textura = true;
     arquivo_textura = arquivoTextura;
+    escala_textura = escala_tex;
 
     textura = stbi_load(arquivoTextura.c_str(), &tex_largura, &tex_altura, &tex_componentes, 3);
 
@@ -42,9 +43,8 @@ Cor Plano::texturaEm(const Ponto &p) const
     float x = produtoEscalar(p - P_pi, u);
     float y = produtoEscalar(p - P_pi, v);
 
-    float escala = 0.2f;
-    float u_tex = fmod(x * escala, 1.0f);
-    float v_tex = fmod(y * escala, 1.0f);
+    float u_tex = fmod(x * escala_textura, 1.0f);
+    float v_tex = fmod(y * escala_textura, 1.0f);
 
     if (u_tex < 0)
         u_tex += 1;
