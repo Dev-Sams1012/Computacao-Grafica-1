@@ -4,13 +4,13 @@
 #include <vector>
 #include <cmath>
 
-#include "../Classes/utils/Janela/Janela.hpp"
-#include "../Classes/utils/Canvas/Canvas.hpp"
-#include "../Classes/utils/Camera/Camera.hpp"
-#include "../Classes/utils/Ponto/Ponto.hpp"
-#include "../Classes/utils/Vetor/Vetor.hpp"
-#include "../Classes/utils/Matriz/Matriz3x3.hpp"
-#include "../Classes/utils/Matriz/Matriz4x4.hpp"
+#include "../Classes/Utils/Janela/Janela.hpp"
+#include "../Classes/Utils/Canvas/Canvas.hpp"
+#include "../Classes/Utils/Camera/Camera.hpp"
+#include "../Classes/Utils/Ponto/Ponto.hpp"
+#include "../Classes/Utils/Vetor/Vetor.hpp"
+#include "../Classes/Utils/Matriz/Matriz3x3.hpp"
+#include "../Classes/Utils/Matriz/Matriz4x4.hpp"
 
 #include "../Classes/Objetos/Cilindro/Cilindro.hpp"
 #include "../Classes/Objetos/Malha/Malha.hpp"

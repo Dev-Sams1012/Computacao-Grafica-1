@@ -3,7 +3,7 @@
 
 #include "../../Classes/Objetos/ObjetoComplexo/ObjetoComplexo.hpp"
 #include "../../Classes/Objetos/Paralelepipedo/Paralelepipedo.hpp"
-#include "../../Classes/utils/Matriz/Matriz4x4.hpp"
+#include "../../Classes/Utils/Matriz/Matriz4x4.hpp"
 
 struct Portico : ObjetoComplexo
 {
