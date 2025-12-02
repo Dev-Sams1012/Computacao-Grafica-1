@@ -5,7 +5,8 @@
 #include <cmath>
 
 #include "../Classes/utils/Janela/Janela.hpp"
-#include "../Classes/utils/Janela/Canvas.hpp"
+#include "../Classes/utils/Canvas/Canvas.hpp"
+#include "../Classes/utils/Camera/Camera.hpp"
 #include "../Classes/utils/Ponto/Ponto.hpp"
 #include "../Classes/utils/Vetor/Vetor.hpp"
 #include "../Classes/utils/Matriz/Matriz3x3.hpp"
@@ -28,11 +29,9 @@ using namespace std;
 
 int main()
 {
-    /* origem do Observador */
     Ponto origem = Ponto(0.0f, 0.0f, 0.0f);
 
-    /* janela Real */
-    Janela janela = Janela(0.6f, 0.6f, 0.2f);
+    Janela janela = Janela(1.0f, 1.0f, 0.4f);
 
     size_t nCol = 600;
     size_t nLin = 600;
@@ -43,11 +42,19 @@ int main()
 
     Luz luz = Luz(P_F, I_F, I_A);
 
-    Canvas canvas = Canvas(janela, nLin, nCol, origem);
+    Ponto pos_cam = Ponto(0.0f, 0.0f, 0.0f);
+
+    Camera* camera = new Camera(pos_cam, Ponto(0.0f, 0.0f, -1.0f), Vetor(0.0f, 1.0f, 0.0f));
+
+    Canvas canvas = Canvas(janela, nLin, nCol, camera);
 
     string pisoMadeira = "../Assets/madel-piso-vinilico-click-madeir.png";
 
-    Plano planoChao = Plano(Ponto(0.0f, -2.0f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 10);
+    string ceu = "../Assets/textura-do-ceu_14223-97.png";
+    
+    Plano planoChao = Plano(Ponto(0.0f, -2.0f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 0.2f, 10);
+
+    Plano planoCeu = Plano(Ponto(-1000.0f, 0.0f, -50.0f), Vetor(0.0f, 0.0f, 1.0f), ceu, 0.01f, 1000);
 
     Mesa mesa = Mesa();
 
@@ -59,7 +66,8 @@ int main()
     canvas.adicionaObjetoCena(&galpao);
     canvas.adicionaObjetoCena(&mesa);
     canvas.adicionaObjetoCena(&arvore);
-
+    canvas.adicionaObjetoCena(&planoCeu);
+    
     canvas.geraImagem(luz, "Imagem_Com_ObjetosComplexos");
 
     return 0;
