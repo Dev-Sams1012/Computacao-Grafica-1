@@ -20,11 +20,9 @@ void Triangulo::atualizarNormal()
     normal = normalizar(produtoVetorial(v0, v1));
 }
 
-bool Triangulo::raioIntercepta(Ponto origem, Ponto canvas)
+bool Triangulo::raioIntercepta(const Ponto &origem, const Vetor &Dr)
 {
-    Vetor Dr_local = canvas - origem;
-
-    Dr = normalizar(Dr_local);
+    const float EPS = 1e-6f;
 
     Vetor v0 = p1 - p0;
     Vetor v1 = p2 - p0;
@@ -32,14 +30,11 @@ bool Triangulo::raioIntercepta(Ponto origem, Ponto canvas)
     Vetor n = produtoVetorial(v0, v1);
 
     float denom = produtoEscalar(Dr, n);
-
-    if (fabs(denom) < 1e-6)
+    if (fabs(denom) < EPS)
         return false;
 
-    Vetor w = p0 - origem;
-    float t = produtoEscalar(w, n) / denom;
-
-    if (t <= 0)
+    float t = produtoEscalar(p0 - origem, n) / denom;
+    if (t <= EPS)
         return false;
 
     Ponto P = ray(origem, Dr, t);
@@ -53,52 +48,17 @@ bool Triangulo::raioIntercepta(Ponto origem, Ponto canvas)
     float d21 = produtoEscalar(v2, v1);
 
     float denom_b = d00 * d11 - d01 * d01;
+    if (fabs(denom_b) < EPS)
+        return false;
 
     float u = (d11 * d20 - d01 * d21) / denom_b;
     float v = (d00 * d21 - d01 * d20) / denom_b;
 
-    if (u < 0 || v < 0 || (u + v) > 1)
+    if (u < 0.0f || v < 0.0f || (u + v) > 1.0f)
         return false;
 
     t_i = t;
     return true;
-}
-
-void Triangulo::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A)
-{
-    Ponto P_I = ray(origem, Dr, t_i);
-
-    Vetor v0 = p1 - p0;
-    Vetor v1 = p2 - p0;
-
-    Vetor n = normalizar(produtoVetorial(v0, v1));
-
-    Vetor l_vetor = normalizar(P_F - P_I);
-
-    Vetor v = -Dr;
-
-    float ln = produtoEscalar(l_vetor, n);
-
-    Vetor r = normalizar(Vetor(2 * ln * n.Cord_x - l_vetor.Cord_x, 2 * ln * n.Cord_y - l_vetor.Cord_y, 2 * ln * n.Cord_z - l_vetor.Cord_z));
-
-    Cor I_diff = operadorArroba(K_d, I_F);
-    float diff = max(0.0f, ln);
-    I_diff.r = I_diff.r * diff;
-    I_diff.g = I_diff.g * diff;
-    I_diff.b = I_diff.b * diff;
-
-    Cor I_espec = operadorArroba(K_e, I_F);
-    float vr = max(0.0f, produtoEscalar(v, r));
-    float espec = powf(vr, m);
-    I_espec.r = I_espec.r * espec;
-    I_espec.g = I_espec.g * espec;
-    I_espec.b = I_espec.b * espec;
-
-    Cor I_amb = operadorArroba(K_a, I_A);
-
-    finalColor.r = min(1.0f, I_diff.r + I_espec.r + I_amb.r);
-    finalColor.g = min(1.0f, I_diff.g + I_espec.g + I_amb.g);
-    finalColor.b = min(1.0f, I_diff.b + I_espec.b + I_amb.b);
 }
 
 void Triangulo::transforma(const Matriz4x4 &M)
@@ -108,4 +68,9 @@ void Triangulo::transforma(const Matriz4x4 &M)
     p2 = M * p2;
 
     atualizarNormal();
+}
+
+Vetor Triangulo::normalEm(const Ponto &P) const
+{
+    return normal;
 }
