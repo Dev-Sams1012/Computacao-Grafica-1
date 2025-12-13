@@ -25,10 +25,13 @@ struct Canvas
     float Dy;
     vector<vector<Cor>> imagem;
     vector<Objeto *> objetos;
+    vector<Luz*> luzes;
 
     Canvas(Janela j, size_t nlin, size_t ncol, Camera* cam);
 
     void adicionaObjetoCena(Objeto *obj);
+
+    void adicionaLuz(Luz *luz);
 
     void geraImagem(Luz luz, string nomeArquivo);
 };

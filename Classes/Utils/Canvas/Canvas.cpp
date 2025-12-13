@@ -16,11 +16,15 @@ void Canvas::adicionaObjetoCena(Objeto *obj)
     objetos.push_back(obj);
 }
 
+void Canvas::adicionaLuz(Luz *luz)
+{
+    luzes.push_back(luz);
+}
+
 void Canvas::geraImagem(Luz luz, string nomeArquivo)
 {
     Matriz4x4 View = camera->viewMatrix();
 
-    // Transformar a origem para coordenadas de câmera
     Ponto origem_cam = View * camera->eye;
 
     for (size_t l = 0; l < nLin; l++)
@@ -34,13 +38,13 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
             float t_closest = -1.0f;
             Objeto *obj_intersectado = nullptr;
 
-            // Transformar ponto do canvas para coordenadas de câmera
             Ponto canvas_mundo = Ponto(x, y, -janela.d);
             Ponto canvas_cam = View * canvas_mundo;
+            Vetor Dr = normalizar(canvas_cam - origem_cam);
 
             for (Objeto *objeto : objetos)
             {
-                if (objeto->raioIntercepta(origem_cam, canvas_cam))
+                if (objeto->raioIntercepta(origem_cam, Dr))
                 {
                     if (objeto->t_i > 0 && (t_closest < 0 || objeto->t_i < t_closest))
                     {
@@ -50,10 +54,8 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
                 }
             }
 
-            // Se encontrou interseção, renderizar o objeto mais próximo
             if (obj_intersectado != nullptr)
             {
-                // Calcular direção do raio em coordenadas de câmera
                 Vetor dir = normalizar(canvas_cam - origem_cam);
                 Ponto P_I = ray(origem_cam, dir, obj_intersectado->t_i);
 
@@ -77,7 +79,7 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
                 }
                 else
                 {
-                    obj_intersectado->renderiza(finalColor, origem_cam, luz.PF, luz.IF, luz.IA);
+                    obj_intersectado->renderiza(finalColor, origem_cam, Dr, luz.PF, luz.IF, luz.IA);
                 }
             }
 
@@ -85,7 +87,6 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
         }
     }
 
-    /* "conversão" da matriz 2d para uma imagem ppm */
     ofstream arquivo(nomeArquivo + ".ppm");
     arquivo << "P3\n"
             << nCol << " " << nLin << "\n255\n";
