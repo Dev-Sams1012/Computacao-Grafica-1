@@ -16,9 +16,9 @@ struct Cilindro : public Objeto
 
     Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor);
 
-    bool raioIntercepta(Ponto origem, Ponto canvas) override;
+    bool raioIntercepta(const Ponto &origem, const Vetor &Dr) override;
 
-    void renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A) override;
+    Vetor normalEm(const Ponto &P) const override;
 
     void transforma(const Matriz4x4 &M) override;
 };
