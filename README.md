@@ -6,6 +6,38 @@ Todos os trabalhos foram desenvolvidos em **C++** e envolvem tópicos de renderi
 
 ## Estrutura do repositório
 
+```bash
+├───Assets
+├───Atividade01
+├───Atividade02
+├───Atividade03
+├───Atividade04
+├───Atividade05
+├───Atividade06
+├───BibliotecasExternas
+├───Classes
+│   ├───Objetos
+│   │   ├───Cilindro
+│   │   ├───Cone
+│   │   ├───Cubo
+│   │   ├───Esfera
+│   │   ├───Malha
+│   │   ├───ObjetoAbstrato
+│   │   ├───ObjetoComplexo
+│   │   ├───Paralelepipedo
+│   │   ├───Plano
+│   │   └───Triangulo
+│   └───Utils
+│       ├───Camera
+│       ├───Canvas
+│       ├───Janela
+│       ├───Luz
+│       ├───Matriz
+│       ├───Ponto
+│       └───Vetor
+└───TrabalhoFinal
+```
+
 - **Classes**: Implementações de objetos geométricos, malhas, câmeras, luzes e utilitários.
 - **Atividades**: Exemplos e exercícios realizados ao longo do semestre.
 - **Assets**: Texturas, imagens e outros arquivos auxiliares utilizados nos projetos.
