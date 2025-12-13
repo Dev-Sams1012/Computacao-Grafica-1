@@ -62,12 +62,8 @@ Cor Plano::texturaEm(const Ponto &p) const
         textura[idx + 2] / 255.0f);
 }
 
-bool Plano::raioIntercepta(Ponto origem, Ponto canvas)
+bool Plano::raioIntercepta(const Ponto &origem, const Vetor &Dr)
 {
-    Vetor Dr_local = canvas - origem;
-
-    Dr = normalizar(Dr_local);
-
     float denom = produtoEscalar(Dr, n_bar);
     if (fabs(denom) > 0)
     {
@@ -84,54 +80,6 @@ bool Plano::raioIntercepta(Ponto origem, Ponto canvas)
     return false;
 }
 
-void Plano::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A)
-{
-    Ponto P_I = ray(origem, Dr, t_i);
-
-    Vetor n = n_bar;
-
-    Vetor l_vetor = normalizar(P_F - P_I);
-
-    Vetor v = -Dr;
-
-    float ln = produtoEscalar(l_vetor, n);
-
-    Vetor r = normalizar(Vetor(2 * ln * n.Cord_x - l_vetor.Cord_x, 2 * ln * n.Cord_y - l_vetor.Cord_y, 2 * ln * n.Cord_z - l_vetor.Cord_z));
-
-    Cor k_d_final, k_e_final, k_a_final;
-    if (tem_textura)
-    {
-        k_d_final = texturaEm(P_I);
-        k_e_final = k_d_final;
-        k_a_final = k_d_final;
-    }
-    else
-    {
-        k_d_final = K_d;
-        k_e_final = K_e;
-        k_a_final = K_a;
-    }
-
-    Cor I_diff = operadorArroba(k_d_final, I_F);
-    float diff = max(0.0f, ln);
-    I_diff.r = I_diff.r * diff;
-    I_diff.g = I_diff.g * diff;
-    I_diff.b = I_diff.b * diff;
-
-    Cor I_espec = operadorArroba(k_e_final, I_F);
-    float vr = max(0.0f, produtoEscalar(v, r));
-    float espec = powf(vr, m);
-    I_espec.r = I_espec.r * espec;
-    I_espec.g = I_espec.g * espec;
-    I_espec.b = I_espec.b * espec;
-
-    Cor I_amb = operadorArroba(k_a_final, I_A);
-
-    finalColor.r = min(1.0f, I_diff.r + I_espec.r + I_amb.r);
-    finalColor.g = min(1.0f, I_diff.g + I_espec.g + I_amb.g);
-    finalColor.b = min(1.0f, I_diff.b + I_espec.b + I_amb.b);
-}
-
 void Plano::transforma(const Matriz4x4 &M)
 {
     P_pi = M * P_pi;
@@ -140,4 +88,9 @@ void Plano::transforma(const Matriz4x4 &M)
     n_bar = transp * n_bar;
 
     n_bar = normalizar(n_bar);
+}
+
+Vetor Plano::normalEm(const Ponto &P) const
+{
+    return normalizar(n_bar);
 }
