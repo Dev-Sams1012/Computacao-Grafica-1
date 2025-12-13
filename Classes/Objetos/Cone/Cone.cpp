@@ -16,11 +16,8 @@ Cone::Cone(Ponto Cb, float Rb, float H, Vetor dr, bool temBase, Cor Kd, Cor Ke, 
     M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
 }
 
-bool Cone::raioIntercepta(Ponto origem, Ponto canvas)
+bool Cone::raioIntercepta(const Ponto &origem, const Vetor &Dr)
 {
-    Vetor Dr_local = canvas - origem;
-    Dr = normalizar(Dr_local);
-
     Vetor w = origem - Centro_base;
 
     Vetor M_dr = M_Matrix * Dr;
@@ -94,42 +91,13 @@ bool Cone::raioIntercepta(Ponto origem, Ponto canvas)
     return false;
 }
 
-void Cone::renderiza(Cor &finalColor, Ponto origem, Ponto P_F, Cor I_F, Cor I_A)
-{
-    Ponto P_I = ray(origem, Dr, t_i);
-
-    Vetor n = -normalizar(P_I - Vertice_topo);
-
-    Vetor l_vetor = normalizar(P_F - P_I);
-
-    Vetor v = -Dr;
-
-    float ln = produtoEscalar(l_vetor, n);
-
-    Vetor r = normalizar(Vetor(2 * ln * n.Cord_x - l_vetor.Cord_x, 2 * ln * n.Cord_y - l_vetor.Cord_y, 2 * ln * n.Cord_z - l_vetor.Cord_z));
-
-    Cor I_diff = operadorArroba(K_d, I_F);
-    float diff = max(0.0f, ln);
-    I_diff.r = I_diff.r * diff;
-    I_diff.g = I_diff.g * diff;
-    I_diff.b = I_diff.b * diff;
-
-    Cor I_espec = operadorArroba(K_e, I_F);
-    float vr = max(0.0f, produtoEscalar(v, r));
-    float espec = powf(vr, m);
-    I_espec.r = I_espec.r * espec;
-    I_espec.g = I_espec.g * espec;
-    I_espec.b = I_espec.b * espec;
-
-    Cor I_amb = operadorArroba(K_a, I_A);
-
-    finalColor.r = min(1.0f, I_diff.r + I_espec.r + I_amb.r);
-    finalColor.g = min(1.0f, I_diff.g + I_espec.g + I_amb.g);
-    finalColor.b = min(1.0f, I_diff.b + I_espec.b + I_amb.b);
-}
-
 void Cone::transforma(const Matriz4x4 &M)
 {
     Centro_base = M * Centro_base;
     Eixo = normalizar(M * Eixo);
+}
+
+Vetor Cone::normalEm(const Ponto &P) const
+{
+    return -normalizar(P - Vertice_topo);
 }
