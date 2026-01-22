@@ -1,9 +1,9 @@
 #include "Malha.hpp"
 
-Malha::Malha(vector<Ponto> vertices, vector<Triangulo> faces)
+Malha::Malha(vector<Ponto> v, vector<Triangulo> f, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, Ke, Ka, M)
 {
-    this->vertices = vertices;
-    this->faces = faces;
+    vertices = v;
+    faces = f;
 }
 
 bool Malha::raioIntercepta(const Ponto &origem, const Vetor &Dr)

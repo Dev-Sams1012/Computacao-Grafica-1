@@ -10,9 +10,7 @@ struct Malha : Objeto
     vector<Triangulo> faces;
     Vetor normal;
 
-    Malha(vector<Ponto> vertices, vector<Triangulo> faces);
-
-    Malha() = default;
+    Malha(vector<Ponto> v, vector<Triangulo> f, Cor Kd, Cor Ke, Cor Ka, int M);
 
     bool raioIntercepta(const Ponto &origem, const Vetor &Dr) override;
 
