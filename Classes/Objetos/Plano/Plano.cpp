@@ -26,14 +26,15 @@ Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int
 
 Cor Plano::texturaEm(const Ponto &p) const
 {
-    Vetor aux;
-    if (fabs(n_bar.Cord_x) > 0.9)
-        aux = Vetor(0, 1, 0);
-    else
-        aux = Vetor(1, 0, 0);
+    Vetor u;
+    Vetor v;
 
-    Vetor u = normalizar(produtoVetorial(n_bar, aux));
-    Vetor v = normalizar(produtoVetorial(n_bar, u));
+    if (fabs(n_bar.Cord_y) > 0.9) {
+        u = Vetor(1, 0, 0); 
+    } else {
+        u = normalizar(produtoVetorial(Vetor(0, 1, 0), n_bar));
+    }
+    v = produtoVetorial(n_bar, u);
 
     float x = produtoEscalar(p - P_pi, u);
     float y = produtoEscalar(p - P_pi, v);
