@@ -1,5 +1,7 @@
 #include "ObjetoComplexo.hpp"
 
+ObjetoComplexo::ObjetoComplexo() : Objeto(Cor(0,0,0), Cor(0,0,0), Cor(0,0,0), 1) {}
+
 void ObjetoComplexo::adicionarComponente(Objeto *obj)
 {
     componentes.push_back(obj);
@@ -46,14 +48,7 @@ Vetor ObjetoComplexo::normalEm(const Ponto &P) const
     return componenteQueAcertou->normalEm(P);
 }
 
-void ObjetoComplexo::renderiza(
-    Cor &finalColor,
-    const Ponto &origem,
-    const Vetor &Dr,
-    const Ponto &P_F,
-    Cor I_F,
-    Cor I_A
-) const
+void ObjetoComplexo::renderiza( Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Luz &luz) const
 {
     if (!componenteQueAcertou)
     {
@@ -61,14 +56,7 @@ void ObjetoComplexo::renderiza(
         return;
     }
 
-    componenteQueAcertou->renderiza(
-        finalColor,
-        origem,
-        Dr,
-        P_F,
-        I_F,
-        I_A
-    );
+    componenteQueAcertou->renderiza(finalColor, origem, Dr, luz);
 }
 
 bool ObjetoComplexo::pertenceA(const Objeto* obj) const

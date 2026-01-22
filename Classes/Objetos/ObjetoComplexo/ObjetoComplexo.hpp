@@ -9,11 +9,13 @@ struct ObjetoComplexo : Objeto
     vector<Objeto *> componentes;
     Objeto *componenteQueAcertou = nullptr;
 
+    ObjetoComplexo();
+
     void adicionarComponente(Objeto *obj);
 
     bool raioIntercepta(const Ponto &origem, const Vetor &Dr) override;
 
-    void renderiza(Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Ponto &P_F, Cor I_F, Cor I_A) const override;
+    void renderiza(Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Luz &luz) const override;
 
     virtual Vetor normalEm(const Ponto &P) const override;
 
