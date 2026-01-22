@@ -1,13 +1,17 @@
 #include "Canvas.hpp"
 
-Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam)
+Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia)
 {
     this->camera = cam;
     this->janela = j;
+
     this->nLin = nlin;
     this->nCol = ncol;
     Dx = janela.w / float(nCol);
     Dy = janela.h / float(nLin);
+
+    this->Iamb = Ia;
+
     imagem = vector<vector<Cor>>(nLin, vector<Cor>(nCol));
 }
 
@@ -21,7 +25,7 @@ void Canvas::adicionaLuz(Luz *luz)
     luzes.push_back(luz);
 }
 
-void Canvas::geraImagem(Luz luz, string nomeArquivo)
+void Canvas::geraImagem(string nomeArquivo)
 {
     Matriz4x4 View = camera->viewMatrix();
 
@@ -34,7 +38,7 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
             float x = -janela.w / 2. + Dx / 2 + float(c) * Dx;
             float y = janela.h / 2. - Dy / 2 - float(l) * Dy;
 
-            Cor finalColor;
+            Cor finalColor = Cor(0.0f, 0.0f, 0.0f);
             float t_closest = -1.0f;
             Objeto *obj_intersectado = nullptr;
 
@@ -58,29 +62,29 @@ void Canvas::geraImagem(Luz luz, string nomeArquivo)
             {
                 Vetor dir = normalizar(canvas_cam - origem_cam);
                 Ponto P_I = ray(origem_cam, dir, obj_intersectado->t_i);
+                
+                Cor ka = obj_intersectado->K_a; 
+                finalColor = operadorArroba(ka, Iamb);
 
-                if (obj_intersectado->temSombra(P_I, luz, obj_intersectado, objetos))
+                for (Luz *luz : luzes)
                 {
-                    float fatorSombra = 0.35f;
-                    Cor kd;
-
-                    if (obj_intersectado->temTextura())
+                    if (luz->iluminaPonto(P_I))
                     {
-                        kd = obj_intersectado->texturaEm(P_I);
+                        if (!obj_intersectado->temSombra(P_I, *luz, obj_intersectado, objetos))
+                        {
+                            Cor contrib;
+                            obj_intersectado->renderiza(contrib, origem_cam, dir, *luz);
+                            
+                            finalColor.r += contrib.r;
+                            finalColor.g += contrib.g;
+                            finalColor.b += contrib.b;
+                        }
                     }
-                    else
-                    {
-                        kd = obj_intersectado->K_d;
-                    }
+                }
 
-                    finalColor.r = kd.r * fatorSombra;
-                    finalColor.g = kd.g * fatorSombra;
-                    finalColor.b = kd.b * fatorSombra;
-                }
-                else
-                {
-                    obj_intersectado->renderiza(finalColor, origem_cam, Dr, luz.PF, luz.IF, luz.IA);
-                }
+                finalColor.r = min(1.0f, finalColor.r);
+                finalColor.g = min(1.0f, finalColor.g);
+                finalColor.b = min(1.0f, finalColor.b);
             }
 
             imagem[l][c] = finalColor;
