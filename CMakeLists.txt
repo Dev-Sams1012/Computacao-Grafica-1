@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(main)
 add_executable(main
-        "Atividade06/main.cpp"
+        "Atividade07 ( TrabalhoFinal )/main.cpp"
         Classes/Utils/Vetor/Vetor.cpp
         Classes/Utils/Ponto/Ponto.cpp
         Classes/Utils/Matriz/Matriz3x3.cpp
