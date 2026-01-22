@@ -1,16 +1,12 @@
 #include "Cone.hpp"
 
-Cone::Cone(Ponto Cb, float Rb, float H, Vetor dr, bool temBase, Cor Kd, Cor Ke, Cor Ka, int M)
+Cone::Cone(Ponto Cb, float Rb, float H, Vetor dr, bool temBase, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, Ke, Ka, M)
 {
     Centro_base = Cb;
     Raio_base = Rb;
     Altura = H;
     Eixo = normalizar(dr);
     TemBase = temBase;
-    K_d = Kd;
-    K_e = Ke;
-    K_a = Ka;
-    m = M;
     Vertice_topo = ray(Centro_base, Eixo, Altura);
     Q_Matrix = (Eixo * Eixo) * (1.0f / produtoEscalar(Eixo, Eixo));
     M_Matrix = Matriz3x3(1.0f) - Q_Matrix;

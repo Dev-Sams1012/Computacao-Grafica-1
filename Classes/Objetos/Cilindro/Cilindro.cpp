@@ -1,15 +1,11 @@
 #include "Cilindro.hpp"
 
-Cilindro::Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor)
+Cilindro::Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor) : Objeto(Kd, Ke, Ka, m_cor)
 {
     Centro_base = Cb;
     Raio_base = Rb;
     Altura = H;
     Eixo = normalizar(dr);
-    K_d = Kd;
-    K_e = Ke;
-    K_a = Ka;
-    m = m_cor;
     temBaseInferior = TemBaseInf;
     temBaseSuperior = TemBaseSup;
     Q_Matrix = (Eixo * Eixo) * (1.0f / produtoEscalar(Eixo, Eixo));

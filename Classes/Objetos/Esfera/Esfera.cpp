@@ -1,13 +1,9 @@
 #include "Esfera.hpp"
 
-Esfera::Esfera(Ponto c, float r, Cor Kd, Cor Ke, Cor Ka, int M)
+Esfera::Esfera(Ponto c, float r, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, Ke, Ka, M)
 {
     centro = c;
     raio = r;
-    K_d = Kd;
-    K_e = Ke;
-    K_a = Ka;
-    m = M;
 }
 
 bool Esfera::raioIntercepta(const Ponto &origem, const Vetor &Dr)

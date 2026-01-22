@@ -1,21 +1,16 @@
 #include "Plano.hpp"
 
-Plano::Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M)
+Plano::Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, Ke, Ka, M)
 {
     P_pi = Ppi;
-    n_bar = normalizar(nbar);
-    K_d = Kd;
-    K_e = Ke;
-    K_a = Ka;
-    m = M;
+    n_bar = normalizar(nbar); 
     tem_textura = false;
 }
 
-Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M)
+Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M) : Objeto(Cor(0,0,0), Cor(0,0,0), Cor(0,0,0), M)
 {
     P_pi = Ppi;
-    n_bar = normalizar(nbar);
-    m = M;
+    n_bar = normalizar(nbar); 
     tem_textura = true;
     arquivo_textura = arquivoTextura;
     escala_textura = escala_tex;

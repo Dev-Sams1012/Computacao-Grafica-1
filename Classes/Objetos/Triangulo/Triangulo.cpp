@@ -1,15 +1,10 @@
 #include "Triangulo.hpp"
 
-Triangulo::Triangulo(Ponto p1, Ponto p2, Ponto p0, Cor Kd, Cor Ke, Cor Ka, int M)
+Triangulo::Triangulo(Ponto p1, Ponto p2, Ponto p0, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, Ke, Ka, M)
 {
     this->p0 = p0;
-    this->p1 = p1;
+    this->p1 = p1; 
     this->p2 = p2;
-    this->K_d = Kd;
-    this->K_e = Ke;
-    this->K_a = Ka;
-    this->m = M;
-
     atualizarNormal();
 }
 
