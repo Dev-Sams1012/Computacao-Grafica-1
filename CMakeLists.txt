@@ -10,7 +10,9 @@ add_executable(main
         Classes/Utils/Quaternio/Quaternio.cpp
         Classes/Utils/Canvas/Canvas.cpp
         Classes/Utils/Janela/Janela.cpp
-        Classes/Utils/Luz/Luz.cpp
+        Classes/Utils/Luz/LuzDirecional/LuzDirecional.cpp
+        Classes/Utils/Luz/LuzPontual/LuzPontual.cpp
+        Classes/Utils/Luz/LuzSpot/LuzSpot.cpp
         Classes/Utils/Camera/Camera.cpp
         Classes/Objetos/ObjetoAbstrato/Objeto.cpp
         Classes/Objetos/ObjetoComplexo/ObjetoComplexo.cpp
