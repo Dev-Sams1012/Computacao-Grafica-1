@@ -1,13 +1,13 @@
 #ifndef LUZDIRECIONAL_HPP
 #define LUZDIRECIONAL_HPP
 
-#include "Luz.hpp"
+#include "../Luz.hpp"
 
 struct LuzDirecional : Luz
 {
     Vetor direcao;
 
-    LuzDirecional(const Vetor &d, const Cor &IF) : Luz(IF), direcao(normalizar(d)) {};
+    LuzDirecional(const Vetor &d, const Cor &IF);
 
     Vetor direcaoNoPonto(const Ponto &P) const override;
 

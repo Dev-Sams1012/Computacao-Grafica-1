@@ -1,7 +1,7 @@
 #ifndef LUZSPOT_HPP
 #define LUZSPOT_HPP
 
-#include "Luz.hpp"
+#include "../Luz.hpp"
 
 struct LuzSpot : Luz
 {
@@ -9,7 +9,7 @@ struct LuzSpot : Luz
     Vetor direcao;
     float angulo;
 
-    LuzSpot(const Ponto &PF, const Vetor &d, float ang, const Cor &IF) : Luz(IF), PF(PF), direcao(normalizar(d)), angulo(ang) {};
+    LuzSpot(const Ponto &PF, const Vetor &d, float ang, const Cor &IF);
 
     Vetor direcaoNoPonto(const Ponto &P) const override;
 
