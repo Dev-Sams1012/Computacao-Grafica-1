@@ -18,10 +18,12 @@ struct Objeto
     int m;
     float t_i;
 
+    Objeto(const Cor &Kd, const Cor &Ke, const Cor &Ka, int m) : K_d(Kd), K_e(Ke), K_a(Ka), m(m), t_i(INFINITY) {}
+
     virtual bool raioIntercepta(const Ponto &origem, const Vetor &Dr) = 0;
     virtual Vetor normalEm(const Ponto &P) const = 0;
 
-    virtual void renderiza(Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Ponto &P_F, Cor I_F, Cor I_A) const;
+    virtual void renderiza(Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Luz &luz) const;
     bool temSombra(const Ponto &P_I, const Luz &luz, Objeto *objeto_atual, const vector<Objeto *> &objetos);
     virtual bool pertenceA(const Objeto *obj) const { return this == obj; }
 
