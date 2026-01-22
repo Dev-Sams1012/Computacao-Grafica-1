@@ -8,6 +8,9 @@
 #include "../Classes/utils/Canvas/Canvas.hpp"
 #include "../Classes/utils/Ponto/Ponto.hpp"
 #include "../Classes/utils/Vetor/Vetor.hpp"
+#include "../Classes/Utils/Luz/LuzPontual/LuzPontual.hpp"
+#include "../Classes/Utils/Luz/LuzSpot/LuzSpot.hpp"
+#include "../Classes/Utils/Luz/LuzDirecional/LuzDirecional.hpp"
 #include "../Classes/utils/Matriz/Matriz3x3.hpp"
 #include "../Classes/utils/Matriz/Matriz4x4.hpp"
 
@@ -34,13 +37,13 @@ int main()
     Ponto P_F = Ponto(-1.0f, 1.4f, -0.2f);
     Cor I_A = Cor(0.3f, 0.3f, 0.3f);
 
-    Luz luz = Luz(P_F, I_F, I_A);
+    LuzPontual luz = LuzPontual(P_F, I_F);
 
     Ponto pos_cam = Ponto(0.0f, 0.0f, 0.0f);
 
     Camera* camera = new Camera(pos_cam, Ponto(0.0f, 0.0f, -1.0f), Vetor(0.0f, 1.0f, 0.0f));
 
-    Canvas canvas = Canvas(janela, nLin, nCol, camera);
+    Canvas canvas = Canvas(janela, nLin, nCol, camera, I_A);
 
     string pisoMadeira = "../Assets/madel-piso-vinilico-click-madeir.png";
 
@@ -88,7 +91,9 @@ int main()
     canvas.adicionaObjetoCena(&esfera);
     canvas.adicionaObjetoCena(&cubo);
 
-    canvas.geraImagem(luz, "Imagem_Com_Malha");
+    canvas.adicionaLuz(&luz);
+
+    canvas.geraImagem("Imagem_Com_Malha");
 
     return 0;
 }
