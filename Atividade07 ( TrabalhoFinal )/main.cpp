@@ -33,6 +33,8 @@ int main(int argc, char **argv)
 
     Janela janela = Janela(1.0f, 1.0f, 0.4f);
 
+    string titulo = "Trabalho Final - Computacao Grafica 1";
+
     size_t nCol = 600;
     size_t nLin = 600;
 
@@ -47,7 +49,7 @@ int main(int argc, char **argv)
 
     Camera *camera = new Camera(pos_cam, Ponto(0.0f, 1.7f, -1.0f), Vetor(0.0f, 1.0f, 0.0f));
 
-    Canvas *canvas = new Canvas(janela, nLin, nCol, camera, I_A);
+    Canvas *canvas = new Canvas(titulo, janela, nLin, nCol, camera, I_A);
 
     string pisoGrama = "../Assets/textura_grama.png";
 
@@ -65,7 +67,7 @@ int main(int argc, char **argv)
     //canvas->adicionaLuz(&luz);
     canvas->adicionaLuz(&sol);
 
-    canvas->geraImagem("Imagem_Trabalho_Final");
+    canvas->geraImagem();
 
     Interface::inicializar(argc, argv, nCol, nLin, canvas, "Trabalho Final - Computacao Grafica 1");
 
