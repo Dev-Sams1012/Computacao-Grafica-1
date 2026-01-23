@@ -130,13 +130,13 @@ void Interface::keyboard(unsigned char key, int, int)
     }
     else if (key == 'z' || key == 'Z')
     {
-        canvasReferencia->camera->roll(-0.05f);
+        canvasReferencia->camera->roll(0.05f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
     else if (key == 'c' || key == 'C')
     {
-        canvasReferencia->camera->roll(0.05f);
+        canvasReferencia->camera->roll(-0.05f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
