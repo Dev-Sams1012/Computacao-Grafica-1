@@ -6,28 +6,31 @@ Camera::Camera(Ponto eye, Ponto lookAt, Vetor upGuide)
 
     forward = normalizar(lookAt - eye);        
     right   = normalizar(produtoVetorial(forward, upGuide));
-    up      = produtoVetorial(right, forward);  
+    up      = produtoVetorial(right, forward);
+
+    d = 1.0f;
+    xmin = -1.0f;
+    xmax =  1.0f;
+    ymin = -1.0f;
+    ymax =  1.0f;
+
+    tipo = PERSPECTIVA;
 }
 
-Matriz4x4 Camera::viewMatrix() const
+void Camera::zoomIn(float fator)
 {
-    Matriz4x4 M(1.0f);
+    if (fator <= 0.0f) return;
+    
+    xmin /= fator;
+    xmax /= fator;
+    ymin /= fator;
+    ymax /= fator;
+}
 
-    M.m[0][0] = right.Cord_x;
-    M.m[0][1] = right.Cord_y;
-    M.m[0][2] = right.Cord_z;
-
-    M.m[1][0] = up.Cord_x;
-    M.m[1][1] = up.Cord_y;
-    M.m[1][2] = up.Cord_z;
-
-    M.m[2][0] = -forward.Cord_x;
-    M.m[2][1] = -forward.Cord_y;
-    M.m[2][2] = -forward.Cord_z;
-
-    M.m[0][3] = -produtoEscalar(right,   eye - Ponto(0.0f,0.0f,0.0f));
-    M.m[1][3] = -produtoEscalar(up,      eye - Ponto(0.0f,0.0f,0.0f));
-    M.m[2][3] =  produtoEscalar(forward, eye - Ponto(0.0f,0.0f,0.0f));
-
-    return M;
+void Camera::zoomOut(float fator)
+{
+    xmin *= fator;
+    xmax *= fator;
+    ymin *= fator;
+    ymax *= fator;
 }
