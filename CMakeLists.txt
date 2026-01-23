@@ -19,6 +19,7 @@ add_executable(main
         Classes/Utils/Luz/LuzPontual/LuzPontual.cpp
         Classes/Utils/Luz/LuzSpot/LuzSpot.cpp
         Classes/Utils/Camera/Camera.cpp
+        Classes/Utils/InterfaceGrafica/interface.cpp
         Classes/Objetos/ObjetoAbstrato/Objeto.cpp
         Classes/Objetos/ObjetoComplexo/ObjetoComplexo.cpp
         Classes/Objetos/Cilindro/Cilindro.cpp
