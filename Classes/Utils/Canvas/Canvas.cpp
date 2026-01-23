@@ -27,9 +27,7 @@ void Canvas::adicionaLuz(Luz *luz)
 
 void Canvas::geraImagem(string nomeArquivo)
 {
-    Matriz4x4 View = camera->viewMatrix();
-
-    Ponto origem_cam = View * camera->eye;
+    Ponto origem_mundo = camera->eye;
 
     for (size_t l = 0; l < nLin; l++)
     {
@@ -42,13 +40,16 @@ void Canvas::geraImagem(string nomeArquivo)
             float t_closest = -1.0f;
             Objeto *obj_intersectado = nullptr;
 
-            Ponto canvas_mundo = Ponto(x, y, -janela.d);
-            Ponto canvas_cam = View * canvas_mundo;
-            Vetor Dr = normalizar(canvas_cam - origem_cam);
+            Ponto pixel_cam = Ponto(x, y, -janela.d);
+            Vetor Dr_cam = normalizar(pixel_cam - Ponto(0, 0, 0));
+
+            Vetor Dr_mundo = Dr_cam.Cord_x * camera->right + Dr_cam.Cord_y * camera->up + Dr_cam.Cord_z * (-camera->forward);
+
+            Dr_mundo = normalizar(Dr_mundo);
 
             for (Objeto *objeto : objetos)
             {
-                if (objeto->raioIntercepta(origem_cam, Dr))
+                if (objeto->raioIntercepta(origem_mundo, Dr_mundo))
                 {
                     if (objeto->t_i > 0 && (t_closest < 0 || objeto->t_i < t_closest))
                     {
@@ -60,8 +61,7 @@ void Canvas::geraImagem(string nomeArquivo)
 
             if (obj_intersectado != nullptr)
             {
-                Vetor dir = normalizar(canvas_cam - origem_cam);
-                Ponto P_I = ray(origem_cam, dir, obj_intersectado->t_i);
+                Ponto P_I = ray(origem_mundo, Dr_mundo, obj_intersectado->t_i);
 
                 Cor ka = obj_intersectado->K_a;
                 finalColor = operadorArroba(ka, Iamb);
@@ -73,7 +73,7 @@ void Canvas::geraImagem(string nomeArquivo)
                         if (!obj_intersectado->temSombra(P_I, *luz, obj_intersectado, objetos))
                         {
                             Cor contrib;
-                            obj_intersectado->renderiza(contrib, origem_cam, dir, *luz);
+                            obj_intersectado->renderiza(contrib, origem_mundo, Dr_mundo, *luz);
 
                             finalColor.r += contrib.r;
                             finalColor.g += contrib.g;
