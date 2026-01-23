@@ -21,6 +21,8 @@ void Interface::inicializar(int argc, char **argv, int w, int h, Canvas *canvas,
 
     glutKeyboardFunc(Interface::keyboard);
 
+    glutSpecialFunc(Interface::special);
+
     Interface::criarMenu();
 }
 
@@ -81,15 +83,91 @@ void Interface::keyboard(unsigned char key, int, int)
     }
     else if (key == '-')
     {
+        canvasReferencia->camera->zoomOut(1.2f);
         canvasReferencia->geraImagem();
+        glutPostRedisplay();
     }
     else if (key == 'r' || key == 'R')
     {
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
-    else if (key == 'q' || key == 'Q' || key == 27)
+    else if (key == 'w' || key == 'W')
+    {
+        canvasReferencia->camera->andaZ(0.5f);
+        canvasReferencia->geraImagem();
+        glutPostRedisplay();
+    }
+    else if (key == 's' || key == 'S')
+    {
+        canvasReferencia->camera->andaZ(-0.5f);
+        canvasReferencia->geraImagem();
+        glutPostRedisplay();
+    }
+    else if (key == 'a' || key == 'A')
+    {
+        canvasReferencia->camera->andaX(-0.5f);
+        canvasReferencia->geraImagem();
+        glutPostRedisplay();
+    }
+    else if (key == 'd' || key == 'D')
+    {
+        canvasReferencia->camera->andaX(0.5f);
+        canvasReferencia->geraImagem();
+        glutPostRedisplay();
+    }
+    else if (key == 'q' || key == 'Q')
+    {
+        canvasReferencia->camera->andaY(-0.5f);
+        canvasReferencia->geraImagem();
+        glutPostRedisplay();
+    }
+    else if (key == 'e' || key == 'E')
+    {
+        canvasReferencia->camera->andaY(0.5f);
+        canvasReferencia->geraImagem();
+        glutPostRedisplay();
+    }
+    else if (key == 'z' || key == 'Z')
+    {
+        canvasReferencia->camera->roll(-0.05f);
+        canvasReferencia->geraImagem();
+        glutPostRedisplay();
+    }
+    else if (key == 'c' || key == 'C')
+    {
+        canvasReferencia->camera->roll(0.05f);
+        canvasReferencia->geraImagem();
+        glutPostRedisplay();
+    }
+    else if (key == 27)
         exit(0);
+}
+void Interface::special(int key, int, int)
+{
+
+    if (!canvasReferencia)
+        return;
+
+    if (key == GLUT_KEY_LEFT)
+    {
+        canvasReferencia->camera->yaw(0.05f);
+    }
+    else if (key == GLUT_KEY_RIGHT)
+    {
+        canvasReferencia->camera->yaw(-0.05f);
+    }
+    else if (key == GLUT_KEY_UP)
+    {
+        canvasReferencia->camera->pitch(0.05f);
+    }
+    else if (key == GLUT_KEY_DOWN)
+    {
+        canvasReferencia->camera->pitch(-0.05f);
+    }
+
+    canvasReferencia->geraImagem();
+    glutPostRedisplay();
 }
 
 void Interface::criarMenu()

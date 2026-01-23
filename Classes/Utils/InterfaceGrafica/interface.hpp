@@ -18,6 +18,8 @@ struct Interface
 
     static void keyboard(unsigned char key, int x, int y);
 
+    static void special(int key, int x, int y);
+
     static void criarMenu();
 
     static void menuHandler(int opcao);
