@@ -12,7 +12,7 @@ Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia)
 
     this->Iamb = Ia;
 
-    imagem = vector<vector<Cor>>(nLin, vector<Cor>(nCol));
+    imagem = vector<Cor>(nLin * nCol, Cor(0, 0, 0));
 }
 
 void Canvas::adicionaObjetoCena(Objeto *obj)
@@ -62,8 +62,8 @@ void Canvas::geraImagem(string nomeArquivo)
             {
                 Vetor dir = normalizar(canvas_cam - origem_cam);
                 Ponto P_I = ray(origem_cam, dir, obj_intersectado->t_i);
-                
-                Cor ka = obj_intersectado->K_a; 
+
+                Cor ka = obj_intersectado->K_a;
                 finalColor = operadorArroba(ka, Iamb);
 
                 for (Luz *luz : luzes)
@@ -74,7 +74,7 @@ void Canvas::geraImagem(string nomeArquivo)
                         {
                             Cor contrib;
                             obj_intersectado->renderiza(contrib, origem_cam, dir, *luz);
-                            
+
                             finalColor.r += contrib.r;
                             finalColor.g += contrib.g;
                             finalColor.b += contrib.b;
@@ -87,7 +87,7 @@ void Canvas::geraImagem(string nomeArquivo)
                 finalColor.b = min(1.0f, finalColor.b);
             }
 
-            imagem[l][c] = finalColor;
+            imagem[l * nCol + c] = finalColor;
         }
     }
 
@@ -99,7 +99,11 @@ void Canvas::geraImagem(string nomeArquivo)
     {
         for (size_t c = 0; c < nCol; c++)
         {
-            arquivo << imagem[l][c].r * 255 << " " << imagem[l][c].g * 255 << " " << imagem[l][c].b * 255 << " ";
+            Cor &pixel = imagem[l * nCol + c];
+
+            arquivo << pixel.r * 255 << " "
+                    << pixel.g * 255 << " "
+                    << pixel.b * 255 << " ";
         }
 
         arquivo << "\n";
