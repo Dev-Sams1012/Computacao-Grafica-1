@@ -3,6 +3,7 @@
 #include "../Classes/Utils/Janela/Janela.hpp"
 #include "../Classes/Utils/Canvas/Canvas.hpp"
 #include "../Classes/Utils/Camera/Camera.hpp"
+#include "../Classes/Utils/InterfaceGrafica/interface.hpp"
 
 #include "../Classes/Utils/Ponto/Ponto.hpp"
 #include "../Classes/Utils/Vetor/Vetor.hpp"
@@ -24,7 +25,7 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
     Ponto origem = Ponto(0.0f, 0.0f, 0.0f);
 
@@ -43,7 +44,7 @@ int main()
 
     Camera* camera = new Camera(pos_cam, Ponto(0.0f, 0.0f, -1.0f), Vetor(0.0f, 1.0f, 0.0f));
 
-    Canvas canvas = Canvas(janela, nLin, nCol, camera, I_A);
+    Canvas* canvas = new Canvas(janela, nLin, nCol, camera, I_A);
 
     string pisoMadeira = "../Assets/madel-piso-vinilico-click-madeir.png";
 
@@ -53,12 +54,16 @@ int main()
 
     Plano planoCeu = Plano(Ponto(65.0f, -5.0f, -50.0f), Vetor(0.0f, 0.0f, 1.0f), ceu, 0.007f, 10);
 
-    canvas.adicionaObjetoCena(&planoChao);
-    canvas.adicionaObjetoCena(&planoCeu);
+    canvas->adicionaObjetoCena(&planoChao);
+    canvas->adicionaObjetoCena(&planoCeu);
 
-    canvas.adicionaLuz(&luz);
+    canvas->adicionaLuz(&luz);
 
-    canvas.geraImagem("Imagem_Trabalho_Final");
+    canvas->geraImagem("Imagem_Trabalho_Final");
 
+    Interface::inicializar(argc, argv, nCol, nLin, canvas, "Trabalho Final - Computacao Grafica 1");
+
+    glutMainLoop();
+    
     return 0;
 }
