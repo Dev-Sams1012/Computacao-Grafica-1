@@ -39,6 +39,8 @@ struct Canvas
 
     void adicionaLuz(Luz *luz);
 
+    void renderizaLinhas(size_t l_ini, size_t l_fim);
+
     void geraImagem();
 
     Cor *getDados() { return imagem.data(); }
