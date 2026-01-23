@@ -1,6 +1,6 @@
 #include "Canvas.hpp"
 
-Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia)
+Canvas::Canvas(string nome, Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia)
 {
     this->camera = cam;
     this->janela = j;
@@ -11,6 +11,8 @@ Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia)
     Dy = janela.h / float(nLin);
 
     this->Iamb = Ia;
+
+    this->nomeArquivoSaida = nome;
 
     imagem = vector<Cor>(nLin * nCol, Cor(0, 0, 0));
 }
@@ -25,7 +27,7 @@ void Canvas::adicionaLuz(Luz *luz)
     luzes.push_back(luz);
 }
 
-void Canvas::geraImagem(string nomeArquivo)
+void Canvas::geraImagem()
 {
     Ponto origem_mundo = camera->eye;
 
@@ -33,14 +35,14 @@ void Canvas::geraImagem(string nomeArquivo)
     {
         for (size_t c = 0; c < nCol; c++)
         {
-            float x = -janela.w / 2. + Dx / 2 + float(c) * Dx;
-            float y = janela.h / 2. - Dy / 2 - float(l) * Dy;
+            float u = camera->xmin + (camera->xmax - camera->xmin) * (c + 0.5f) / nCol;
+            float v = camera->ymax - (camera->ymax - camera->ymin) * (l + 0.5f) / nLin;
 
             Cor finalColor = Cor(0.0f, 0.0f, 0.0f);
             float t_closest = -1.0f;
             Objeto *obj_intersectado = nullptr;
 
-            Ponto pixel_cam = Ponto(x, y, -janela.d);
+            Ponto pixel_cam(u, v, -camera->d);
             Vetor Dr_cam = normalizar(pixel_cam - Ponto(0, 0, 0));
 
             Vetor Dr_mundo = Dr_cam.Cord_x * camera->right + Dr_cam.Cord_y * camera->up + Dr_cam.Cord_z * (-camera->forward);
@@ -91,7 +93,7 @@ void Canvas::geraImagem(string nomeArquivo)
         }
     }
 
-    ofstream arquivo(nomeArquivo + ".ppm");
+    ofstream arquivo(nomeArquivoSaida + ".ppm");
     arquivo << "P3\n"
             << nCol << " " << nLin << "\n255\n";
 
@@ -111,5 +113,5 @@ void Canvas::geraImagem(string nomeArquivo)
 
     arquivo.close();
 
-    cout << "Imagem gerada em " << nomeArquivo << ".ppm'" << endl;
+    cout << "Imagem gerada em " << nomeArquivoSaida << ".ppm'" << endl;
 }

@@ -31,13 +31,15 @@ struct Canvas
     vector<Luz *> luzes;
     Cor Iamb;
 
-    Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia);
+    string nomeArquivoSaida;
+
+    Canvas(string nome, Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia);
 
     void adicionaObjetoCena(Objeto *obj);
 
     void adicionaLuz(Luz *luz);
 
-    void geraImagem(string nomeArquivo);
+    void geraImagem();
 
     Cor *getDados() { return imagem.data(); }
 };
