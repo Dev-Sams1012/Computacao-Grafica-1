@@ -23,6 +23,14 @@ struct Camera
 
     void zoomIn(float fator);
     void zoomOut(float fator);
+
+    void andaX(float d);
+    void andaY(float d);
+    void andaZ(float d);
+
+    void pitch(float ang);
+    void yaw(float ang);
+    void roll(float ang);
 };
 
 #endif
