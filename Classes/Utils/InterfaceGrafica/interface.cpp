@@ -3,7 +3,6 @@
 Canvas *Interface::canvasReferencia = nullptr;
 int Interface::larguraJanela = 0;
 int Interface::alturaJanela = 0;
-bool Interface::renderizando = false;
 
 void Interface::inicializar(int argc, char **argv, int w, int h, Canvas *canvas, string titulo)
 {
