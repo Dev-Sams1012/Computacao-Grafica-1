@@ -49,11 +49,11 @@ int main(int argc, char **argv)
 
     Canvas *canvas = new Canvas(janela, nLin, nCol, camera, I_A);
 
-    string pisoMadeira = "../Assets/madel-piso-vinilico-click-madeir.png";
+    string pisoGrama = "../Assets/textura_grama.png";
 
     string ceu = "../Assets/textura-do-ceu_14223-97.png";
 
-    Plano planoChao = Plano(Ponto(0.0f, 0.0f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoMadeira, 0.2f, 10);
+    Plano planoChao = Plano(Ponto(0.0f, 0.0f, 0.0f), Vetor(0.0f, 1.0f, 0.0f), pisoGrama, 0.2f, 10);
 
     Plano planoCeu = Plano(Ponto(65.0f, -5.0f, -50.0f), Vetor(0.0f, 0.0f, 1.0f), ceu, 0.007f, 10);
 
