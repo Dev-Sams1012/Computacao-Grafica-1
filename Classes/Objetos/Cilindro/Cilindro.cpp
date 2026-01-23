@@ -97,6 +97,9 @@ void Cilindro::transforma(const Matriz4x4 &M)
 {
     Centro_base = M * Centro_base;
     Eixo = normalizar(M * Eixo);
+
+    Q_Matrix = (Eixo * Eixo) * (1.0f / produtoEscalar(Eixo, Eixo));
+    M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
 }
 
 Vetor Cilindro::normalEm(const Ponto &P) const{
