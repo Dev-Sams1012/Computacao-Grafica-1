@@ -1,6 +1,6 @@
 #include "ObjetoComplexo.hpp"
 
-ObjetoComplexo::ObjetoComplexo() : Objeto(Cor(0,0,0), Cor(0,0,0), Cor(0,0,0), 1) {}
+ObjetoComplexo::ObjetoComplexo() : Objeto(Cor(0, 0, 0), Cor(0, 0, 0), Cor(0, 0, 0), 1) {}
 
 void ObjetoComplexo::adicionarComponente(Objeto *obj)
 {
@@ -44,11 +44,12 @@ void ObjetoComplexo::transforma(const Matriz4x4 &M)
 
 Vetor ObjetoComplexo::normalEm(const Ponto &P) const
 {
-    if (!componenteQueAcertou) return Vetor(0,0,0);
+    if (!componenteQueAcertou)
+        return Vetor(0, 0, 0);
     return componenteQueAcertou->normalEm(P);
 }
 
-void ObjetoComplexo::renderiza( Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Luz &luz) const
+void ObjetoComplexo::renderiza(Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Luz &luz) const
 {
     if (!componenteQueAcertou)
     {
@@ -59,7 +60,7 @@ void ObjetoComplexo::renderiza( Cor &finalColor, const Ponto &origem, const Veto
     componenteQueAcertou->renderiza(finalColor, origem, Dr, luz);
 }
 
-bool ObjetoComplexo::pertenceA(const Objeto* obj) const
+bool ObjetoComplexo::pertenceA(const Objeto *obj) const
 {
     if (this == obj)
         return true;
