@@ -15,6 +15,12 @@ struct Interface
     static void display();
 
     static void reshape(int w, int h);
+
+    static void keyboard(unsigned char key, int x, int y);
+
+    static void criarMenu();
+
+    static void menuHandler(int opcao);
 };
 
 #endif
