@@ -44,6 +44,8 @@ struct Canvas
     void geraImagem();
 
     Cor *getDados() { return imagem.data(); }
+
+    Objeto* pick(int pixelX, int pixelY);
 };
 
 #endif
