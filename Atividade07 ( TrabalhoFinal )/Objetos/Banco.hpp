@@ -9,74 +9,56 @@ struct Banco : ObjetoComplexo
 {
     Paralelepipedo *assento;
     Paralelepipedo *encosto;
-    Cilindro *perna1;
-    Cilindro *perna2;
-    Cilindro *perna3;
-    Cilindro *perna4;
+    Cilindro *perna1, *perna2, *perna3, *perna4;
 
     Banco()
     {
         // =====================
+        // Dimensões
+        // =====================
+        float largura = 2.0f;
+        float profundidade = 0.6f;
+        float espessura = 0.08f;
+        float alturaAssentoY = 0.45f; // Altura do topo do assento
+        float alturaEncosto = 0.5f;
+        float raioPerna = 0.03f;
+
+        // A altura da perna vai do chão (0.0) até a base inferior do assento
+        float alturaPerna = alturaAssentoY - espessura; 
+        
+        Cor corMadeira(0.55f, 0.27f, 0.07f);
+        Cor corFerro(0.2f, 0.2f, 0.2f);
+
+        // =====================
         // Assento
         // =====================
-        assento = new Paralelepipedo(
-            2.0f, 0.2f, 0.6f,
-            Ponto(0.0f, 0.6f, 0.0f),
-            Cor(0.55f, 0.27f, 0.07f),
-            Cor(0.55f, 0.27f, 0.07f),
-            Cor(0.55f, 0.27f, 0.07f),
-            10
-        );
+        // Posicionado para que o TOPO fique em alturaAssentoY
+        Ponto posAssento(0.0f, alturaAssentoY - (espessura / 2.0f), 0.0f);
+        assento = new Paralelepipedo(largura, profundidade, espessura, posAssento, corMadeira, corMadeira, corMadeira, 10);
 
         // =====================
         // Encosto
         // =====================
-        encosto = new Paralelepipedo(
-            2.0f, 0.8f, 0.2f,
-            Ponto(0.0f, 1.1f, -0.25f),
-            Cor(0.50f, 0.25f, 0.05f),
-            Cor(0.50f, 0.25f, 0.05f),
-            Cor(0.50f, 0.25f, 0.05f),
-            10
-        );
+        // Posicionado na borda traseira e acima do assento
+        float zEncosto = (profundidade / 2.0f) - (espessura / 2.0f);
+        float yEncosto = alturaAssentoY + (alturaEncosto / 2.0f);
+        Ponto posEncosto(0.0f, yEncosto, zEncosto);
+        encosto = new Paralelepipedo(largura, espessura, alturaEncosto, posEncosto, corMadeira, corMadeira, corMadeira, 10);
 
         // =====================
-        // Pernas
+        // Pernas (Cilindros)
         // =====================
-        float raioPerna = 0.05f;
-        float alturaPerna = 0.6f;
+        // Seguindo o modelo do poste: Ponto base, raio, altura, direção
+        // O ponto base deve ser o chão (Y = 0.0)
+        Vetor up(0.0f, 1.0f, 0.0f);
+        float dx = (largura / 2.0f) - 0.1f;
+        float dz = (profundidade / 2.0f) - 0.1f;
 
-        perna1 = new Cilindro(Ponto(-0.9f, 0.3f, -0.25f), raioPerna, alturaPerna, Vetor(0.0f, 1.0f, 0.0f),
-                              true, true,
-                              Cor(0.2f, 0.2f, 0.2f),
-                              Cor(0.2f, 0.2f, 0.2f),
-                              Cor(0.2f, 0.2f, 0.2f),
-                              10);
+        perna1 = new Cilindro(Ponto(-dx, 0.0f, -dz), raioPerna, alturaPerna, up, true, true, corFerro, corFerro, corFerro, 10);
+        perna2 = new Cilindro(Ponto(dx, 0.0f, -dz), raioPerna, alturaPerna, up, true, true, corFerro, corFerro, corFerro, 10);
+        perna3 = new Cilindro(Ponto(-dx, 0.0f, dz), raioPerna, alturaPerna, up, true, true, corFerro, corFerro, corFerro, 10);
+        perna4 = new Cilindro(Ponto(dx, 0.0f, dz), raioPerna, alturaPerna, up, true, true, corFerro, corFerro, corFerro, 10);
 
-        perna2 = new Cilindro(Ponto(0.9f, 0.3f, -0.25f), raioPerna, alturaPerna, Vetor(0.0f, 1.0f, 0.0f),
-                              true, true,
-                              Cor(0.2f, 0.2f, 0.2f),
-                              Cor(0.2f, 0.2f, 0.2f),
-                              Cor(0.2f, 0.2f, 0.2f),
-                              10);
-
-        perna3 = new Cilindro(Ponto(-0.9f, 0.3f, 0.25f), raioPerna, alturaPerna, Vetor(0.0f, 1.0f, 0.0f),
-                              true, true,
-                              Cor(0.2f, 0.2f, 0.2f),
-                              Cor(0.2f, 0.2f, 0.2f),
-                              Cor(0.2f, 0.2f, 0.2f),
-                              10);
-
-        perna4 = new Cilindro(Ponto(0.9f, 0.3f, 0.25f), raioPerna, alturaPerna, Vetor(0.0f, 1.0f, 0.0f),
-                              true, true,
-                              Cor(0.2f, 0.2f, 0.2f),
-                              Cor(0.2f, 0.2f, 0.2f),
-                              Cor(0.2f, 0.2f, 0.2f),
-                              10);
-
-        // =====================
-        // Adiciona componentes
-        // =====================
         adicionarComponente(assento);
         adicionarComponente(encosto);
         adicionarComponente(perna1);
