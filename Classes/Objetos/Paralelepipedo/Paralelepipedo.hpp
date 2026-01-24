@@ -14,6 +14,8 @@ struct Paralelepipedo : Malha
 
     void atualizarFaces();
     void transforma(const Matriz4x4 &M) override;
+
+    string getNomeObj() const override { return "Paralelepipedo"; }
 };
 
 #endif
