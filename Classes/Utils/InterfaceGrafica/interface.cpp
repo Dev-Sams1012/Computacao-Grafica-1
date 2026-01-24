@@ -23,6 +23,8 @@ void Interface::inicializar(int argc, char **argv, int w, int h, Canvas *canvas,
 
     glutSpecialFunc(Interface::special);
 
+    glutMouseFunc(Interface::mouse);
+
     Interface::criarMenu();
 }
 
@@ -168,6 +170,22 @@ void Interface::special(int key, int, int)
 
     canvasReferencia->geraImagem();
     glutPostRedisplay();
+}
+
+void Interface::mouse(int button, int state, int x, int y)
+{
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+        int canvasX = x;
+        int canvasY = y;
+
+        Objeto *selecionado = canvasReferencia->pick(canvasX, canvasY);
+
+        if (selecionado)
+        {
+            selecionado->imprimeInformacoes();
+        }
+    }
 }
 
 void Interface::criarMenu()

@@ -20,6 +20,8 @@ struct Interface
 
     static void special(int key, int x, int y);
 
+    static void mouse(int button, int state, int x, int y);
+
     static void criarMenu();
 
     static void menuHandler(int opcao);
