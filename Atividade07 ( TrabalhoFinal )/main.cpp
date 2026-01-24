@@ -23,7 +23,8 @@
 #include "../Classes/Objetos/Cubo/Cubo.hpp"
 #include "../Classes/Objetos/Paralelepipedo/Paralelepipedo.hpp"
 
-#include "Objetos/poste.hpp"
+#include "Objetos/Poste.hpp"
+#include "Objetos/Banco.hpp"
 
 using namespace std;
 
@@ -63,6 +64,7 @@ int main(int argc, char **argv)
     canvas->adicionaObjetoCena(&planoCeu);
 
     canvas->adicionaObjetoCena(new Poste());
+    //canvas->adicionaObjetoCena(new Banco());
 
     //canvas->adicionaLuz(&luz);
     canvas->adicionaLuz(&sol);
