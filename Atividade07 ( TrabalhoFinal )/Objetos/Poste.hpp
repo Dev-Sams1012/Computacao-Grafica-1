@@ -20,12 +20,14 @@ struct Poste : ObjetoComplexo
         float ladosBase = 0.3f;
         float alturaBase = 0.05f;
 
-        base = new Paralelepipedo(ladosBase, ladosBase, alturaBase, Ponto(0.0f, 0.0f, 0.0f), Cor(0.2f, 0.2f, 0.2f), Cor(0.2f, 0.2f, 0.2f), Cor(0.2f, 0.2f, 0.2f), 10);
+        Ponto centroideBase = Ponto(0.0f, alturaBase / 2, 0.0f);
+
+        base = new Paralelepipedo(ladosBase, ladosBase, alturaBase, centroideBase, Cor(0.2f, 0.2f, 0.2f), Cor(0.2f, 0.2f, 0.2f), Cor(0.2f, 0.2f, 0.2f), 10);
 
         float raioSuporte = 0.05f;
         float alturaSuporte = 3.0f;
 
-        Ponto posSuporte = Ponto(0.0f, alturaBase / 2, 0.0f);
+        Ponto posSuporte = Ponto(0.0f, alturaBase, 0.0f);
         Vetor dirSuporte = Vetor(0.0f, 1.0f, 0.0f);
 
         suporte = new Cilindro(posSuporte, raioSuporte, alturaSuporte, dirSuporte, true, true, Cor(0.2f, 0.2f, 0.2f), Cor(0.2f, 0.2f, 0.2f), Cor(0.2f, 0.2f, 0.2f), 10);
