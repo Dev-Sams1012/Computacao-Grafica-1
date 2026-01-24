@@ -3,15 +3,49 @@
 Plano::Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, Ke, Ka, M)
 {
     P_pi = Ppi;
-    n_bar = normalizar(nbar); 
+    n_bar = normalizar(nbar);
     tem_textura = false;
+    infinito = true;
 }
 
-Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M) : Objeto(Cor(0,0,0), Cor(0,0,0), Cor(0,0,0), M)
+Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M) : Objeto(Cor(0, 0, 0), Cor(0, 0, 0), Cor(0, 0, 0), M)
 {
     P_pi = Ppi;
-    n_bar = normalizar(nbar); 
+    n_bar = normalizar(nbar);
     tem_textura = true;
+    infinito = true;
+
+    arquivo_textura = arquivoTextura;
+    escala_textura = escala_tex;
+
+    textura = stbi_load(arquivoTextura.c_str(), &tex_largura, &tex_altura, &tex_componentes, 3);
+
+    if (!textura)
+    {
+        cerr << "Erro ao carregar textura: " << arquivoTextura << "\n";
+        tem_textura = false;
+    }
+}
+
+Plano::Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M, Ponto min, Ponto max) : Objeto(Kd, Ke, Ka, M)
+{
+    P_pi = Ppi;
+    n_bar = normalizar(nbar);
+    tem_textura = false;
+    infinito = false;
+    minPt = min;
+    maxPt = max;
+}
+
+Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M, Ponto min, Ponto max) : Objeto(Cor(0, 0, 0), Cor(0, 0, 0), Cor(0, 0, 0), M)
+{
+    P_pi = Ppi;
+    n_bar = normalizar(nbar);
+    tem_textura = true;
+    infinito = false;
+    minPt = min;
+    maxPt = max;
+
     arquivo_textura = arquivoTextura;
     escala_textura = escala_tex;
 
@@ -29,9 +63,12 @@ Cor Plano::texturaEm(const Ponto &p) const
     Vetor u;
     Vetor v;
 
-    if (fabs(n_bar.Cord_y) > 0.9) {
-        u = Vetor(1, 0, 0); 
-    } else {
+    if (fabs(n_bar.Cord_y) > 0.9)
+    {
+        u = Vetor(1, 0, 0);
+    }
+    else
+    {
         u = normalizar(produtoVetorial(Vetor(0, 1, 0), n_bar));
     }
     v = produtoVetorial(n_bar, u);
@@ -69,10 +106,21 @@ bool Plano::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
 
     if (t > epsilon && t < hit.t)
     {
+        Ponto P_I = ray(origem, Dr, t);
+
+        if (!infinito)
+        {
+            if (P_I.Cord_x < minPt.Cord_x - epsilon || P_I.Cord_x > maxPt.Cord_x + epsilon ||
+                P_I.Cord_z < minPt.Cord_z - epsilon || P_I.Cord_z > maxPt.Cord_z + epsilon)
+            {
+                return false;
+            }
+        }
+
         hit.t = t;
         hit.objeto = this;
         hit.objetoRaiz = this;
-        hit.ponto = ray(origem, Dr, t);
+        hit.ponto = P_I;
         hit.normal = n_bar;
         return true;
     }
