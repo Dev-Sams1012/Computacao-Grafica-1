@@ -8,7 +8,6 @@ struct Malha : Objeto
 {
     vector<Ponto> vertices;
     vector<Triangulo> faces;
-    Vetor normal;
 
     Malha(vector<Ponto> v, vector<Triangulo> f, Cor Kd, Cor Ke, Cor Ka, int M);
 

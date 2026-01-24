@@ -19,6 +19,8 @@ bool Malha::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
             if (hit_temp.t > epsilon && hit_temp.t < hit.t)
             {
                 hit = hit_temp;
+                hit.objeto = this;
+                hit.objetoRaiz = this;
                 interceptou = true;
             }
         }
@@ -29,18 +31,11 @@ bool Malha::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
 
 void Malha::transforma(const Matriz4x4 &M)
 {
-    for (Ponto &v : vertices)
-    {
-        v = M * v;
-    }
-
     for (Triangulo &face : faces)
-    {
         face.transforma(M);
-    }
 }
 
 Vetor Malha::normalEm(const Ponto &P) const
 {
-    return normal;
+    return Vetor(0,0,0);
 }
