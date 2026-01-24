@@ -64,7 +64,6 @@ int main(int argc, char **argv)
     canvas->adicionaObjetoCena(&planoCeu);
 
     canvas->adicionaObjetoCena(new Poste());
-    //canvas->adicionaObjetoCena(new Banco());
 
     // 2. Banco deslocado para não ficar dentro do poste
     Banco *banco = new Banco();
@@ -77,30 +76,6 @@ int main(int argc, char **argv)
     banco->transforma(T * R);
 
     canvas->adicionaObjetoCena(banco);
-
-// 2. Banco deslocado para não ficar dentro do poste
-Banco *banco = new Banco();
-
-// Rotação para virar para a câmera e Translação para o lado do poste
-// T * R -> Rotaciona primeiro, depois move.
-Matriz4x4 R = Matriz4x4::rotacaoY(M_PI); 
-Matriz4x4 T = Matriz4x4::translacao(1.5f, 0.0f, -1.0f); // Afastei 1.5 em X para sair de perto do poste
-
-banco->transforma(T * R);
-
-canvas->adicionaObjetoCena(banco);
-
-// 2. Banco deslocado para não ficar dentro do poste
-Banco *banco = new Banco();
-
-// Rotação para virar para a câmera e Translação para o lado do poste
-// T * R -> Rotaciona primeiro, depois move.
-Matriz4x4 R = Matriz4x4::rotacaoY(M_PI); 
-Matriz4x4 T = Matriz4x4::translacao(1.5f, 0.0f, -1.0f); // Afastei 1.5 em X para sair de perto do poste
-
-banco->transforma(T * R);
-
-canvas->adicionaObjetoCena(banco);
 
     //canvas->adicionaLuz(&luz);
     canvas->adicionaLuz(&sol);
