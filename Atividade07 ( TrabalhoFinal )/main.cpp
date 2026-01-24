@@ -23,9 +23,10 @@
 #include "../Classes/Objetos/Cubo/Cubo.hpp"
 #include "../Classes/Objetos/Paralelepipedo/Paralelepipedo.hpp"
 
-#include "Objetos/Poste.hpp"
 #include "Objetos/Banco.hpp"
 #include "Objetos/Mesa.hpp"
+#include "Objetos/Poste.hpp"
+#include "Objetos/Tabuleiro.hpp"
 
 using namespace std;
 
@@ -85,7 +86,14 @@ int main(int argc, char **argv)
 
     canvas->adicionaObjetoCena(banco);
 
-    //canvas->adicionaLuz(&luz);
+    Tabuleiro *tabuleiro = new Tabuleiro();
+
+    Matriz4x4 T_Tab = Matriz4x4::translacao(1.5f, 0.71f + epsilon, 0.0f);
+
+    tabuleiro->transforma(T_Tab);
+
+    canvas->adicionaObjetoCena(tabuleiro);
+
     canvas->adicionaLuz(&sol);
 
     canvas->geraImagem();
