@@ -25,6 +25,7 @@
 
 #include "Objetos/Poste.hpp"
 #include "Objetos/Banco.hpp"
+#include "Objetos/Mesa.hpp"
 
 using namespace std;
 
@@ -65,7 +66,14 @@ int main(int argc, char **argv)
 
     canvas->adicionaObjetoCena(new Poste());
 
-    // 2. Banco deslocado para não ficar dentro do poste
+    // 2. Mesa de Damas (Centralizada no conjunto)
+    Mesa *mesaDamas = new Mesa();
+    // Colocamos a mesa a 1.5 unidades de distância do poste em X
+    Matriz4x4 T_Mesa = Matriz4x4::translacao(1.5f, 0.0f, 0.0f);
+    mesaDamas->transforma(T_Mesa);
+    canvas->adicionaObjetoCena(mesaDamas);
+
+    // 3. Banco deslocado para não ficar dentro do poste
     Banco *banco = new Banco();
 
     // Rotação para virar para a câmera e Translação para o lado do poste
