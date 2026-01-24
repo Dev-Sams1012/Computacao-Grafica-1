@@ -132,6 +132,12 @@ void Plano::transforma(const Matriz4x4 &M)
 {
     P_pi = M * P_pi;
 
+    if (!infinito)
+    {
+        minPt = M * minPt;
+        maxPt = M * maxPt;
+    }
+
     Matriz4x4 transp = M.transposta();
     n_bar = transp * n_bar;
 
