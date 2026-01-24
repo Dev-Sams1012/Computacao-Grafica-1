@@ -28,6 +28,7 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
     float r2 = (-b - sqrt(delta)) / (2 * a);
 
     float t_valido = -1;
+    Vetor normal_temp;
 
     if (r1 > epsilon)
     {
@@ -64,7 +65,10 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
             if (produtoEscalar(d, d) <= Raio_base * Raio_base)
             {
                 if (t_valido < 0 || t_base < t_valido)
+                {
                     t_valido = t_base;
+                    normal_temp = -Eixo;
+                }
             }
         }
     }
@@ -79,7 +83,10 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
             if (produtoEscalar(d, d) <= Raio_base * Raio_base)
             {
                 if (t_valido < 0 || t_topo < t_valido)
+                {
                     t_valido = t_topo;
+                    normal_temp = Eixo;
+                }
             }
         }
     }
@@ -90,7 +97,14 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
         hit.objeto = this;
         hit.objetoRaiz = this;
         hit.ponto = ray(origem, Dr, t_valido);
-        hit.normal = normalizar(normalEm(hit.ponto));
+        if (normal_temp.norma() < 0.5f)
+        {
+            hit.normal = normalizar(normalEm(hit.ponto));
+        }
+        else
+        {
+            hit.normal = normalizar(normal_temp);
+        }
         return true;
     }
 
@@ -106,6 +120,7 @@ void Cilindro::transforma(const Matriz4x4 &M)
     M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
 }
 
-Vetor Cilindro::normalEm(const Ponto &P) const{
+Vetor Cilindro::normalEm(const Ponto &P) const
+{
     return normalizar(M_Matrix * (P - Centro_base));
 }
