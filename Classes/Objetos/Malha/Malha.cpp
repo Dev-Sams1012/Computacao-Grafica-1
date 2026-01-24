@@ -6,32 +6,25 @@ Malha::Malha(vector<Ponto> v, vector<Triangulo> f, Cor Kd, Cor Ke, Cor Ka, int M
     faces = f;
 }
 
-bool Malha::raioIntercepta(const Ponto &origem, const Vetor &Dr)
+bool Malha::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
 {
-    float t_min = -1.0;
-    double epsilon = 1e-6;
+    bool interceptou = false;
 
     for (Triangulo &face : faces)
     {
+        HitInfo hit_temp = hit;
 
-        if (face.raioIntercepta(origem, Dr))
+        if (face.raioIntercepta(origem, Dr, hit_temp))
         {
-            if (face.t_i > epsilon && (t_min < 0 || face.t_i < t_min))
+            if (hit_temp.t > epsilon && hit_temp.t < hit.t)
             {
-                t_min = face.t_i;
-                normal = face.normal;
-                K_a = face.K_a;
-                K_d = face.K_d;
-                K_e = face.K_e;
-                m = face.m;
+                hit = hit_temp;
+                interceptou = true;
             }
         }
     }
 
-    if (t_min < 0)
-        return false;
-    t_i = t_min;
-    return true;
+    return interceptou;
 }
 
 void Malha::transforma(const Matriz4x4 &M)

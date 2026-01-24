@@ -12,11 +12,13 @@ struct Malha : Objeto
 
     Malha(vector<Ponto> v, vector<Triangulo> f, Cor Kd, Cor Ke, Cor Ka, int M);
 
-    bool raioIntercepta(const Ponto &origem, const Vetor &Dr) override;
+    bool raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit) override;
 
     Vetor normalEm(const Ponto &P) const override;
 
     void transforma(const Matriz4x4 &M) override;
+
+    string getNomeObj() const override { return "Malha"; }
 };
 
 #endif

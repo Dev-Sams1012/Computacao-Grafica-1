@@ -12,7 +12,7 @@ Cilindro::Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool 
     M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
 }
 
-bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr)
+bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
 {
     Vetor w = origem - Centro_base;
 
@@ -29,7 +29,7 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr)
 
     float t_valido = -1;
 
-    if (r1 > 0)
+    if (r1 > epsilon)
     {
         Ponto P_I = ray(origem, Dr, r1);
         Vetor v_PI = P_I - Centro_base;
@@ -40,7 +40,7 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr)
         }
     }
 
-    if (r2 > 0)
+    if (r2 > epsilon)
     {
         Ponto P_I = ray(origem, Dr, r2);
         Vetor v_PI = P_I - Centro_base;
@@ -57,7 +57,7 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr)
     if (temBaseInferior)
     {
         float t_base = produtoEscalar(Eixo, Centro_base - origem) / produtoEscalar(Eixo, Dr);
-        if (t_base > 0)
+        if (t_base > epsilon)
         {
             Ponto P_base = ray(origem, Dr, t_base);
             Vetor d = P_base - Centro_base;
@@ -72,7 +72,7 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr)
     {
         Ponto topo = ray(Centro_base, Eixo, Altura);
         float t_topo = produtoEscalar(Eixo, topo - origem) / produtoEscalar(Eixo, Dr);
-        if (t_topo > 0)
+        if (t_topo > epsilon)
         {
             Ponto P_topo = ray(origem, Dr, t_topo);
             Vetor d = P_topo - topo;
@@ -84,9 +84,13 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr)
         }
     }
 
-    if (t_valido > 0)
+    if (t_valido > epsilon && t_valido < hit.t)
     {
-        t_i = t_valido;
+        hit.t = t_valido;
+        hit.objeto = this;
+        hit.objetoRaiz = this;
+        hit.ponto = ray(origem, Dr, t_valido);
+        hit.normal = normalizar(normalEm(hit.ponto));
         return true;
     }
 

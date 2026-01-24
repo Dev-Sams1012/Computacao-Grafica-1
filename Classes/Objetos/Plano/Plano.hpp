@@ -25,11 +25,13 @@ struct Plano : public Objeto
 
     Cor texturaEm(const Ponto &p) const override;
 
-    bool raioIntercepta(const Ponto &origem, const Vetor &Dr) override;
+    bool raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit) override;
 
     Vetor normalEm(const Ponto &P) const override;
 
     void transforma(const Matriz4x4 &M) override;
+
+    string getNomeObj() const override { return "Plano"; }
 };
 
 #endif

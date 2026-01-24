@@ -3,7 +3,7 @@
 Triangulo::Triangulo(Ponto p1, Ponto p2, Ponto p0, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, Ke, Ka, M)
 {
     this->p0 = p0;
-    this->p1 = p1; 
+    this->p1 = p1;
     this->p2 = p2;
     atualizarNormal();
 }
@@ -15,7 +15,7 @@ void Triangulo::atualizarNormal()
     normal = normalizar(produtoVetorial(v0, v1));
 }
 
-bool Triangulo::raioIntercepta(const Ponto &origem, const Vetor &Dr)
+bool Triangulo::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
 {
     const float EPS = 1e-6f;
 
@@ -52,8 +52,17 @@ bool Triangulo::raioIntercepta(const Ponto &origem, const Vetor &Dr)
     if (u < 0.0f || v < 0.0f || (u + v) > 1.0f)
         return false;
 
-    t_i = t;
-    return true;
+    if (t > epsilon && t < hit.t)
+    {
+        hit.t = t;
+        hit.objeto = this;
+        hit.objetoRaiz = this;
+        hit.ponto = ray(origem, Dr, t);
+        hit.normal = normal;
+        return true;
+    }
+
+    return false;
 }
 
 void Triangulo::transforma(const Matriz4x4 &M)

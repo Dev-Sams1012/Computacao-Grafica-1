@@ -6,39 +6,38 @@ Esfera::Esfera(Ponto c, float r, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, Ke,
     raio = r;
 }
 
-bool Esfera::raioIntercepta(const Ponto &origem, const Vetor &Dr)
+bool Esfera::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
 {
     Vetor w = origem - centro;
 
     float a = produtoEscalar(Dr, Dr);
-    float b = 2 * (produtoEscalar(w, Dr));
+    float b = 2.0f * produtoEscalar(w, Dr);
     float c = produtoEscalar(w, w) - raio * raio;
 
-    float delta = powf(b, 2) - 4 * a * c;
+    float delta = b * b - 4 * a * c;
     if (delta < 0)
         return false;
 
-    float r1 = (-b + sqrt(delta)) / (2 * a);
-    float r2 = (-b - sqrt(delta)) / (2 * a);
+    float sqrt_delta = sqrt(delta);
+    float t1 = (-b - sqrt_delta) / (2 * a);
+    float t2 = (-b + sqrt_delta) / (2 * a);
 
-    float t_valido = -1;
+    float t = -1.0f;
 
-    if (r1 > 0)
+    if (t1 > epsilon)
+        t = t1;
+    else if (t2 > epsilon)
+        t = t2;
+    else
+        return false;
+
+    if (t > epsilon && t < hit.t)
     {
-        t_valido = r1;
-    }
-
-    if (r2 > 0)
-    {
-        if (t_valido < 0 || r2 < t_valido)
-        {
-            t_valido = r2;
-        }
-    }
-
-    if (t_valido > 0)
-    {
-        t_i = t_valido;
+        hit.t = t;
+        hit.objeto = this;
+        hit.objetoRaiz = this;
+        hit.ponto = ray(origem, Dr, t);
+        hit.normal = normalizar(hit.ponto - centro);
         return true;
     }
 

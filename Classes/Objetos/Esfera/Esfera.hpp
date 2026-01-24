@@ -10,11 +10,13 @@ struct Esfera : public Objeto
 
     Esfera(Ponto c, float r, Cor Kd, Cor Ke, Cor Ka, int M);
 
-    bool raioIntercepta(const Ponto &origem, const Vetor &Dr) override;
+    bool raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit) override;
 
     Vetor normalEm(const Ponto &P) const override;
 
     void transforma(const Matriz4x4 &M) override;
+
+    string getNomeObj() const override { return "Esfera"; }
 };
 
 #endif

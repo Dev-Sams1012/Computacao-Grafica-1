@@ -58,19 +58,23 @@ Cor Plano::texturaEm(const Ponto &p) const
         textura[idx + 2] / 255.0f);
 }
 
-bool Plano::raioIntercepta(const Ponto &origem, const Vetor &Dr)
+bool Plano::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
 {
     float denom = produtoEscalar(Dr, n_bar);
-    if (fabs(denom) > 0)
-    {
-        Vetor w = P_pi - origem;
-        float t = produtoEscalar(w, n_bar) / denom;
+    if (fabs(denom) < epsilon)
+        return false;
 
-        if (t > 0)
-        {
-            t_i = t;
-            return true;
-        }
+    Vetor w = P_pi - origem;
+    float t = produtoEscalar(w, n_bar) / denom;
+
+    if (t > epsilon && t < hit.t)
+    {
+        hit.t = t;
+        hit.objeto = this;
+        hit.objetoRaiz = this;
+        hit.ponto = ray(origem, Dr, t);
+        hit.normal = n_bar;
+        return true;
     }
 
     return false;
