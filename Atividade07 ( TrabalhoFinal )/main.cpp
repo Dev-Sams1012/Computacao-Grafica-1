@@ -24,6 +24,7 @@
 #include "../Classes/Objetos/Paralelepipedo/Paralelepipedo.hpp"
 
 #include "Objetos/Banco.hpp"
+#include "Objetos/Banqueta.hpp"
 #include "Objetos/Mesa.hpp"
 #include "Objetos/Poste.hpp"
 #include "Objetos/Tabuleiro.hpp"
@@ -65,7 +66,9 @@ int main(int argc, char **argv)
     canvas->adicionaObjetoCena(&planoChao);
     canvas->adicionaObjetoCena(&planoCeu);
 
-    canvas->adicionaObjetoCena(new Poste());
+    canvas->adicionaObjetoCena(new Banqueta());
+
+    //canvas->adicionaObjetoCena(new Poste());
 
     // 2. Mesa de Damas (Centralizada no conjunto)
     Mesa *mesaDamas = new Mesa();
