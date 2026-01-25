@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(FREEGLUT_BUILD_DEMOS OFF CACHE BOOL "Não construir demos do GLUT")
-set(FREEGLUT_BUILD_STATIC_LIBS ON CACHE BOOL "Construir biblioteca estática")
+project(main LANGUAGES C CXX)
+
+find_package(OpenMP REQUIRED)
+
+set(FREEGLUT_BUILD_DEMOS OFF CACHE BOOL "Não construir")
+set(FREEGLUT_BUILD_STATIC_LIBS ON CACHE BOOL "Estática")
 
 add_subdirectory(BibliotecasExternas/freeglut-3.8.0)
 
-project(main)
 add_executable(main
         "Atividade07 ( TrabalhoFinal )/main.cpp"
         Classes/Utils/Vetor/Vetor.cpp
@@ -36,6 +39,7 @@ add_executable(main
 target_include_directories(main PRIVATE Classes BibliotecasExternas BibliotecasExternas/freeglut-3.8.0/include)
 
 find_package(OpenGL REQUIRED)
-target_link_libraries(main PRIVATE freeglut_static ${OPENGL_LIBRARIES})
+
+target_link_libraries(main PRIVATE freeglut_static ${OPENGL_LIBRARIES} OpenMP::OpenMP_CXX)
 
 target_compile_definitions(main PRIVATE FREEGLUT_STATIC)
