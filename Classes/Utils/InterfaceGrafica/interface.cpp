@@ -147,7 +147,6 @@ void Interface::keyboard(unsigned char key, int, int)
 }
 void Interface::special(int key, int, int)
 {
-
     if (!canvasReferencia)
         return;
 
@@ -194,8 +193,11 @@ void Interface::criarMenu()
 
     glutAddMenuEntry("Zoom In", 1);
     glutAddMenuEntry("Zoom Out", 2);
-    glutAddMenuEntry("Regenerar Cena", 3);
-    glutAddMenuEntry("Sair", 4);
+    glutAddMenuEntry("Projecao - Perspectiva", 3);
+    glutAddMenuEntry("Projecao - Ortografica", 4);
+    glutAddMenuEntry("Projecao - Obliqua", 5);
+    glutAddMenuEntry("Regenerar Cena", 6);
+    glutAddMenuEntry("Sair", 7);
 
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
@@ -213,7 +215,19 @@ void Interface::menuHandler(int opcao)
     {
         canvasReferencia->camera->zoomOut(1.2f);
     }
+    else if (opcao == 3)
+    {
+        canvasReferencia->camera->tipo = Camera::PERSPECTIVA;
+    }
     else if (opcao == 4)
+    {
+        canvasReferencia->camera->tipo = Camera::ORTOGRAFICA;
+    }
+    else if (opcao == 5)
+    {
+        canvasReferencia->camera->tipo = Camera::OBLIQUA;
+    }
+    else if (opcao == 7)
     {
         exit(0);
     }
