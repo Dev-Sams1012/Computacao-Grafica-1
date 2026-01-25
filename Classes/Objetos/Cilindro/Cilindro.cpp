@@ -4,10 +4,28 @@ Cilindro::Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool 
 {
     Centro_base = Cb;
     Raio_base = Rb;
+    Raio_interno = 0.0f;
     Altura = H;
     Eixo = normalizar(dr);
     temBaseInferior = TemBaseInf;
     temBaseSuperior = TemBaseSup;
+    temBaseInterna = false;
+
+    Q_Matrix = (Eixo * Eixo) * (1.0f / produtoEscalar(Eixo, Eixo));
+    M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
+}
+
+Cilindro::Cilindro(Ponto Cb, float Rb, float Ri, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, bool TemBaseInt, Cor Kd, Cor Ke, Cor Ka, int m_cor) : Objeto(Kd, Ke, Ka, m_cor)
+{
+    Centro_base = Cb;
+    Raio_base = Rb;
+    Raio_interno = Ri;
+    Altura = H;
+    Eixo = normalizar(dr);
+    temBaseInferior = TemBaseInf;
+    temBaseSuperior = TemBaseSup;
+    temBaseInterna = TemBaseInt;
+
     Q_Matrix = (Eixo * Eixo) * (1.0f / produtoEscalar(Eixo, Eixo));
     M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
 }
@@ -18,39 +36,80 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
 
     float a = produtoEscalar(M_Matrix * Dr, M_Matrix * Dr);
     float b = 2.0f * produtoEscalar(M_Matrix * Dr, M_Matrix * w);
-    float c = produtoEscalar(M_Matrix * w, M_Matrix * w) - powf(Raio_base, 2);
 
-    float delta = powf(b, 2) - 4 * a * c;
-    if (delta < 0)
-        return false;
-
-    float r1 = (-b + sqrt(delta)) / (2 * a);
-    float r2 = (-b - sqrt(delta)) / (2 * a);
+    float c_ext = produtoEscalar(M_Matrix * w, M_Matrix * w) - powf(Raio_base, 2);
+    float delta_ext = powf(b, 2) - 4 * a * c_ext;
 
     float t_valido = -1;
     Vetor normal_temp;
 
-    if (r1 > epsilon)
+    if (delta_ext >= 0)
     {
-        Ponto P_I = ray(origem, Dr, r1);
-        Vetor v_PI = P_I - Centro_base;
-        float altura_Pi = produtoEscalar(Eixo, v_PI);
-        if (altura_Pi >= 0 && altura_Pi <= Altura)
+        float r1 = (-b + sqrt(delta_ext)) / (2 * a);
+        float r2 = (-b - sqrt(delta_ext)) / (2 * a);
+
+        if (r1 > epsilon)
         {
-            t_valido = r1;
+            Ponto P_I = ray(origem, Dr, r1);
+            Vetor v_PI = P_I - Centro_base;
+            float altura_Pi = produtoEscalar(Eixo, v_PI);
+            if (altura_Pi >= 0 && altura_Pi <= Altura)
+            {
+                t_valido = r1;
+            }
+        }
+
+        if (r2 > epsilon)
+        {
+            Ponto P_I = ray(origem, Dr, r2);
+            Vetor v_PI = P_I - Centro_base;
+            float altura_Pi = produtoEscalar(Eixo, v_PI);
+            if (altura_Pi >= 0 && altura_Pi <= Altura)
+            {
+                if (t_valido < 0 || r2 < t_valido)
+                {
+                    t_valido = r2;
+                }
+            }
         }
     }
 
-    if (r2 > epsilon)
+    if (temBaseInterna && Raio_interno > epsilon)
     {
-        Ponto P_I = ray(origem, Dr, r2);
-        Vetor v_PI = P_I - Centro_base;
-        float altura_Pi = produtoEscalar(Eixo, v_PI);
-        if (altura_Pi >= 0 && altura_Pi <= Altura)
+        float c_int = produtoEscalar(M_Matrix * w, M_Matrix * w) - powf(Raio_interno, 2);
+        float delta_int = powf(b, 2) - 4 * a * c_int;
+
+        if (delta_int >= 0)
         {
-            if (t_valido < 0 || r2 < t_valido)
+            float r3 = (-b + sqrt(delta_int)) / (2 * a);
+            float r4 = (-b - sqrt(delta_int)) / (2 * a);
+
+            if (r3 > epsilon)
             {
-                t_valido = r2;
+                Ponto P_I = ray(origem, Dr, r3);
+                float altura_Pi = produtoEscalar(Eixo, P_I - Centro_base);
+                if (altura_Pi >= 0 && altura_Pi <= Altura)
+                {
+                    if (t_valido < 0 || r3 < t_valido)
+                    {
+                        t_valido = r3;
+                        normal_temp = -normalEm(P_I);
+                    }
+                }
+            }
+
+            if (r4 > epsilon)
+            {
+                Ponto P_I = ray(origem, Dr, r4);
+                float altura_Pi = produtoEscalar(Eixo, P_I - Centro_base);
+                if (altura_Pi >= 0 && altura_Pi <= Altura)
+                {
+                    if (t_valido < 0 || r4 < t_valido)
+                    {
+                        t_valido = r4;
+                        normal_temp = -normalEm(P_I);
+                    }
+                }
             }
         }
     }
@@ -62,7 +121,8 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
         {
             Ponto P_base = ray(origem, Dr, t_base);
             Vetor d = P_base - Centro_base;
-            if (produtoEscalar(d, d) <= Raio_base * Raio_base)
+            float distSq = produtoEscalar(d, d);
+            if (distSq <= Raio_base * Raio_base && distSq >= Raio_interno * Raio_interno)
             {
                 if (t_valido < 0 || t_base < t_valido)
                 {
@@ -72,6 +132,7 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
             }
         }
     }
+
     if (temBaseSuperior)
     {
         Ponto topo = ray(Centro_base, Eixo, Altura);
@@ -80,7 +141,8 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
         {
             Ponto P_topo = ray(origem, Dr, t_topo);
             Vetor d = P_topo - topo;
-            if (produtoEscalar(d, d) <= Raio_base * Raio_base)
+            float distSq = produtoEscalar(d, d);
+            if (distSq <= Raio_base * Raio_base && distSq >= Raio_interno * Raio_interno)
             {
                 if (t_valido < 0 || t_topo < t_valido)
                 {
