@@ -10,14 +10,14 @@ struct Tabuleiro : ObjetoComplexo
 {
     Paralelepipedo *base;
     Plano *plano;
-    Cilindro *peça1;
-    Cilindro *peça2;
-    Cilindro *peça3;
-    Cilindro *peça4;
-    Cilindro *peça5;
-    Cilindro *peça6;
-    Cilindro *peça7;
-    Cilindro *peça8;
+    Cilindro *peca1;
+    Cilindro *peca2;
+    Cilindro *peca3;
+    Cilindro *peca4;
+    Cilindro *peca5;
+    Cilindro *peca6;
+    Cilindro *peca7;
+    Cilindro *peca8;
 
     Tabuleiro()
     {
@@ -31,36 +31,36 @@ struct Tabuleiro : ObjetoComplexo
         string xadrezText = "../Assets/xadrez.png";
 
         float off = ladosBase / 2.0f;
-        float yPeça = alturaBase + epsilon;
+        float yPeca = alturaBase + epsilon;
 
-        Ponto minPt(-off, yPeça, -off);
-        Ponto maxPt(off, yPeça, off);
+        Ponto minPt(-off, yPeca, -off);
+        Ponto maxPt(off, yPeca, off);
 
-        plano = new Plano(Ponto(0.0f, yPeça, 0.0f), Vetor(0.0f, 1.0f, 0.0f), xadrezText, 3.3f, 100, minPt, maxPt);
+        plano = new Plano(Ponto(0.0f, yPeca, 0.0f), Vetor(0.0f, 1.0f, 0.0f), xadrezText, 3.3f, 100, minPt, maxPt);
 
         adicionarComponente(base);
         adicionarComponente(plano);
 
         float q = ladosBase / 8.0f;
 
-        peça1 = new Cilindro(Ponto(-off + 1.5f * q, yPeça, -off + 1.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), 100);
+        peca1 = new Cilindro(Ponto(-off + 1.5f * q, yPeca, -off + 1.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), 100);
 
-        peça2 = new Cilindro(Ponto(-off + 3.5f * q, yPeça, -off + 1.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), 100);
+        peca2 = new Cilindro(Ponto(-off + 3.5f * q, yPeca, -off + 1.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), 100);
 
-        peça3 = new Cilindro(Ponto(-off + 2.5f * q, yPeça, -off + 2.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), 100);
+        peca3 = new Cilindro(Ponto(-off + 2.5f * q, yPeca, -off + 2.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), Cor(0.9f, 0.9f, 0.9f), 100);
 
-        peça4 = new Cilindro(Ponto(-off + 3.5f * q, yPeça, -off + 3.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), 100);
+        peca4 = new Cilindro(Ponto(-off + 3.5f * q, yPeca, -off + 3.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), 100);
 
-        peça5 = new Cilindro(Ponto(-off + 5.5f * q, yPeça, -off + 5.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), 100);
+        peca5 = new Cilindro(Ponto(-off + 5.5f * q, yPeca, -off + 5.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), 100);
 
-        peça6 = new Cilindro(Ponto(-off + 7.5f * q, yPeça, -off + 7.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), 100);
+        peca6 = new Cilindro(Ponto(-off + 7.5f * q, yPeca, -off + 7.5f * q), 0.015f, 0.01f, Vetor(0.0f, 1.0f, 0.0f), true, true, Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), Cor(0.1f, 0.1f, 0.1f), 100);
 
-        adicionarComponente(peça1);
-        adicionarComponente(peça2);
-        adicionarComponente(peça3);
-        adicionarComponente(peça4);
-        adicionarComponente(peça5);
-        adicionarComponente(peça6);
+        adicionarComponente(peca1);
+        adicionarComponente(peca2);
+        adicionarComponente(peca3);
+        adicionarComponente(peca4);
+        adicionarComponente(peca5);
+        adicionarComponente(peca6);
     }
 };
 

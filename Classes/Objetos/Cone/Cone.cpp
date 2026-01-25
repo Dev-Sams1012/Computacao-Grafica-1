@@ -160,7 +160,7 @@ Vetor Cone::normalEm(const Ponto &P) const
     Ponto P_eixo = ray(Centro_base, Eixo, h);
     Vetor radial = normalizar(P - P_eixo);
 
-    float inclinação = Raio_base / Altura;
+    float inclinacao = Raio_base / Altura;
 
-    return normalizar(radial + Eixo * inclinação);
+    return normalizar(radial + Eixo * inclinacao);
 }
