@@ -1,14 +1,15 @@
 #include "Vetor.hpp"
 #include <cmath>
 
-Vetor::Vetor(float x, float y , float z)
+Vetor::Vetor(float x, float y, float z)
 {
     Cord_x = x;
     Cord_y = y;
     Cord_z = z;
 }
 
-float Vetor::norma(){
+float Vetor::norma()
+{
     return sqrtf(Cord_x * Cord_x + Cord_y * Cord_y + Cord_z * Cord_z);
 }
 
@@ -25,9 +26,7 @@ float produtoEscalar(const Vetor &v1, const Vetor &v2)
 
 Vetor produtoVetorial(const Vetor &v1, const Vetor &v2)
 {
-    return Vetor(v1.Cord_y * v2.Cord_z - v1.Cord_z * v2.Cord_y,
-                 v1.Cord_z * v2.Cord_x - v1.Cord_x * v2.Cord_z,
-                 v1.Cord_x * v2.Cord_y - v1.Cord_y * v2.Cord_x);
+    return Vetor(v1.Cord_y * v2.Cord_z - v1.Cord_z * v2.Cord_y, v1.Cord_z * v2.Cord_x - v1.Cord_x * v2.Cord_z, v1.Cord_x * v2.Cord_y - v1.Cord_y * v2.Cord_x);
 }
 
 Ponto ray(const Ponto &p, const Vetor &v, float t)
@@ -35,6 +34,16 @@ Ponto ray(const Ponto &p, const Vetor &v, float t)
     return Ponto(p.Cord_x + v.Cord_x * t,
                  p.Cord_y + v.Cord_y * t,
                  p.Cord_z + v.Cord_z * t);
+}
+
+Ponto operator+(const Ponto &p, const Vetor &v)
+{
+    return Ponto(p.Cord_x + v.Cord_x, p.Cord_y + v.Cord_y, p.Cord_z + v.Cord_z);
+}
+
+Ponto operator+(const Vetor &v, const Ponto &p)
+{
+    return p + v;
 }
 
 Vetor operator-(const Ponto &p2, const Ponto &p1)

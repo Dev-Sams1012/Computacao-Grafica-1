@@ -19,7 +19,12 @@ Vetor normalizar(const Vetor &v);
 float produtoEscalar(const Vetor &v1, const Vetor &v2);
 
 Vetor produtoVetorial(const Vetor &v1, const Vetor &v2);
+
 Ponto ray(const Ponto &p, const Vetor &v, float t);
+
+Ponto operator+(const Vetor &v, const Ponto &p);
+
+Ponto operator+(const Ponto &p, const Vetor &v);
 
 Vetor operator-(const Ponto &p2, const Ponto &p1);
 
