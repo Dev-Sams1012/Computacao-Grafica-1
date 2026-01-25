@@ -15,6 +15,7 @@
 #include "../Classes/Utils/Luz/LuzDirecional/LuzDirecional.hpp"
 
 #include "../Classes/Objetos/Esfera/Esfera.hpp"
+#include "../Classes/Objetos/Elipsoide/Elipsoide.hpp"
 #include "../Classes/Objetos/Plano/Plano.hpp"
 #include "../Classes/Objetos/Triangulo/Triangulo.hpp"
 #include "../Classes/Objetos/Cilindro/Cilindro.hpp"
@@ -28,6 +29,7 @@
 #include "Objetos/Mesa.hpp"
 #include "Objetos/Poste.hpp"
 #include "Objetos/Tabuleiro.hpp"
+#include "Objetos/CarrinhoBaloes.hpp"
 
 using namespace std;
 
