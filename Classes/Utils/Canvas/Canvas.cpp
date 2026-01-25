@@ -30,58 +30,72 @@ void Canvas::adicionaLuz(Luz *luz)
 
 void Canvas::geraImagem()
 {
-    Camera* cam = camera;
-    const auto& objs = objetos;
-    const auto& luzs = luzes;
+    Camera *cam = camera;
+    const auto &objs = objetos;
+    const auto &luzs = luzes;
 
 #pragma omp parallel for collapse(2) schedule(dynamic)
     for (size_t l = 0; l < nLin; ++l)
-    for (size_t c = 0; c < nCol; ++c)
-    {
-        float u = cam->xmin + (cam->xmax - cam->xmin) * (c + 0.5f) / nCol;
-        float v = cam->ymax - (cam->ymax - cam->ymin) * (l + 0.5f) / nLin;
-
-        Cor finalColor(0,0,0);
-
-        Ponto pixel_cam(u, v, -cam->d);
-        Vetor Dr_cam = normalizar(pixel_cam - Ponto(0, 0, 0));
-        Vetor Dr =
-            Dr_cam.Cord_x * cam->right +
-            Dr_cam.Cord_y * cam->up +
-            Dr_cam.Cord_z * (-cam->forward);
-
-        Dr = normalizar(Dr);
-
-        HitInfo hit;
-        hit.t = INFINITY;
-
-        for (Objeto* obj : objs)
-            obj->raioIntercepta(cam->eye, Dr, hit);
-
-        if (hit.objeto)
+        for (size_t c = 0; c < nCol; ++c)
         {
-            finalColor = operadorArroba(hit.objeto->K_a, Iamb);
+            float u = cam->xmin + (cam->xmax - cam->xmin) * (c + 0.5f) / nCol;
+            float v = cam->ymax - (cam->ymax - cam->ymin) * (l + 0.5f) / nLin;
 
-            for (Luz* luz : luzs)
+            Cor finalColor(0, 0, 0);
+
+            Ponto origemRaio;
+            Vetor Dr;
+
+            if (camera->tipo == Camera::PERSPECTIVA)
             {
-                if (luz->iluminaPonto(hit.ponto) &&
-                    !hit.objeto->temSombra(hit, *luz, objs))
+                origemRaio = camera->eye;
+                Ponto pixel_cam(u, v, -camera->d);
+                Vetor Dr_cam = normalizar(pixel_cam - Ponto(0, 0, 0));
+                Dr = Dr_cam.Cord_x * camera->right + Dr_cam.Cord_y * camera->up + Dr_cam.Cord_z * (-camera->forward);
+            }
+            else
+            {
+                origemRaio = camera->eye + (camera->right * u) + (camera->up * v);
+                if (camera->tipo == Camera::ORTOGRAFICA)
+                    Dr = camera->forward;
+                else
                 {
-                    Cor contrib;
-                    hit.objeto->renderiza(contrib, hit, *luz);
-                    finalColor.r += contrib.r;
-                    finalColor.g += contrib.g;
-                    finalColor.b += contrib.b;
+                    Dr = normalizar(camera->forward + camera->right + camera->up);
                 }
             }
+
+            Dr = normalizar(Dr);
+
+            HitInfo hit;
+            hit.t = INFINITY;
+
+            for (Objeto *obj : objs)
+                obj->raioIntercepta(origemRaio, Dr, hit);
+
+            if (hit.objeto)
+            {
+                finalColor = operadorArroba(hit.objeto->K_a, Iamb);
+
+                for (Luz *luz : luzs)
+                {
+                    if (luz->iluminaPonto(hit.ponto) &&
+                        !hit.objeto->temSombra(hit, *luz, objs))
+                    {
+                        Cor contrib;
+                        hit.objeto->renderiza(contrib, hit, *luz);
+                        finalColor.r += contrib.r;
+                        finalColor.g += contrib.g;
+                        finalColor.b += contrib.b;
+                    }
+                }
 
                 finalColor.r = min(1.0f, finalColor.r);
                 finalColor.g = min(1.0f, finalColor.g);
                 finalColor.b = min(1.0f, finalColor.b);
             }
 
-        imagem[l * nCol + c] = finalColor;
-    }
+            imagem[l * nCol + c] = finalColor;
+        }
 
     ofstream arquivo(nomeArquivoSaida + ".ppm");
     arquivo << "P3\n"
@@ -110,21 +124,33 @@ Objeto *Canvas::pick(int x, int y)
     float u = camera->xmin + (camera->xmax - camera->xmin) * (x + 0.5f) / nCol;
     float v = camera->ymax - (camera->ymax - camera->ymin) * (y + 0.5f) / nLin;
 
-    Ponto origem = camera->eye;
+    Ponto origemRaio;
+    Vetor Dr;
 
-    Ponto pixel_cam(u, v, -camera->d);
-    Vetor Dr_cam = normalizar(pixel_cam - Ponto(0.0f, 0.0f, 0.0f));
-    Vetor Dr =
-        Dr_cam.Cord_x * camera->right +
-        Dr_cam.Cord_y * camera->up +
-        Dr_cam.Cord_z * (-camera->forward);
+    if (camera->tipo == Camera::PERSPECTIVA)
+    {
+        origemRaio = camera->eye;
+        Ponto pixel_cam(u, v, -camera->d);
+        Vetor Dr_cam = normalizar(pixel_cam - Ponto(0, 0, 0));
+        Dr = Dr_cam.Cord_x * camera->right + Dr_cam.Cord_y * camera->up + Dr_cam.Cord_z * (-camera->forward);
+    }
+    else
+    {
+        origemRaio = camera->eye + (camera->right * u) + (camera->up * v);
+        if (camera->tipo == Camera::ORTOGRAFICA)
+            Dr = camera->forward;
+        else
+        {
+            Dr = normalizar(camera->forward + camera->right + camera->up);
+        }
+    }
 
     Dr = normalizar(Dr);
-
     HitInfo hit;
+    hit.t = INFINITY;
 
     for (Objeto *obj : objetos)
-        obj->raioIntercepta(origem, Dr, hit);
+        obj->raioIntercepta(origemRaio, Dr, hit);
 
     return hit.objeto;
 }
