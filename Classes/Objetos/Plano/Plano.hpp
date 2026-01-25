@@ -16,6 +16,9 @@ struct Plano : public Objeto
     Ponto minPt;
     Ponto maxPt;
 
+    bool temRaio;
+    float raio;
+
     bool tem_textura;
     string arquivo_textura = "";
     unsigned char *textura = nullptr;
@@ -29,6 +32,10 @@ struct Plano : public Objeto
     Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M, Ponto min, Ponto max);
 
     Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M, Ponto min, Ponto max);
+
+    Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M, float r);
+
+    Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M, float r);
 
     bool temTextura() const override { return tem_textura; }
 

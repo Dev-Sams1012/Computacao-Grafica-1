@@ -6,6 +6,7 @@ Plano::Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M) : Objeto(Kd, 
     n_bar = normalizar(nbar);
     tem_textura = false;
     infinito = true;
+    temRaio = false;
 }
 
 Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M) : Objeto(Cor(0, 0, 0), Cor(0, 0, 0), Cor(0, 0, 0), M)
@@ -14,6 +15,7 @@ Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int
     n_bar = normalizar(nbar);
     tem_textura = true;
     infinito = true;
+    temRaio = false;
 
     arquivo_textura = arquivoTextura;
     escala_textura = escala_tex;
@@ -33,6 +35,7 @@ Plano::Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M, Ponto min, Po
     n_bar = normalizar(nbar);
     tem_textura = false;
     infinito = false;
+    temRaio = false;
     minPt = min;
     maxPt = max;
 }
@@ -43,8 +46,40 @@ Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int
     n_bar = normalizar(nbar);
     tem_textura = true;
     infinito = false;
+    temRaio = false;
     minPt = min;
     maxPt = max;
+
+    arquivo_textura = arquivoTextura;
+    escala_textura = escala_tex;
+
+    textura = stbi_load(arquivoTextura.c_str(), &tex_largura, &tex_altura, &tex_componentes, 3);
+
+    if (!textura)
+    {
+        cerr << "Erro ao carregar textura: " << arquivoTextura << "\n";
+        tem_textura = false;
+    }
+}
+
+Plano::Plano(Ponto Ppi, Vetor nbar, Cor Kd, Cor Ke, Cor Ka, int M, float r) : Objeto(Kd, Ke, Ka, M)
+{
+    P_pi = Ppi;
+    n_bar = normalizar(nbar);
+    tem_textura = false;
+    infinito = false;
+    temRaio = true;
+    raio = r;
+}
+
+Plano::Plano(Ponto Ppi, Vetor nbar, string arquivoTextura, float escala_tex, int M, float r) : Objeto(Cor(0, 0, 0), Cor(0, 0, 0), Cor(0, 0, 0), M)
+{
+    P_pi = Ppi;
+    n_bar = normalizar(nbar);
+    tem_textura = true;
+    infinito = false;
+    temRaio = true;
+    raio = r;
 
     arquivo_textura = arquivoTextura;
     escala_textura = escala_tex;
@@ -108,10 +143,20 @@ bool Plano::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
     {
         Ponto P_I = ray(origem, Dr, t);
 
-        if (!infinito)
+        if (!infinito && !temRaio) 
         {
             if (P_I.Cord_x < minPt.Cord_x - epsilon || P_I.Cord_x > maxPt.Cord_x + epsilon ||
                 P_I.Cord_z < minPt.Cord_z - epsilon || P_I.Cord_z > maxPt.Cord_z + epsilon)
+            {
+                return false;
+            }
+        }
+        
+        if (temRaio)
+        {
+            Vetor distanciaCentro = P_I - P_pi;
+            float distSq = produtoEscalar(distanciaCentro, distanciaCentro);
+            if (distSq > (raio * raio) + epsilon)
             {
                 return false;
             }
@@ -132,7 +177,7 @@ void Plano::transforma(const Matriz4x4 &M)
 {
     P_pi = M * P_pi;
 
-    if (!infinito)
+    if (!infinito && !temRaio)
     {
         minPt = M * minPt;
         maxPt = M * maxPt;
