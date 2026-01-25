@@ -28,6 +28,7 @@ add_executable(main
         Classes/Objetos/Cilindro/Cilindro.cpp
         Classes/Objetos/Cone/Cone.cpp
         Classes/Objetos/Esfera/Esfera.cpp
+        Classes/Objetos/Elipsoide/Elipsoide.cpp
         Classes/Objetos/Plano/Plano.cpp
         Classes/Objetos/Triangulo/Triangulo.cpp
         Classes/Objetos/Malha/Malha.cpp
