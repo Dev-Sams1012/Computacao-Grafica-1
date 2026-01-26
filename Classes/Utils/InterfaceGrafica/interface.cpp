@@ -96,49 +96,49 @@ void Interface::keyboard(unsigned char key, int, int)
     }
     else if (key == 'w' || key == 'W')
     {
-        canvasReferencia->camera->andaZ(0.5f);
+        canvasReferencia->camera->andaZ(2.0f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
     else if (key == 's' || key == 'S')
     {
-        canvasReferencia->camera->andaZ(-0.5f);
+        canvasReferencia->camera->andaZ(-2.0f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
     else if (key == 'a' || key == 'A')
     {
-        canvasReferencia->camera->andaX(-0.5f);
+        canvasReferencia->camera->andaX(-2.0f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
     else if (key == 'd' || key == 'D')
     {
-        canvasReferencia->camera->andaX(0.5f);
+        canvasReferencia->camera->andaX(2.0f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
     else if (key == 'q' || key == 'Q')
     {
-        canvasReferencia->camera->andaY(-0.5f);
+        canvasReferencia->camera->andaY(-2.0f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
     else if (key == 'e' || key == 'E')
     {
-        canvasReferencia->camera->andaY(0.5f);
+        canvasReferencia->camera->andaY(2.0f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
     else if (key == 'z' || key == 'Z')
     {
-        canvasReferencia->camera->roll(0.05f);
+        canvasReferencia->camera->roll(0.1f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
     else if (key == 'c' || key == 'C')
     {
-        canvasReferencia->camera->roll(-0.05f);
+        canvasReferencia->camera->roll(-0.1f);
         canvasReferencia->geraImagem();
         glutPostRedisplay();
     }
@@ -152,19 +152,19 @@ void Interface::special(int key, int, int)
 
     if (key == GLUT_KEY_LEFT)
     {
-        canvasReferencia->camera->yaw(0.05f);
+        canvasReferencia->camera->yaw(0.1f);
     }
     else if (key == GLUT_KEY_RIGHT)
     {
-        canvasReferencia->camera->yaw(-0.05f);
+        canvasReferencia->camera->yaw(-0.1f);
     }
     else if (key == GLUT_KEY_UP)
     {
-        canvasReferencia->camera->pitch(0.05f);
+        canvasReferencia->camera->pitch(0.1f);
     }
     else if (key == GLUT_KEY_DOWN)
     {
-        canvasReferencia->camera->pitch(-0.05f);
+        canvasReferencia->camera->pitch(-0.1f);
     }
 
     canvasReferencia->geraImagem();
