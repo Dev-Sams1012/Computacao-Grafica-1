@@ -1,4 +1,5 @@
 #include "Quaternio.hpp"
+#include "../Matriz/Matriz4x4.hpp"
 
 Quaternio::Quaternio(float w, Vetor v)
 {
@@ -61,4 +62,15 @@ Matriz4x4 Quaternio::toRotationMatrix() const
     M.m[3][3] = 1;
 
     return M;
+}
+
+Quaternio Quaternio::rotacaoEixo(Vetor eixo, float ang)
+{
+    eixo = normalizar(eixo);
+
+    float half = ang * 0.5f;
+    float c = cos(half);
+    float s = sin(half);
+
+    return Quaternio(c,  eixo * s);
 }

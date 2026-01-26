@@ -1,8 +1,9 @@
 #include "../Vetor/Vetor.hpp"
-#include "../Matriz/Matriz4x4.hpp"
 
 #ifndef QUATERNIO_HPP
 #define QUATERNIO_HPP
+
+struct Matriz4x4; 
 
 using namespace std;
 
@@ -22,6 +23,8 @@ struct Quaternio
     Quaternio operator*(const Quaternio &q) const;
 
     Matriz4x4 toRotationMatrix() const;
+
+    static Quaternio rotacaoEixo(Vetor eixo, float ang);
 };
 
 #endif
