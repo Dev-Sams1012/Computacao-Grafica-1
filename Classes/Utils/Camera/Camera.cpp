@@ -53,24 +53,21 @@ void Camera::andaZ(float d)
 
 void Camera::pitch(float ang)
 {
-    Matriz4x4 M = Matriz4x4::rotacaoX(ang);
-    forward = normalizar(M * forward);
-    right = normalizar(M * right);
-    up = normalizar(M * up);
+    Matriz4x4 R = Matriz4x4::rotacaoEixo(right, ang);
+    forward = normalizar(R * forward);
+    up      = normalizar(R * up);
 }
 
 void Camera::yaw(float ang)
 {
-    Matriz4x4 M = Matriz4x4::rotacaoY(ang);
-    forward = normalizar(M * forward);
-    right = normalizar(M * right);
-    up = normalizar(M * up);
+    Matriz4x4 R = Matriz4x4::rotacaoEixo(up, ang);
+    forward = normalizar(R * forward);
+    right   = normalizar(R * right);
 }
 
 void Camera::roll(float ang)
 {
-    Matriz4x4 M = Matriz4x4::rotacaoZ(ang);
-    forward = normalizar(M * forward);
-    right = normalizar(M * right);
-    up = normalizar(M * up);
+    Matriz4x4 R = Matriz4x4::rotacaoEixo(forward, ang);
+    right = normalizar(R * right);
+    up    = normalizar(R * up);
 }
