@@ -73,6 +73,12 @@ Matriz4x4 Matriz4x4::rotacaoZ(float ang)
     return M;
 }
 
+Matriz4x4 Matriz4x4::rotacaoEixo(Vetor eixo, float ang)
+{
+    Quaternio q = Quaternio::rotacaoEixo(eixo, ang);
+    return q.normalizado().toRotationMatrix();
+}
+
 Matriz4x4 Matriz4x4::cisalhaXY(float sh)
 {
     Matriz4x4 m(1.0f);
@@ -86,7 +92,6 @@ Matriz4x4 Matriz4x4::cisalhaYX(float sh)
     m.m[1][0] = sh;
     return m;
 }
-        
 
 Matriz4x4 Matriz4x4::cisalhaXZ(float sh)
 {
@@ -101,7 +106,6 @@ Matriz4x4 Matriz4x4::cisalhaZX(float sh)
     m.m[2][0] = sh;
     return m;
 }
-
 
 Matriz4x4 Matriz4x4::cisalhaYZ(float sh)
 {

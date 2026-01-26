@@ -7,6 +7,7 @@ using namespace std;
 
 #include "../Ponto/Ponto.hpp"
 #include "../Vetor/Vetor.hpp"
+#include "../Quaternio/Quaternio.hpp"
 
 struct Matriz4x4
 {
@@ -21,6 +22,7 @@ struct Matriz4x4
     static Matriz4x4 rotacaoX(float ang);
     static Matriz4x4 rotacaoY(float ang);
     static Matriz4x4 rotacaoZ(float ang);
+    static Matriz4x4 rotacaoEixo(Vetor eixo, float ang);
     static Matriz4x4 cisalhaXY(float ang);
     static Matriz4x4 cisalhaYX(float ang);
     static Matriz4x4 cisalhaXZ(float ang);
