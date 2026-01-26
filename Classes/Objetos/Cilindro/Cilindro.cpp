@@ -9,13 +9,12 @@ Cilindro::Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool 
     Eixo = normalizar(dr);
     temBaseInferior = TemBaseInf;
     temBaseSuperior = TemBaseSup;
-    temBaseInterna = false;
 
     Q_Matrix = (Eixo * Eixo) * (1.0f / produtoEscalar(Eixo, Eixo));
     M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
 }
 
-Cilindro::Cilindro(Ponto Cb, float Rb, float Ri, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, bool TemBaseInt, Cor Kd, Cor Ke, Cor Ka, int m_cor) : Objeto(Kd, Ke, Ka, m_cor)
+Cilindro::Cilindro(Ponto Cb, float Rb, float Ri, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor) : Objeto(Kd, Ke, Ka, m_cor)
 {
     Centro_base = Cb;
     Raio_base = Rb;
@@ -24,7 +23,6 @@ Cilindro::Cilindro(Ponto Cb, float Rb, float Ri, float H, Vetor dr, bool TemBase
     Eixo = normalizar(dr);
     temBaseInferior = TemBaseInf;
     temBaseSuperior = TemBaseSup;
-    temBaseInterna = TemBaseInt;
 
     Q_Matrix = (Eixo * Eixo) * (1.0f / produtoEscalar(Eixo, Eixo));
     M_Matrix = Matriz3x3(1.0f) - Q_Matrix;
@@ -74,7 +72,7 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
         }
     }
 
-    if (temBaseInterna && Raio_interno > epsilon)
+    if (Raio_interno > epsilon)
     {
         float c_int = produtoEscalar(M_Matrix * w, M_Matrix * w) - powf(Raio_interno, 2);
         float delta_int = powf(b, 2) - 4 * a * c_int;
@@ -114,41 +112,41 @@ bool Cilindro::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit
         }
     }
 
-    if (temBaseInferior)
+    float t_base = produtoEscalar(Eixo, Centro_base - origem) / produtoEscalar(Eixo, Dr);
+    if (t_base > epsilon)
     {
-        float t_base = produtoEscalar(Eixo, Centro_base - origem) / produtoEscalar(Eixo, Dr);
-        if (t_base > epsilon)
+        Ponto P_base = ray(origem, Dr, t_base);
+        Vetor d = P_base - Centro_base;
+        float distSq = produtoEscalar(d, d);
+
+        float limiteMin = temBaseInferior ? 0.0f : Raio_interno * Raio_interno;
+
+        if (distSq <= Raio_base * Raio_base && distSq >= limiteMin)
         {
-            Ponto P_base = ray(origem, Dr, t_base);
-            Vetor d = P_base - Centro_base;
-            float distSq = produtoEscalar(d, d);
-            if (distSq <= Raio_base * Raio_base && distSq >= Raio_interno * Raio_interno)
+            if (t_valido < 0 || t_base < t_valido)
             {
-                if (t_valido < 0 || t_base < t_valido)
-                {
-                    t_valido = t_base;
-                    normal_temp = -Eixo;
-                }
+                t_valido = t_base;
+                normal_temp = -Eixo;
             }
         }
     }
 
-    if (temBaseSuperior)
+    Ponto topo = ray(Centro_base, Eixo, Altura);
+    float t_topo = produtoEscalar(Eixo, topo - origem) / produtoEscalar(Eixo, Dr);
+    if (t_topo > epsilon)
     {
-        Ponto topo = ray(Centro_base, Eixo, Altura);
-        float t_topo = produtoEscalar(Eixo, topo - origem) / produtoEscalar(Eixo, Dr);
-        if (t_topo > epsilon)
+        Ponto P_topo = ray(origem, Dr, t_topo);
+        Vetor d = P_topo - topo;
+        float distSq = produtoEscalar(d, d);
+
+        float limiteMin = temBaseSuperior ? 0.0f : Raio_interno * Raio_interno;
+
+        if (distSq <= Raio_base * Raio_base && distSq >= limiteMin)
         {
-            Ponto P_topo = ray(origem, Dr, t_topo);
-            Vetor d = P_topo - topo;
-            float distSq = produtoEscalar(d, d);
-            if (distSq <= Raio_base * Raio_base && distSq >= Raio_interno * Raio_interno)
+            if (t_valido < 0 || t_topo < t_valido)
             {
-                if (t_valido < 0 || t_topo < t_valido)
-                {
-                    t_valido = t_topo;
-                    normal_temp = Eixo;
-                }
+                t_valido = t_topo;
+                normal_temp = Eixo;
             }
         }
     }

@@ -14,11 +14,10 @@ struct Cilindro : public Objeto
     Matriz3x3 M_Matrix;
     bool temBaseInferior;
     bool temBaseSuperior;
-    bool temBaseInterna;
 
     Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor);
 
-    Cilindro(Ponto Cb, float Rb, float Ri, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, bool TemBaseInt, Cor Kd, Cor Ke, Cor Ka, int m_cor);
+    Cilindro(Ponto Cb, float Rb, float Ri, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor);
 
     bool raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit) override;
 
