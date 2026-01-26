@@ -7,8 +7,10 @@ struct Esfera : public Objeto
 {
     Ponto centro;
     float raio;
+    bool ehSemiesfera;
+    bool inverterCorte;
 
-    Esfera(Ponto c, float r, Cor Kd, Cor Ke, Cor Ka, int M);
+    Esfera(Ponto c, float r, Cor Kd, Cor Ke, Cor Ka, int M, bool semi = false, bool inverter = false);
 
     bool raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit) override;
 
