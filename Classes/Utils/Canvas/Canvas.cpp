@@ -76,6 +76,10 @@ void Canvas::geraImagem()
             {
                 finalColor = operadorArroba(hit.objeto->K_a, Iamb);
 
+                Cor corObjeto = hit.objeto->temTextura() ? hit.objeto->texturaEm(hit.ponto) : hit.objeto->K_d;
+                
+                finalColor = operadorArroba(finalColor, corObjeto);
+
                 for (Luz *luz : luzs)
                 {
                     if (luz->iluminaPonto(hit.ponto) &&
