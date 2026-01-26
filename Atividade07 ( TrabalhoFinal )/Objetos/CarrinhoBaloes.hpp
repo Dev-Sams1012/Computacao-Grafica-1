@@ -52,8 +52,8 @@ struct CarrinhoBaloes : ObjetoComplexo
         Ponto centroRodaEsq(-offsetEixoX, rodaRaio, posicaoEixoZ);
         Ponto baseCilindroEsq(centroRodaEsq.Cord_x - (rodaLargura / 2.0f), centroRodaEsq.Cord_y, centroRodaEsq.Cord_z);
 
-        aroEsquerdo = new Cilindro(baseCilindroEsq, rodaRaio, rodaRaio - 0.02f, rodaLargura, direcaoEixo, true, true, true, corPreto, corPreto, corPreto, 10);
-        cuboEsquerdo = new Cilindro(baseCilindroEsq, cuboRaio, 0.0f, rodaLargura, direcaoEixo, true, true, false, corMetal, corMetal, corMetal, 10);
+        aroEsquerdo = new Cilindro(baseCilindroEsq, rodaRaio, rodaRaio - 0.02f, rodaLargura, direcaoEixo, false, false, corPreto, corPreto, corPreto, 10);
+        cuboEsquerdo = new Cilindro(baseCilindroEsq, cuboRaio, 0.0f, rodaLargura, direcaoEixo, true, false, corMetal, corMetal, corMetal, 10);
         adicionarComponente(aroEsquerdo);
         adicionarComponente(cuboEsquerdo);
 
@@ -72,8 +72,8 @@ struct CarrinhoBaloes : ObjetoComplexo
         Ponto centroRodaDir(offsetEixoX, rodaRaio, posicaoEixoZ);
         Ponto baseCilindroDir(centroRodaDir.Cord_x - (rodaLargura / 2.0f), centroRodaDir.Cord_y, centroRodaDir.Cord_z);
 
-        aroDireito = new Cilindro(baseCilindroDir, rodaRaio, rodaRaio - 0.02f, rodaLargura, direcaoEixo, true, true, true, corPreto, corPreto, corPreto, 10);
-        cuboDireito = new Cilindro(baseCilindroDir, cuboRaio, 0.0f, rodaLargura, direcaoEixo, true, true, false, corMetal, corMetal, corMetal, 10);
+        aroDireito = new Cilindro(baseCilindroDir, rodaRaio, rodaRaio - 0.02f, rodaLargura, direcaoEixo, false, false, corPreto, corPreto, corPreto, 10);
+        cuboDireito = new Cilindro(baseCilindroDir, cuboRaio, 0.0f, rodaLargura, direcaoEixo, true, false, corMetal, corMetal, corMetal, 10);
         adicionarComponente(aroDireito);
         adicionarComponente(cuboDireito);
 
