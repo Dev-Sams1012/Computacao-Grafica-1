@@ -60,7 +60,7 @@ struct Fonte : ObjetoComplexo
         Plano* aguaTopo = new Plano(Ponto(0, yTopo - (rTopo * 0.4f), 0), up, texAgua, 3.0f, 100, rTopo * 0.9f);
         adicionarComponente(aguaTopo);
 
-        // 5. CHARME: BORDAS DE ARO NAS BACIAS (Como solicitado)
+        // 5. BORDAS DE ARO NAS BACIAS
         // Borda para a bacia média
         Cilindro* aroBordaMed = new Cilindro(Ponto(0, yMedia, 0), rMedia + 0.05f, rMedia - 0.05f, 0.1f, up, true, true, pedraKd, pedraKe, pedraKa, m_pedra);
         adicionarComponente(aroBordaMed);
