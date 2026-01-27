@@ -40,20 +40,35 @@ using namespace std;
 int main(int argc, char **argv)
 {
     // =========================================================
-    // 1. Janela e Canvas
+    // Configuração
     // =========================================================
 
     Janela janela(0.5f, 0.7f, 1.0f);
     size_t largura = 500, altura = 500;
-    Cor luzAmbiente(0.35f, 0.35f, 0.4f);
+    Cor luzAmbiente(0.1f, 0.1f, 0.1f);
 
-    // =========================================================
-    // 2. Câmera Isométrica
-    // =========================================================
-
-    // Posicionada em valores positivos altos de X, Y e Z para olhar para a origem
-    Ponto posCam(25.0f, 10.0f, 25.0f);
+    // Posicao inicial
+    Ponto posCam(28.0f, 10.0f, 25.0f);
     Ponto alvo(5.0f, 0.0f, 5.0f);
+
+    /*
+    // Ponto de fuga 1 ponto
+    Ponto posCam(15.0f, 1.7f, 35.0f);
+    Ponto alvo(15.0f, 1.7f, 15.0f);
+    */
+
+    /*
+    // Ponto de fuga 2 pontos
+    Ponto posCam(25.0f, 1.7f, 25.0f);
+    Ponto alvo(15.0f, 1.7f, 15.0f);
+    */
+
+    /*
+    // Ponto de fuga 3 pontos
+    Ponto posCam(28.0f, 10.0f, 28.0f);
+    Ponto alvo(15.0f, 0.0f, 15.0f);
+    */
+
     Camera *camera = new Camera(posCam, alvo, Vetor(0, 1, 0));
 
     Canvas *canvas = new Canvas(
@@ -65,7 +80,7 @@ int main(int argc, char **argv)
         luzAmbiente);
 
     // =========================================================
-    // 3. Iluminação (Sol posicionado para iluminar a quina do L)
+    // Iluminação Sol
     // =========================================================
 
     Vetor dirSol = normalizar(Vetor(-1.0f, -1.5f, -1.0f));
@@ -73,26 +88,26 @@ int main(int argc, char **argv)
     canvas->adicionaLuz(&sol);
 
     // =========================================================
-    // 4. Planos do Cenário (Formato em L)
+    // Planos do Cenário
     // =========================================================
 
     string texGrama = "../Assets/textura_grama.png";
     string texCeu = "../Assets/ceu.png";
 
-    // Chão: Plano XZ na base (Y=0)
+    // Plano XZ em Y=0 ( base )
     Plano *chao = new Plano(Ponto(0, 0, 0), Vetor(0, 1, 0), texGrama, 0.5f, 30);
     canvas->adicionaObjetoCena(chao);
 
-    // Parede de Trás (Plano XY em Z=0): Normal aponta para +Z
+    // Plano XY em Z=0
     Plano *paredeTras = new Plano(Ponto(0, 0, 0), Vetor(0, 0, 1), texCeu, 0.01f, 30);
     canvas->adicionaObjetoCena(paredeTras);
 
-    // Parede da Esquerda (Plano YZ em X=0): Normal aponta para +X
+    // Plano YZ em X=0
     Plano *paredeEsq = new Plano(Ponto(0, 0, 0), Vetor(1, 0, 0), texCeu, 0.01f, 30);
     canvas->adicionaObjetoCena(paredeEsq);
 
     // =========================================================
-    // 5. Objetos da Cena (Todos com X, Y, Z positivos)
+    // Objetos da Cena
     // =========================================================
 
     Matriz4x4 toOrigem = Matriz4x4::translacao(0.0f, 0.0f, 0.0f);
@@ -100,6 +115,9 @@ int main(int argc, char **argv)
     Fonte *fonte = new Fonte();
     fonte->transforma(Matriz4x4::translacao(15.0f, 0.0f, 15.0f));
     canvas->adicionaObjetoCena(fonte);
+
+    LuzPontual fonteLuz(Ponto(15.0f, 2.5f, 15.0f), Cor(0.1f, 0.3f, 0.8f));
+    canvas->adicionaLuz(&fonteLuz);
 
     Piso *piso = new Piso();
     piso->transforma(Matriz4x4::translacao(15.0f, 0.0f, 15.0f));
@@ -201,13 +219,35 @@ int main(int argc, char **argv)
     poste1->transforma(Matriz4x4::translacao(14.0f, 0.0f, 12.0f));
     canvas->adicionaObjetoCena(poste1);
 
+    Vetor down = Vetor(0.0f, -1.0f, 0.0f);
+    float ang = 45 * M_PI / 180;
+    Cor luzPoste = Cor(1.0f, 0.85f, 0.45f);
+
+    LuzSpot luz1Pos1 = LuzSpot(Ponto(14.37f, 2.73f, 12.0f), down, ang, luzPoste);
+    canvas->adicionaLuz(&luz1Pos1);
+
+    LuzSpot luz2Pos1 = LuzSpot(Ponto(13.63f, 2.73f, 12.0f), down, ang, luzPoste);
+    canvas->adicionaLuz(&luz2Pos1);
+
     Poste *poste2 = new Poste();
-    poste2->transforma(Matriz4x4::translacao(22.0f, 0.0f, 19.0f));
+    poste2->transforma(Matriz4x4::translacao(21.0f, 0.0f, 18.0f));
     canvas->adicionaObjetoCena(poste2);
+
+    LuzSpot luz1Pos2 = LuzSpot(Ponto(21.37f, 2.73f, 18.0f), down, ang, luzPoste);
+    canvas->adicionaLuz(&luz1Pos2);
+
+    LuzSpot luz2Pos2 = LuzSpot(Ponto(20.63f, 2.73f, 18.0f), down, ang, luzPoste);
+    canvas->adicionaLuz(&luz2Pos2);
 
     Poste *poste3 = new Poste();
     poste3->transforma(Matriz4x4::translacao(10.0f, 0.0f, 21.0f));
     canvas->adicionaObjetoCena(poste3);
+
+    LuzSpot luz1Pos3 = LuzSpot(Ponto(10.37f, 2.73f, 21.0f), down, ang, luzPoste);
+    canvas->adicionaLuz(&luz1Pos3);
+
+    LuzSpot luz2Pos3 = LuzSpot(Ponto(9.63f, 2.73f, 21.0f), down, ang, luzPoste);
+    canvas->adicionaLuz(&luz2Pos3);
 
     lixeira *lixRed = new lixeira(Cor(0.70f, 0.05f, 0.05f));
     lixRed->transforma(Matriz4x4::translacao(16.0f, 0.0f, 22.0f));
@@ -222,9 +262,9 @@ int main(int argc, char **argv)
     canvas->adicionaObjetoCena(lixYel);
 
     // =========================================================
-    // 6. Renderização
+    // Renderização
     // =========================================================
-    
+
     canvas->geraImagem();
     Interface::inicializar(argc, argv, largura, altura, canvas, "TRABALHO FINAL - CG1");
     glutMainLoop();
