@@ -30,7 +30,7 @@ void Canvas::adicionaLuz(Luz *luz)
 
 void Canvas::geraImagem()
 {
-    Camera *cam = camera;
+    Camera camLocal = *camera;
     const auto &objs = objetos;
     const auto &luzs = luzes;
 
@@ -38,29 +38,29 @@ void Canvas::geraImagem()
     for (size_t l = 0; l < nLin; ++l)
         for (size_t c = 0; c < nCol; ++c)
         {
-            float u = cam->xmin + (cam->xmax - cam->xmin) * (c + 0.5f) / nCol;
-            float v = cam->ymax - (cam->ymax - cam->ymin) * (l + 0.5f) / nLin;
+            float u = camLocal.xmin + (camLocal.xmax - camLocal.xmin) * (c + 0.5f) / nCol;
+            float v = camLocal.ymax - (camLocal.ymax - camLocal.ymin) * (l + 0.5f) / nLin;
 
             Cor finalColor(0, 0, 0);
 
             Ponto origemRaio;
             Vetor Dr;
 
-            if (camera->tipo == Camera::PERSPECTIVA)
+            if (camLocal.tipo == Camera::PERSPECTIVA)
             {
-                origemRaio = camera->eye;
-                Ponto pixel_cam(u, v, -camera->d);
+                origemRaio = camLocal.eye;
+                Ponto pixel_cam(u, v, -camLocal.d);
                 Vetor Dr_cam = normalizar(pixel_cam - Ponto(0, 0, 0));
-                Dr = Dr_cam.Cord_x * camera->right + Dr_cam.Cord_y * camera->up + Dr_cam.Cord_z * (-camera->forward);
+                Dr = Dr_cam.Cord_x * camLocal.right + Dr_cam.Cord_y * camLocal.up + Dr_cam.Cord_z * (-camLocal.forward);
             }
             else
             {
-                origemRaio = camera->eye + (camera->right * u) + (camera->up * v);
-                if (camera->tipo == Camera::ORTOGRAFICA)
-                    Dr = camera->forward;
+                origemRaio = camLocal.eye + (camLocal.right * u) + (camLocal.up * v);
+                if (camLocal.tipo == Camera::ORTOGRAFICA)
+                    Dr = camLocal.forward;
                 else
                 {
-                    Dr = normalizar(camera->forward + camera->right + camera->up);
+                    Dr = normalizar(camLocal.forward + camLocal.right + camLocal.up);
                 }
             }
 
@@ -101,26 +101,7 @@ void Canvas::geraImagem()
             imagem[l * nCol + c] = finalColor;
         }
 
-    ofstream arquivo(nomeArquivoSaida + ".ppm");
-    arquivo << "P3\n"
-            << nCol << " " << nLin << "\n255\n";
-
-    for (size_t l = 0; l < nLin; l++)
-    {
-        for (size_t c = 0; c < nCol; c++)
-        {
-            Cor &pixel = imagem[l * nCol + c];
-
-            arquivo << pixel.r * 255 << " "
-                    << pixel.g * 255 << " "
-                    << pixel.b * 255 << " ";
-        }
-        arquivo << "\n";
-    }
-
-    arquivo.close();
-
-    cout << "Imagem gerada em " << nomeArquivoSaida << ".ppm'" << endl;
+    cout << "Imagem gerada" << endl;
 }
 
 Objeto *Canvas::pick(int x, int y)
