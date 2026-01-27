@@ -43,18 +43,20 @@ int main(int argc, char **argv)
     // Configuração
     // =========================================================
 
-    Janela janela(0.5f, 0.7f, 1.0f);
+    Janela janela(0.7f, 0.7f, 1.0f);
     size_t largura = 500, altura = 500;
     Cor luzAmbiente(0.1f, 0.1f, 0.1f);
 
+    
     // Posicao inicial
-    Ponto posCam(28.0f, 10.0f, 25.0f);
+    Ponto posCam(23.0f, 8.0f, 25.0f);
     Ponto alvo(5.0f, 0.0f, 5.0f);
+    
 
     /*
     // Ponto de fuga 1 ponto
-    Ponto posCam(15.0f, 1.7f, 35.0f);
-    Ponto alvo(15.0f, 1.7f, 15.0f);
+    Ponto posCam(16.0f, 1.7f, 30.0f);
+    Ponto alvo(16.0f, 1.7f, 5.0f);
     */
 
     /*
@@ -126,42 +128,42 @@ int main(int argc, char **argv)
     Banco *banco1 = new Banco();
     Ponto pBanco1 = Ponto(13.0f, 0.0f, 7.0f);
     Matriz4x4 rotaBanco1 = Matriz4x4::rotacaoY(M_PI);
-    Matriz4x4 transBanco1 = Matriz4x4::translacao(pBanco1.Cord_x, pBanco1.Cord_y, pBanco1.Cord_z);
+    Matriz4x4 transBanco1 = Matriz4x4::translacao(pBanco1);
     banco1->transforma(transBanco1 * rotaBanco1 * toOrigem);
     canvas->adicionaObjetoCena(banco1);
 
     Banco *banco2 = new Banco();
     Ponto pBanco2 = Ponto(7.0f, 0.0f, 15.0f);
     Matriz4x4 rotaBanco2 = Matriz4x4::rotacaoY(-M_PI / 2);
-    Matriz4x4 transBanco2 = Matriz4x4::translacao(pBanco2.Cord_x, pBanco2.Cord_y, pBanco2.Cord_z);
+    Matriz4x4 transBanco2 = Matriz4x4::translacao(pBanco2);
     banco2->transforma(transBanco2 * rotaBanco2 * toOrigem);
     canvas->adicionaObjetoCena(banco2);
 
     Banco *banco3 = new Banco();
     Ponto pBanco3 = Ponto(20.0f, 0.0f, 10.0f);
     Matriz4x4 rotaBanco3 = Matriz4x4::rotacaoY(120 * M_PI / 180);
-    Matriz4x4 transBanco3 = Matriz4x4::translacao(pBanco3.Cord_x, pBanco3.Cord_y, pBanco3.Cord_z);
+    Matriz4x4 transBanco3 = Matriz4x4::translacao(pBanco3);
     banco3->transforma(transBanco3 * rotaBanco3 * toOrigem);
     canvas->adicionaObjetoCena(banco3);
 
     Banco *banco4 = new Banco();
     Ponto pBanco4 = Ponto(12.0f, 0.0f, 22.0f);
     Matriz4x4 rotaBanco4 = Matriz4x4::rotacaoY(-15 * M_PI / 180);
-    Matriz4x4 transBanco4 = Matriz4x4::translacao(pBanco4.Cord_x, pBanco4.Cord_y, pBanco4.Cord_z);
+    Matriz4x4 transBanco4 = Matriz4x4::translacao(pBanco4);
     banco4->transforma(transBanco4 * rotaBanco4 * toOrigem);
     canvas->adicionaObjetoCena(banco4);
 
     Banco *banco5 = new Banco();
     Ponto pBanco5 = Ponto(19.0f, 0.0f, 21.0f);
     Matriz4x4 rotaBanco5 = Matriz4x4::rotacaoY(30 * M_PI / 180);
-    Matriz4x4 transBanco5 = Matriz4x4::translacao(pBanco5.Cord_x, pBanco5.Cord_y, pBanco5.Cord_z);
+    Matriz4x4 transBanco5 = Matriz4x4::translacao(pBanco5);
     banco5->transforma(transBanco5 * rotaBanco5 * toOrigem);
     canvas->adicionaObjetoCena(banco5);
 
     Banco *banco6 = new Banco();
     Ponto pBanco6 = Ponto(22.0f, 0.0f, 15.0f);
     Matriz4x4 rotaBanco6 = Matriz4x4::rotacaoY(90 * M_PI / 180);
-    Matriz4x4 transBanco6 = Matriz4x4::translacao(pBanco6.Cord_x, pBanco6.Cord_y, pBanco6.Cord_z);
+    Matriz4x4 transBanco6 = Matriz4x4::translacao(pBanco6);
     banco6->transforma(transBanco6 * rotaBanco6 * toOrigem);
     canvas->adicionaObjetoCena(banco6);
 
@@ -170,32 +172,49 @@ int main(int argc, char **argv)
     canvas->adicionaObjetoCena(a1);
 
     Arvore *a2 = new Arvore();
-    a2->transforma(Matriz4x4::translacao(17.0f, 0.0f, 8.0f));
+    Ponto pArv2 = Ponto(17.0f, 0.0f, 8.0f);
+    Vetor eixoArv2 = normalizar(Vetor(0.4f, 0.0f, 1.0f));
+    Matriz4x4 rotaArv2 = Matriz4x4::rotacaoEixo(eixoArv2, 10 * M_PI / 180);
+    Matriz4x4 rotaArv2y = Matriz4x4::rotacaoY(58 * M_PI / 180);
+    Matriz4x4 transArv2 = Matriz4x4::translacao(pArv2);
+    a2->transforma(transArv2 * rotaArv2 * rotaArv2y * toOrigem);
     canvas->adicionaObjetoCena(a2);
 
     Arvore *a3 = new Arvore();
-    a3->transforma(Matriz4x4::translacao(8.0f, 0.0f, 20.0f));
+    Ponto pArv3 = Ponto(8.0f, 0.0f, 20.0f);
+    Vetor eixoArv3 = normalizar(Vetor(0.2f, 0.0f, 0.8f));
+    Matriz4x4 rotaArv3 = Matriz4x4::rotacaoEixo(eixoArv3, 15 * M_PI / 180);
+    Matriz4x4 rotaArv3y = Matriz4x4::rotacaoY(37 * M_PI / 180);
+    Matriz4x4 transArv3 = Matriz4x4::translacao(pArv3);
+    a3->transforma(transArv3 * rotaArv3 * rotaArv3y * toOrigem);
     canvas->adicionaObjetoCena(a3);
 
     Arvore *a4 = new Arvore();
-    a4->transforma(Matriz4x4::translacao(22.0f, 0.0f, 12.0f));
+    Ponto pArv4 = Ponto(22.0f, 0.0f, 12.0f);
+    Matriz4x4 rotaArv4y = Matriz4x4::rotacaoY(-49 * M_PI / 180);
+    Matriz4x4 transArv4 = Matriz4x4::translacao(pArv4);
+    a4->transforma(transArv4 * rotaArv4y * toOrigem);
     canvas->adicionaObjetoCena(a4);
 
     Arvore *a5 = new Arvore();
     Ponto pArv5 = Ponto(5.0f, 0.0f, 9.0f);
     Matriz4x4 escArv5 = Matriz4x4::escala(1.0, 1.3, 1.0);
-    Matriz4x4 transArv5 = Matriz4x4::translacao(pArv5.Cord_x, pArv5.Cord_y, pArv5.Cord_z);
+    Matriz4x4 transArv5 = Matriz4x4::translacao(pArv5);
     a5->transforma(transArv5 * escArv5 * toOrigem);
     canvas->adicionaObjetoCena(a5);
 
     Arvore *a6 = new Arvore();
-    a6->transforma(Matriz4x4::translacao(14.0f, 0.0f, 23.0f));
+    Ponto pArv6 = Ponto(14.0f, 0.0f, 23.0f);
+    Vetor normEspelhoArv6 = Vetor(0.8f, 0.0f, 0.7f);
+    Matriz4x4 espelho = Matriz4x4::espelhamentoArb(normEspelhoArv6);
+    Matriz4x4 transArv6 = Matriz4x4::translacao(pArv6);
+    a6->transforma(transArv6 * espelho * toOrigem);
     canvas->adicionaObjetoCena(a6);
 
     CarrinhoBaloes *carrinho = new CarrinhoBaloes();
     Ponto pCarrin = Ponto(15.0f, 0.0f, 19.0f);
     Matriz4x4 rotaCarrin = Matriz4x4::rotacaoY(90 * M_PI / 180);
-    Matriz4x4 transCarrin = Matriz4x4::translacao(pCarrin.Cord_x, pCarrin.Cord_y, pCarrin.Cord_z);
+    Matriz4x4 transCarrin = Matriz4x4::translacao(pCarrin);
     carrinho->transforma(transCarrin * rotaCarrin * toOrigem);
     canvas->adicionaObjetoCena(carrinho);
 
@@ -215,13 +234,13 @@ int main(int argc, char **argv)
     banq2->transforma(Matriz4x4::translacao(19.5f, 0.0f, 16.0f));
     canvas->adicionaObjetoCena(banq2);
 
-    Poste *poste1 = new Poste();
-    poste1->transforma(Matriz4x4::translacao(14.0f, 0.0f, 12.0f));
-    canvas->adicionaObjetoCena(poste1);
-
     Vetor down = Vetor(0.0f, -1.0f, 0.0f);
     float ang = 45 * M_PI / 180;
     Cor luzPoste = Cor(1.0f, 0.85f, 0.45f);
+    
+    Poste *poste1 = new Poste();
+    poste1->transforma(Matriz4x4::translacao(14.0f, 0.0f, 12.0f));
+    canvas->adicionaObjetoCena(poste1);
 
     LuzSpot luz1Pos1 = LuzSpot(Ponto(14.37f, 2.73f, 12.0f), down, ang, luzPoste);
     canvas->adicionaLuz(&luz1Pos1);
