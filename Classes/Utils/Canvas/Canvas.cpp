@@ -60,7 +60,8 @@ void Canvas::geraImagem()
                     Dr = camLocal.forward;
                 else
                 {
-                    Dr = normalizar(camLocal.forward + camLocal.right + camLocal.up);
+                    float k = 0.70710678f;
+                    Dr = camLocal.forward + k * camLocal.right + k * camLocal.up;
                 }
             }
 
@@ -77,7 +78,7 @@ void Canvas::geraImagem()
                 finalColor = operadorArroba(hit.objeto->K_a, Iamb);
 
                 Cor corObjeto = hit.objeto->temTextura() ? hit.objeto->texturaEm(hit.ponto) : hit.objeto->K_d;
-                
+
                 finalColor = operadorArroba(finalColor, corObjeto);
 
                 for (Luz *luz : luzs)
@@ -126,7 +127,8 @@ Objeto *Canvas::pick(int x, int y)
             Dr = camera->forward;
         else
         {
-            Dr = normalizar(camera->forward + camera->right + camera->up);
+            float k = 0.70710678f;
+            Dr = camera->forward + k * camera->right + k * camera->up;
         }
     }
 
