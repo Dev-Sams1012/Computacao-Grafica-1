@@ -1,14 +1,14 @@
 #include "Objeto.hpp"
 
-void Objeto::renderiza(Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Luz &luz) const
+void Objeto::renderiza(Cor &finalColor, const HitInfo &hit, const Luz &luz) const
 {
-    Ponto P_I = ray(origem, Dr, t_i);
+    const Ponto& P_I = hit.ponto;
 
-    Vetor n = normalizar(normalEm(P_I));
+    Vetor n = hit.normal;
+
+    Vetor v = -hit.dr;
 
     Vetor l_vetor = luz.direcaoNoPonto(P_I);
-
-    Vetor v = -Dr;
 
     float ln = produtoEscalar(l_vetor, n);
 
@@ -38,28 +38,31 @@ void Objeto::renderiza(Cor &finalColor, const Ponto &origem, const Vetor &Dr, co
     finalColor.b = I_diff.b + I_espec.b;
 }
 
-bool Objeto::temSombra(const Ponto &P_I, const Luz &luz, Objeto *objeto_atual, const vector<Objeto *> &objetos)
+bool Objeto::temSombra(const HitInfo &hit, const Luz &luz, const vector<Objeto *> &objetos) const
 {
-    Vetor L_dir = luz.direcaoNoPonto(P_I);
-    float distanciaAteLuz = luz.distanciaAteLuz(P_I);
-    
-    float epsilon = 0.001f;
+    Vetor L_dir = luz.direcaoNoPonto(hit.ponto);
+    float distanciaAteLuz = luz.distanciaAteLuz(hit.ponto);
 
-    Ponto origemSombra = ray(P_I, L_dir, epsilon);
+    Ponto origemSombra = ray(hit.ponto, L_dir, epsilon);
 
-    for (Objeto *objeto : objetos)
+    for (Objeto *obj : objetos)
     {
-        if (!objeto_atual->pertenceA(objeto))
+        if (hit.objetoRaiz->pertenceA(obj))
+            continue;
+
+        HitInfo sombraHit;
+        if (obj->raioIntercepta(origemSombra, L_dir, sombraHit))
         {
-            if (objeto->raioIntercepta(origemSombra, L_dir))
-            {
-                if (objeto->t_i > epsilon && objeto->t_i < distanciaAteLuz)
-                {
-                    return true;
-                }
-            }
+            if (sombraHit.t > epsilon && sombraHit.t < distanciaAteLuz)
+                return true;
         }
     }
 
     return false;
+}
+
+void Objeto::imprimeInformacoes()
+{
+    cout << "O objeto interceptado tem a forma: ";
+    cout << this->getNomeObj() + "\n";
 }

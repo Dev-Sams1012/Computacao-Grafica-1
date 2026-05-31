@@ -1,37 +1,34 @@
 #include "ObjetoComplexo.hpp"
 
-ObjetoComplexo::ObjetoComplexo() : Objeto(Cor(0,0,0), Cor(0,0,0), Cor(0,0,0), 1) {}
+ObjetoComplexo::ObjetoComplexo() : Objeto(Cor(0, 0, 0), Cor(0, 0, 0), Cor(0, 0, 0), 1) {}
 
 void ObjetoComplexo::adicionarComponente(Objeto *obj)
 {
     componentes.push_back(obj);
 }
 
-bool ObjetoComplexo::raioIntercepta(const Ponto &origem, const Vetor &Dr)
+bool ObjetoComplexo::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
 {
-    float t_min = -1.0;
-    double epsilon = 1e-6;
-    componenteQueAcertou = nullptr;
+    bool interceptou = false;
+
+    HitInfo hit_temp;
+    hit_temp.t = hit.t;
 
     for (auto comp : componentes)
     {
-        if (comp->raioIntercepta(origem, Dr))
+        if (comp->raioIntercepta(origem, Dr, hit_temp))
         {
-            if (comp->t_i > epsilon && (t_min < 0 || comp->t_i < t_min))
+            if (hit_temp.t > epsilon && hit_temp.t < hit.t)
             {
-                t_min = comp->t_i;
-                componenteQueAcertou = comp;
+                hit = hit_temp;
+                hit.objeto = comp;
+                hit.objetoRaiz = this;
+                interceptou = true;
             }
         }
     }
 
-    if (componenteQueAcertou)
-    {
-        this->t_i = componenteQueAcertou->t_i;
-        return true;
-    }
-
-    return false;
+    return interceptou;
 }
 
 void ObjetoComplexo::transforma(const Matriz4x4 &M)
@@ -44,22 +41,15 @@ void ObjetoComplexo::transforma(const Matriz4x4 &M)
 
 Vetor ObjetoComplexo::normalEm(const Ponto &P) const
 {
-    if (!componenteQueAcertou) return Vetor(0,0,0);
-    return componenteQueAcertou->normalEm(P);
+    return Vetor(0, 0, 0);
 }
 
-void ObjetoComplexo::renderiza( Cor &finalColor, const Ponto &origem, const Vetor &Dr, const Luz &luz) const
+void ObjetoComplexo::renderiza(Cor &finalColor, const HitInfo &hit, const Luz &luz) const
 {
-    if (!componenteQueAcertou)
-    {
-        finalColor = Cor(0, 0, 0);
-        return;
-    }
-
-    componenteQueAcertou->renderiza(finalColor, origem, Dr, luz);
+    hit.objeto->renderiza(finalColor, hit, luz);
 }
 
-bool ObjetoComplexo::pertenceA(const Objeto* obj) const
+bool ObjetoComplexo::pertenceA(const Objeto *obj) const
 {
     if (this == obj)
         return true;
@@ -69,4 +59,9 @@ bool ObjetoComplexo::pertenceA(const Objeto* obj) const
             return true;
 
     return false;
+}
+
+string ObjetoComplexo::getNomeObj() const
+{
+    return "objeto complexo";
 }

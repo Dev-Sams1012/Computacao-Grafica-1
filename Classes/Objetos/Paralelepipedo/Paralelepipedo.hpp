@@ -12,8 +12,12 @@ struct Paralelepipedo : Malha
 
     Paralelepipedo(float largura, float profundidade, float altura, Ponto centro, Cor Kd, Cor Ke, Cor Ka, int M);
 
+    Paralelepipedo(float largura, float profundidade, float altura, Ponto centro, string arquivoTextura, float escala, int M);
+
     void atualizarFaces();
     void transforma(const Matriz4x4 &M) override;
+
+    string getNomeObj() const override { return "Paralelepipedo"; }
 };
 
 #endif

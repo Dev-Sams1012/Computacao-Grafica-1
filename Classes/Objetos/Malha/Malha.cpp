@@ -4,50 +4,58 @@ Malha::Malha(vector<Ponto> v, vector<Triangulo> f, Cor Kd, Cor Ke, Cor Ka, int M
 {
     vertices = v;
     faces = f;
+    tem_textura = false;
 }
 
-bool Malha::raioIntercepta(const Ponto &origem, const Vetor &Dr)
+Malha::Malha(vector<Ponto> v, vector<Triangulo> f, string arquivoTextura, float escala, int M) : Objeto(Cor(0, 0, 0), Cor(0, 0, 0), Cor(0, 0, 0), M)
 {
-    float t_min = -1.0;
-    double epsilon = 1e-6;
+    vertices = v;
+    faces = f;
+
+    textura = stbi_load(arquivoTextura.c_str(), &tex_largura, &tex_altura, &tex_componentes, 3);
+
+    if (textura)
+    {
+        tem_textura = true;
+        for (auto &tri : faces)
+        {
+            tri.textura = this->textura;
+            tri.tex_largura = this->tex_largura;
+            tri.tex_altura = this->tex_altura;
+            tri.escala_textura = escala;
+            tri.tem_textura = true;
+        }
+    }
+}
+
+bool Malha::raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit)
+{
+    bool interceptou = false;
 
     for (Triangulo &face : faces)
     {
+        HitInfo hit_temp = hit;
 
-        if (face.raioIntercepta(origem, Dr))
+        if (face.raioIntercepta(origem, Dr, hit_temp))
         {
-            if (face.t_i > epsilon && (t_min < 0 || face.t_i < t_min))
+            if (hit_temp.t > epsilon && hit_temp.t < hit.t)
             {
-                t_min = face.t_i;
-                normal = face.normal;
-                K_a = face.K_a;
-                K_d = face.K_d;
-                K_e = face.K_e;
-                m = face.m;
+                hit = hit_temp;
+                interceptou = true;
             }
         }
     }
 
-    if (t_min < 0)
-        return false;
-    t_i = t_min;
-    return true;
+    return interceptou;
 }
 
 void Malha::transforma(const Matriz4x4 &M)
 {
-    for (Ponto &v : vertices)
-    {
-        v = M * v;
-    }
-
     for (Triangulo &face : faces)
-    {
         face.transforma(M);
-    }
 }
 
 Vetor Malha::normalEm(const Ponto &P) const
 {
-    return normal;
+    return Vetor(0, 0, 0);
 }

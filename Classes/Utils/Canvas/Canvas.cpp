@@ -1,6 +1,7 @@
 #include "Canvas.hpp"
+#include <omp.h>
 
-Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia)
+Canvas::Canvas(string nome, Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia)
 {
     this->camera = cam;
     this->janela = j;
@@ -12,7 +13,9 @@ Canvas::Canvas(Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia)
 
     this->Iamb = Ia;
 
-    imagem = vector<vector<Cor>>(nLin, vector<Cor>(nCol));
+    this->nomeArquivoSaida = nome;
+
+    imagem = vector<Cor>(nLin * nCol, Cor(0, 0, 0));
 }
 
 void Canvas::adicionaObjetoCena(Objeto *obj)
@@ -25,60 +28,69 @@ void Canvas::adicionaLuz(Luz *luz)
     luzes.push_back(luz);
 }
 
-void Canvas::geraImagem(string nomeArquivo)
+void Canvas::geraImagem()
 {
-    Matriz4x4 View = camera->viewMatrix();
+    Camera camLocal = *camera;
+    const auto &objs = objetos;
+    const auto &luzs = luzes;
 
-    Ponto origem_cam = View * camera->eye;
-
-    for (size_t l = 0; l < nLin; l++)
-    {
-        for (size_t c = 0; c < nCol; c++)
+#pragma omp parallel for collapse(2) schedule(dynamic)
+    for (size_t l = 0; l < nLin; ++l)
+        for (size_t c = 0; c < nCol; ++c)
         {
-            float x = -janela.w / 2. + Dx / 2 + float(c) * Dx;
-            float y = janela.h / 2. - Dy / 2 - float(l) * Dy;
+            float u = camLocal.xmin + (camLocal.xmax - camLocal.xmin) * (c + 0.5f) / nCol;
+            float v = camLocal.ymax - (camLocal.ymax - camLocal.ymin) * (l + 0.5f) / nLin;
 
-            Cor finalColor = Cor(0.0f, 0.0f, 0.0f);
-            float t_closest = -1.0f;
-            Objeto *obj_intersectado = nullptr;
+            Cor finalColor(0, 0, 0);
 
-            Ponto canvas_mundo = Ponto(x, y, -janela.d);
-            Ponto canvas_cam = View * canvas_mundo;
-            Vetor Dr = normalizar(canvas_cam - origem_cam);
+            Ponto origemRaio;
+            Vetor Dr;
 
-            for (Objeto *objeto : objetos)
+            if (camLocal.tipo == Camera::PERSPECTIVA)
             {
-                if (objeto->raioIntercepta(origem_cam, Dr))
+                origemRaio = camLocal.eye;
+                Ponto pixel_cam(u, v, -camLocal.d);
+                Vetor Dr_cam = normalizar(pixel_cam - Ponto(0, 0, 0));
+                Dr = Dr_cam.Cord_x * camLocal.right + Dr_cam.Cord_y * camLocal.up + Dr_cam.Cord_z * (-camLocal.forward);
+            }
+            else
+            {
+                origemRaio = camLocal.eye + (camLocal.right * u) + (camLocal.up * v);
+                if (camLocal.tipo == Camera::ORTOGRAFICA)
+                    Dr = camLocal.forward;
+                else
                 {
-                    if (objeto->t_i > 0 && (t_closest < 0 || objeto->t_i < t_closest))
-                    {
-                        t_closest = objeto->t_i;
-                        obj_intersectado = objeto;
-                    }
+                    float k = 0.70710678f;
+                    Dr = camLocal.forward + k * camLocal.right + k * camLocal.up;
                 }
             }
 
-            if (obj_intersectado != nullptr)
-            {
-                Vetor dir = normalizar(canvas_cam - origem_cam);
-                Ponto P_I = ray(origem_cam, dir, obj_intersectado->t_i);
-                
-                Cor ka = obj_intersectado->K_a; 
-                finalColor = operadorArroba(ka, Iamb);
+            Dr = normalizar(Dr);
 
-                for (Luz *luz : luzes)
+            HitInfo hit;
+            hit.t = INFINITY;
+
+            for (Objeto *obj : objs)
+                obj->raioIntercepta(origemRaio, Dr, hit);
+
+            if (hit.objeto)
+            {
+                finalColor = operadorArroba(hit.objeto->K_a, Iamb);
+
+                Cor corObjeto = hit.objeto->temTextura() ? hit.objeto->texturaEm(hit.ponto) : hit.objeto->K_d;
+
+                finalColor = operadorArroba(finalColor, corObjeto);
+
+                for (Luz *luz : luzs)
                 {
-                    if (luz->iluminaPonto(P_I))
+                    if (luz->iluminaPonto(hit.ponto) &&
+                        !hit.objeto->temSombra(hit, *luz, objs))
                     {
-                        if (!obj_intersectado->temSombra(P_I, *luz, obj_intersectado, objetos))
-                        {
-                            Cor contrib;
-                            obj_intersectado->renderiza(contrib, origem_cam, dir, *luz);
-                            
-                            finalColor.r += contrib.r;
-                            finalColor.g += contrib.g;
-                            finalColor.b += contrib.b;
-                        }
+                        Cor contrib;
+                        hit.objeto->renderiza(contrib, hit, *luz);
+                        finalColor.r += contrib.r;
+                        finalColor.g += contrib.g;
+                        finalColor.b += contrib.b;
                     }
                 }
 
@@ -87,25 +99,45 @@ void Canvas::geraImagem(string nomeArquivo)
                 finalColor.b = min(1.0f, finalColor.b);
             }
 
-            imagem[l][c] = finalColor;
+            imagem[l * nCol + c] = finalColor;
         }
-    }
 
-    ofstream arquivo(nomeArquivo + ".ppm");
-    arquivo << "P3\n"
-            << nCol << " " << nLin << "\n255\n";
+    cout << "Imagem gerada" << endl;
+}
 
-    for (size_t l = 0; l < nLin; l++)
+Objeto *Canvas::pick(int x, int y)
+{
+    float u = camera->xmin + (camera->xmax - camera->xmin) * (x + 0.5f) / nCol;
+    float v = camera->ymax - (camera->ymax - camera->ymin) * (y + 0.5f) / nLin;
+
+    Ponto origemRaio;
+    Vetor Dr;
+
+    if (camera->tipo == Camera::PERSPECTIVA)
     {
-        for (size_t c = 0; c < nCol; c++)
+        origemRaio = camera->eye;
+        Ponto pixel_cam(u, v, -camera->d);
+        Vetor Dr_cam = normalizar(pixel_cam - Ponto(0, 0, 0));
+        Dr = Dr_cam.Cord_x * camera->right + Dr_cam.Cord_y * camera->up + Dr_cam.Cord_z * (-camera->forward);
+    }
+    else
+    {
+        origemRaio = camera->eye + (camera->right * u) + (camera->up * v);
+        if (camera->tipo == Camera::ORTOGRAFICA)
+            Dr = camera->forward;
+        else
         {
-            arquivo << imagem[l][c].r * 255 << " " << imagem[l][c].g * 255 << " " << imagem[l][c].b * 255 << " ";
+            float k = 0.70710678f;
+            Dr = camera->forward + k * camera->right + k * camera->up;
         }
-
-        arquivo << "\n";
     }
 
-    arquivo.close();
+    Dr = normalizar(Dr);
+    HitInfo hit;
+    hit.t = INFINITY;
 
-    cout << "Imagem gerada em " << nomeArquivo << ".ppm'" << endl;
+    for (Objeto *obj : objetos)
+        obj->raioIntercepta(origemRaio, Dr, hit);
+
+    return hit.objeto;
 }

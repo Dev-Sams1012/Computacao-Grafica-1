@@ -1,8 +1,6 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "../Ponto/Ponto.hpp"
-#include "../Vetor/Vetor.hpp"
 #include "../Matriz/Matriz4x4.hpp"
 
 struct Camera
@@ -12,9 +10,27 @@ struct Camera
     Vetor right;
     Vetor up;
 
+    float d;
+    float xmin, xmax, ymin, ymax;
+
+    enum TipoProjecao {
+        PERSPECTIVA,
+        ORTOGRAFICA,
+        OBLIQUA
+    } tipo;
+
     Camera(Ponto eye, Ponto lookAt, Vetor upGuide);
 
-    Matriz4x4 viewMatrix() const;
+    void zoomIn(float fator);
+    void zoomOut(float fator);
+
+    void andaX(float d);
+    void andaY(float d);
+    void andaZ(float d);
+
+    void pitch(float ang);
+    void yaw(float ang);
+    void roll(float ang);
 };
 
 #endif

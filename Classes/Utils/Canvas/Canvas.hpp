@@ -17,7 +17,7 @@ using namespace std;
 
 struct Canvas
 {
-    Camera* camera;
+    Camera *camera;
     Janela janela;
 
     size_t nCol;
@@ -25,19 +25,27 @@ struct Canvas
     float Dx;
     float Dy;
 
-    vector<vector<Cor>> imagem;
+    vector<Cor> imagem;
 
     vector<Objeto *> objetos;
-    vector<Luz*> luzes;
+    vector<Luz *> luzes;
     Cor Iamb;
 
-    Canvas(Janela j, size_t nlin, size_t ncol, Camera* cam, Cor Ia);
+    string nomeArquivoSaida;
+
+    Canvas(string nome, Janela j, size_t nlin, size_t ncol, Camera *cam, Cor Ia);
 
     void adicionaObjetoCena(Objeto *obj);
 
     void adicionaLuz(Luz *luz);
 
-    void geraImagem(string nomeArquivo);
+    void renderizaLinhas(size_t l_ini, size_t l_fim);
+
+    void geraImagem();
+
+    Cor *getDados() { return imagem.data(); }
+
+    Objeto* pick(int pixelX, int pixelY);
 };
 
 #endif

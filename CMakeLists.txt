@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(main)
+project(main LANGUAGES C CXX)
+
+find_package(OpenMP REQUIRED)
+
+set(FREEGLUT_BUILD_DEMOS OFF CACHE BOOL "Não construir")
+set(FREEGLUT_BUILD_STATIC_LIBS ON CACHE BOOL "Estática")
+
+add_subdirectory(BibliotecasExternas/freeglut-3.8.0)
+
 add_executable(main
         "Atividade07 ( TrabalhoFinal )/main.cpp"
         Classes/Utils/Vetor/Vetor.cpp
@@ -14,11 +22,13 @@ add_executable(main
         Classes/Utils/Luz/LuzPontual/LuzPontual.cpp
         Classes/Utils/Luz/LuzSpot/LuzSpot.cpp
         Classes/Utils/Camera/Camera.cpp
+        Classes/Utils/InterfaceGrafica/interface.cpp
         Classes/Objetos/ObjetoAbstrato/Objeto.cpp
         Classes/Objetos/ObjetoComplexo/ObjetoComplexo.cpp
         Classes/Objetos/Cilindro/Cilindro.cpp
         Classes/Objetos/Cone/Cone.cpp
         Classes/Objetos/Esfera/Esfera.cpp
+        Classes/Objetos/Elipsoide/Elipsoide.cpp
         Classes/Objetos/Plano/Plano.cpp
         Classes/Objetos/Triangulo/Triangulo.cpp
         Classes/Objetos/Malha/Malha.cpp
@@ -27,5 +37,10 @@ add_executable(main
         BibliotecasExternas/stb_image.cpp
       )
 
-target_include_directories(main PRIVATE Classes BibliotecasExternas
-)
+target_include_directories(main PRIVATE Classes BibliotecasExternas BibliotecasExternas/freeglut-3.8.0/include)
+
+find_package(OpenGL REQUIRED)
+
+target_link_libraries(main PRIVATE freeglut_static ${OPENGL_LIBRARIES} OpenMP::OpenMP_CXX)
+
+target_compile_definitions(main PRIVATE FREEGLUT_STATIC)

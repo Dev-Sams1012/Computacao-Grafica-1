@@ -4,30 +4,70 @@ Camera::Camera(Ponto eye, Ponto lookAt, Vetor upGuide)
 {
     this->eye = eye;
 
-    forward = normalizar(lookAt - eye);        
-    right   = normalizar(produtoVetorial(forward, upGuide));
-    up      = produtoVetorial(right, forward);  
+    forward = normalizar(lookAt - eye);
+    right = normalizar(produtoVetorial(forward, upGuide));
+    up = produtoVetorial(right, forward);
+
+    d = 1.0f;
+    xmin = -1.0f;
+    xmax = 1.0f;
+    ymin = -1.0f;
+    ymax = 1.0f;
+
+    tipo = PERSPECTIVA;
 }
 
-Matriz4x4 Camera::viewMatrix() const
+void Camera::zoomIn(float fator)
 {
-    Matriz4x4 M(1.0f);
+    if (fator <= 0.0f)
+        return;
 
-    M.m[0][0] = right.Cord_x;
-    M.m[0][1] = right.Cord_y;
-    M.m[0][2] = right.Cord_z;
+    xmin /= fator;
+    xmax /= fator;
+    ymin /= fator;
+    ymax /= fator;
+}
 
-    M.m[1][0] = up.Cord_x;
-    M.m[1][1] = up.Cord_y;
-    M.m[1][2] = up.Cord_z;
+void Camera::zoomOut(float fator)
+{
+    xmin *= fator;
+    xmax *= fator;
+    ymin *= fator;
+    ymax *= fator;
+}
 
-    M.m[2][0] = -forward.Cord_x;
-    M.m[2][1] = -forward.Cord_y;
-    M.m[2][2] = -forward.Cord_z;
+void Camera::andaX(float d)
+{
+    eye = ray(eye, right, d);
+}
 
-    M.m[0][3] = -produtoEscalar(right,   eye - Ponto(0.0f,0.0f,0.0f));
-    M.m[1][3] = -produtoEscalar(up,      eye - Ponto(0.0f,0.0f,0.0f));
-    M.m[2][3] =  produtoEscalar(forward, eye - Ponto(0.0f,0.0f,0.0f));
+void Camera::andaY(float d)
+{
+    eye = ray(eye, up, d);
+}
 
-    return M;
+void Camera::andaZ(float d)
+{
+    eye = ray(eye, forward, d);
+}
+
+void Camera::pitch(float ang)
+{
+    Matriz4x4 R = Matriz4x4::rotacaoEixo(right, ang);
+    forward = normalizar(R * forward);
+    up      = normalizar(R * up);
+}
+
+void Camera::yaw(float ang)
+{
+    Matriz4x4 R = Matriz4x4::rotacaoEixo(up, ang);
+    forward = normalizar(R * forward);
+    right   = normalizar(R * right);
+}
+
+void Camera::roll(float ang)
+{
+    Matriz4x4 R = Matriz4x4::rotacaoEixo(forward, ang);
+    right = normalizar(R * right);
+    up    = normalizar(R * up);
 }

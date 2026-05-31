@@ -7,6 +7,7 @@ struct Cilindro : public Objeto
 {
     Ponto Centro_base;
     float Raio_base;
+    float Raio_interno;
     float Altura;
     Vetor Eixo;
     Matriz3x3 Q_Matrix;
@@ -16,11 +17,15 @@ struct Cilindro : public Objeto
 
     Cilindro(Ponto Cb, float Rb, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor);
 
-    bool raioIntercepta(const Ponto &origem, const Vetor &Dr) override;
+    Cilindro(Ponto Cb, float Rb, float Ri, float H, Vetor dr, bool TemBaseInf, bool TemBaseSup, Cor Kd, Cor Ke, Cor Ka, int m_cor);
+
+    bool raioIntercepta(const Ponto &origem, const Vetor &Dr, HitInfo &hit) override;
 
     Vetor normalEm(const Ponto &P) const override;
 
     void transforma(const Matriz4x4 &M) override;
+
+    string getNomeObj() const override { return "Cilindro"; }
 };
 
 #endif

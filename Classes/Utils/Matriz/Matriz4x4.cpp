@@ -25,6 +25,15 @@ Matriz4x4 Matriz4x4::translacao(float tx, float ty, float tz)
     return M;
 }
 
+Matriz4x4 Matriz4x4::translacao(Ponto p)
+{
+    Matriz4x4 M(1.0f);
+    M.m[0][3] = p.Cord_x;
+    M.m[1][3] = p.Cord_y;
+    M.m[2][3] = p.Cord_z;
+    return M;
+}
+
 Matriz4x4 Matriz4x4::escala(float sx, float sy, float sz)
 {
     Matriz4x4 M(1.0f);
@@ -73,6 +82,44 @@ Matriz4x4 Matriz4x4::rotacaoZ(float ang)
     return M;
 }
 
+Matriz4x4 Matriz4x4::rotacaoEixo(Vetor eixo, float ang)
+{
+    Quaternio q = Quaternio::rotacaoEixo(eixo, ang);
+    return q.normalizado().toRotationMatrix();
+}
+
+Matriz4x4 Matriz4x4::espelhamentoArb(Vetor n)
+{
+    Vetor nv = normalizar(n);
+    float a = nv.Cord_x;
+    float b = nv.Cord_y;
+    float c = nv.Cord_z;
+
+    Matriz4x4 R;
+
+    R.m[0][0] = 1.0f - 2.0f * a * a;
+    R.m[0][1] = -2.0f * a * b;
+    R.m[0][2] = -2.0f * a * c;
+    R.m[0][3] = 0.0f;
+
+    R.m[1][0] = -2.0f * b * a;
+    R.m[1][1] = 1.0f - 2.0f * b * b;
+    R.m[1][2] = -2.0f * b * c;
+    R.m[1][3] = 0.0f;
+
+    R.m[2][0] = -2.0f * c * a;
+    R.m[2][1] = -2.0f * c * b;
+    R.m[2][2] = 1.0f - 2.0f * c * c;
+    R.m[2][3] = 0.0f;
+
+    R.m[3][0] = 0.0f;
+    R.m[3][1] = 0.0f;
+    R.m[3][2] = 0.0f;
+    R.m[3][3] = 1.0f;
+
+    return R;
+}
+
 Matriz4x4 Matriz4x4::cisalhaXY(float sh)
 {
     Matriz4x4 m(1.0f);
@@ -86,7 +133,6 @@ Matriz4x4 Matriz4x4::cisalhaYX(float sh)
     m.m[1][0] = sh;
     return m;
 }
-        
 
 Matriz4x4 Matriz4x4::cisalhaXZ(float sh)
 {
@@ -101,7 +147,6 @@ Matriz4x4 Matriz4x4::cisalhaZX(float sh)
     m.m[2][0] = sh;
     return m;
 }
-
 
 Matriz4x4 Matriz4x4::cisalhaYZ(float sh)
 {
